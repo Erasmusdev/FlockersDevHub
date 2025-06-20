@@ -8,11 +8,9 @@ const firebaseConfig = {
   appId: "1:821197375071:web:9b36cee3c1e1af1f3c7dea"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// DOM references
 const previewImg = document.getElementById("previewImg");
 const premadeGrid = document.getElementById("premadeGrid");
 const imageInput = document.getElementById("imageInput");
@@ -22,6 +20,8 @@ const output = document.getElementById("output");
 const tintColorInput = document.getElementById("tintColor");
 const tintOpacityInput = document.getElementById("tintOpacity");
 const captionTextInput = document.getElementById("captionText");
+const captionOpacityInput = document.getElementById("captionOpacity");
+const dropShadowCheckbox = document.getElementById("dropShadow"); // NEW
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 
@@ -31,35 +31,23 @@ const overlayCaption = document.querySelector(".overlay-caption");
 let selectedImageSrc = previewImg.src || "";
 let selectedAnimations = new Set();
 
-// Update UI for logged in/out state
 function updateUIForUser(user) {
-  if (user) {
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
-    saveBtn.disabled = false;
-  } else {
-    loginBtn.style.display = "inline-block";
-    logoutBtn.style.display = "none";
-    saveBtn.disabled = true;
-  }
+  loginBtn.style.display = user ? "none" : "inline-block";
+  logoutBtn.style.display = user ? "inline-block" : "none";
+  saveBtn.disabled = !user;
 }
 
-auth.onAuthStateChanged(user => {
-  updateUIForUser(user);
-});
+auth.onAuthStateChanged(updateUIForUser);
 
-// Login with Google
 loginBtn.addEventListener("click", () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   auth.signInWithPopup(provider).catch(console.error);
 });
 
-// Logout
 logoutBtn.addEventListener("click", () => {
   auth.signOut().catch(console.error);
 });
 
-// Premade overlay click handler
 premadeGrid.addEventListener("click", e => {
   if (e.target.tagName === "IMG") {
     Array.from(premadeGrid.children).forEach(img => img.classList.remove("selected"));
@@ -70,27 +58,27 @@ premadeGrid.addEventListener("click", e => {
     applyTintColor();
     applyCaption();
     applyAnimations();
+    applyCaptionStyle();
   }
 });
 
-// Image upload handler — updated to load and preview the image correctly
 imageInput.addEventListener("change", e => {
   const file = e.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = () => {
-    previewImg.src = reader.result;    // set preview image src
-    selectedImageSrc = reader.result;  // update selected image src
-    Array.from(premadeGrid.children).forEach(img => img.classList.remove("selected")); // deselect premade
+    previewImg.src = reader.result;
+    selectedImageSrc = reader.result;
+    Array.from(premadeGrid.children).forEach(img => img.classList.remove("selected"));
     applyTintColor();
     applyCaption();
     applyAnimations();
+    applyCaptionStyle();
   };
   reader.readAsDataURL(file);
 });
 
-// Convert hex to RGB
 function hexToRgb(hex) {
   const cleanHex = hex.replace(/^#/, '');
   if (cleanHex.length !== 6) return null;
@@ -102,7 +90,6 @@ function hexToRgb(hex) {
   return { r, g, b };
 }
 
-// Apply tint color with opacity
 function applyTintColor() {
   const hex = tintColorInput.value;
   const opacity = parseFloat(tintOpacityInput.value);
@@ -110,20 +97,31 @@ function applyTintColor() {
   if (!rgb) return;
 
   const rgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
-
   tintLayer.style.backgroundColor = rgba;
   tintLayer.style.boxShadow = `inset 0 0 50px ${rgba}`;
-
-  overlayCaption.style.color = rgba;
-  overlayCaption.style.textShadow = `0 0 10px ${rgba}`;
 }
 
-// Update caption text
+function applyCaptionStyle() {
+  const hex = tintColorInput.value;
+  const opacity = parseFloat(captionOpacityInput.value);
+  const rgb = hexToRgb(hex);
+  if (!rgb) return;
+
+  const rgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
+  overlayCaption.style.color = rgba;
+
+  // Apply or remove drop shadow based on toggle
+  if (dropShadowCheckbox.checked) {
+    overlayCaption.style.textShadow = `0 0 10px ${rgba}`;
+  } else {
+    overlayCaption.style.textShadow = "none";
+  }
+}
+
 function applyCaption() {
   overlayCaption.textContent = captionTextInput.value.trim();
 }
 
-// Animation checkboxes
 const animationCheckboxes = document.querySelectorAll("input[name=animation]");
 animationCheckboxes.forEach(cb =>
   cb.addEventListener("change", () => {
@@ -135,27 +133,30 @@ animationCheckboxes.forEach(cb =>
   })
 );
 
-// Apply animation classes
 function applyAnimations() {
   previewImg.classList.remove("fade-in", "slide-in", "zoom-in");
-  void previewImg.offsetWidth; // trigger reflow
+  void previewImg.offsetWidth;
   selectedAnimations.forEach(anim => previewImg.classList.add(anim));
 }
 
-// Listen to tint and opacity changes
-tintColorInput.addEventListener("input", applyTintColor);
+// === Event listeners ===
+tintColorInput.addEventListener("input", () => {
+  applyTintColor();
+  applyCaptionStyle();
+});
 tintOpacityInput.addEventListener("input", applyTintColor);
-
-// Listen to caption changes
 captionTextInput.addEventListener("input", applyCaption);
+captionOpacityInput.addEventListener("input", applyCaptionStyle);
+dropShadowCheckbox.addEventListener("change", applyCaptionStyle); // NEW
 
-// Save overlay (placeholder)
 saveBtn.addEventListener("click", () => {
   const data = {
     image: selectedImageSrc,
     tintColor: tintColorInput.value,
     tintOpacity: tintOpacityInput.value,
     caption: captionTextInput.value,
+    captionOpacity: captionOpacityInput.value,
+    dropShadow: dropShadowCheckbox.checked, // NEW
     animations: Array.from(selectedAnimations),
     user: auth.currentUser ? auth.currentUser.email : "Not logged in",
   };
@@ -164,13 +165,16 @@ saveBtn.addEventListener("click", () => {
     `<strong>Overlay saved!</strong><br>` +
     `User: ${data.user}<br>` +
     `Tint Color: ${data.tintColor}<br>` +
-    `Opacity: ${data.tintOpacity}<br>` +
+    `Tint Opacity: ${data.tintOpacity}<br>` +
     `Caption: ${data.caption}<br>` +
+    `Caption Opacity: ${data.captionOpacity}<br>` +
+    `Drop Shadow: ${data.dropShadow ? "On" : "Off"}<br>` +
     `Animations: ${data.animations.join(", ") || "None"}` +
     `<br><br><input type="text" readonly value="${selectedImageSrc}" title="Overlay Image Source"/>`;
 });
 
-// Initialize on page load
+// Initialize everything
 applyTintColor();
 applyCaption();
 applyAnimations();
+applyCaptionStyle();

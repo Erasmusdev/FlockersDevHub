@@ -49,24 +49,26 @@
       <summary>Colors & Text</summary>
       <label for="tintColor">Overlay Tint Color</label>
       <input type="color" id="tintColor" value="#00c8f8" />
-      <label for="tintOpacity">Opacity</label>
+
+      <label for="tintOpacity">Overlay Opacity</label>
       <input type="range" id="tintOpacity" min="0" max="1" step="0.01" value="0.5" />
-      
+
       <label for="captionText">Overlay Caption</label>
       <input type="text" id="captionText" placeholder="Enter caption text" />
+
+      <label for="captionOpacity">Text Opacity</label>
+      <input type="range" id="captionOpacity" min="0" max="1" step="0.01" value="1" />
     </details>
 
-    <!-- New section for premade images -->
     <details open>
       <summary>Premade Images</summary>
       <div class="premade-grid" id="premadeGrid">
-        <img src="../assets/BathroomWOPT.png" alt="Bathroom Overlay" />
-        <img src="../assets/FlowerOverlay.png" alt="Flower Overlay" />
-        <img src="../assets/NatureOverlay.png" alt="Nature Overlay" />
+        <img src="./assets/STSPreview01.png" alt="Bathroom Overlay" />
+        <img src="./assets/STSPreview02.png" alt="Flower Overlay" />
+        <img src="./assets/STSPreview03.png" alt="Nature Overlay" />
       </div>
     </details>
 
-    <!-- Moved Upload & Save here -->
     <details open>
       <summary>Upload & Save</summary>
       <div class="upload-save-container">
@@ -80,17 +82,17 @@
     <h1>Overlay Customizer</h1>
     <p class="subtitle">Select or upload an image, customize settings, and save</p>
 
-    <div class="card">
-      <div class="preview-wrapper">
-        <img id="previewImg" alt="Overlay Preview" />
+    <div class="canvas-container">
+      <div class="preview-canvas" id="previewCanvas">
+        <img id="previewImg" src="./assets/STSPreview01.png" alt="Overlay Preview" />
         <div class="tint-layer"></div>
         <div class="overlay-caption"></div>
       </div>
-
-      <div id="output"></div>
     </div>
+
+    <div id="output"></div>
   </main>
 
-  <script src="builder.js"></script>
+  <script src="./builder.js"></script>
 </body>
 </html>
