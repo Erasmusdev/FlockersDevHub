@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects | Unreal Dev Hub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Unreal Engine Portfolio</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./.html">Tutorials</a>
+        <a href="./contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+<main class="container">
+  <section class="project-grid">
+
+    <!-- Card 1: Pathtracing Gallery -->
+    <div class="project-card">
+      <div class="slideshow" data-delay="3000">
+        <img src="./assets/BathroomWOPT.png" class="slide active" alt="Bathroom Without Pathtracing" />
+        <img src="./assets/BathroomWPT.png" class="slide" alt="Bathroom With Pathtracing" />
+        <img src="./assets/BedroomWOPT.png" class="slide" alt="Bedroom Without Pathtracing" />
+        <img src="./assets/BedroomWPT.png" class="slide" alt="Bedroom With Pathtracing" />
+        <img src="./assets/HallwayWOPT.png" class="slide" alt="Hallway Without Pathtracing" />
+        <img src="./assets/HallwayWPT.png" class="slide" alt="Hallway With Pathtracing" />
+      </div>
+      <h2>Unreal Engine Pathtracing Test</h2>
+      <p>A showcase of Unreal Engine's PathTracing versus traditional lighting methods.</p>
+      <a href="./pathtracing-gallery.html" class="btn">More Info!</a>
+    </div>
+
+    <!-- Card 2: Template Example -->
+    <div class="project-card">
+      <div class="slideshow" data-delay="3500">
+        <img src="./assets/template-preview.png" class="slide active" alt="Project Template Preview" />
+        <!-- Add more images here if needed -->
+      </div>
+      <h2>[FD] Project Name Template</h2>
+      <p>Short description of your new project. Replace this with something exciting!</p>
+      <a href="./project-template.html" class="btn">More Info!</a>
+    </div>
+
+  </section>
+</main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.slideshow').forEach(slideshow => {
+      const slides = slideshow.querySelectorAll('.slide');
+      const delay = parseInt(slideshow.dataset.delay || 3000);
+      let index = 0;
+
+      setInterval(() => {
+        slides[index].classList.remove('active');
+        index = (index + 1) % slides.length;
+        slides[index].classList.add('active');
+      }, delay);
+    });
+  </script>
+</body>
+</html>

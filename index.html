@@ -4,47 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FlockersDesign Dev Hub</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>FlockersDesign Dev Hub</h1>
-      <nav>
-        <a href="./index.html">Home</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
+<header>
+  <h1>Flockers Dev Hub</h1>
+  <nav>
+    <a href="./index.html">Home</a>
+    <a href="./projects.html">Projects</a>
+    <a href="./contact.html">Contact</a>
+  </nav>
+</header>
+
 
   <main class="container">
 
     <!-- Hero Section -->
-    <section class="hero">
-      <h2>Empowering Unreal Developers</h2>
-      <p>Create. Build. Automate. Your StreamerBot companion for Unreal Engine.</p>
-    </section>
+  <section class="hero">
+    <h2>Welcome to Your Website</h2>
+    <p>Your modern and sleek solution for everything.</p>
+    <a href="./projects.html" class="btn">Explore Projects</a>
+  </section>
 
-    <!-- About Me Section -->
-    <section id="about" class="about-me" style="padding: 2rem 1rem; max-width: 800px; margin: 2rem auto;">
-      <h2 style="text-align: center; color: #00bcd4;">About Me</h2>
-      <p style="color: #ccc; line-height: 1.6; font-size: 1.1rem; text-align: center;">
-        I’m a seasoned Unreal Engine developer with a passion for building custom tools and tutorials focused on <strong>StreamerBot</strong> integration, blueprint systems, and real-time interaction tools for streamers and developers alike.
-      </p>
-    </section>
 
-    <!-- Meet the Team -->
-    <section class="team" aria-label="Meet the Team" style="background: #1e1e1e; padding: 2rem 1rem; border-radius: 12px; max-width: 900px; margin: 2rem auto;">
-      <h2 style="text-align: center; color: #00bcd4; margin-bottom: 2rem;">Meet the Team</h2>
-      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
-        <!-- Member 1 -->
-        <div style="text-align: center; max-width: 180px;">
-          <img src="./assets/Developer.jpg" alt="Alex" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; margin-bottom: 0.5rem;">
-          <h4 style="color: #fff;">Erasmus, Kranenburg-Groeneveld <br><br> FlockersDesign</h4>
-          <p style="color: #bbb; font-size: 0.95rem;">Lead Developer</p>
-        </div>
-    </section>
+
+
+<section class="meet-the-team">
+  <h2>Meet the Team</h2>
+  <div class="team-grid">
+    <article class="team-card">
+      <img src="./assets/Developer.jpg" alt="Erasmus" class="team-photo" />
+      <div class="team-info">
+        <h3 class="team-name">Erasmus, Kranenburg-Groeneveld </h3>
+        <p class="team-role">Lead Developer</p>
+        <p class="team-bio">I’m a seasoned Unreal Engine developer with a passion for building custom tools and tutorials focused on StreamerBot integration, blueprint systems, and real-time interaction tools for streamers and developers alike.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+
 
     <!-- Project Showcase -->
     <section>
@@ -52,45 +52,35 @@
       <div class="project-grid">
         <div class="project-card">
           <div class="slideshow">
-            <img src="./assets/SB-HoldNRelease.png" class="slide active" alt="">
+            <img src="./assets/SB-HoldNRelease.png" class="slide active" alt="[FD] SB HoldNRelease Preview">
           </div>
           <h2>[FD] SB HoldNRelease</h2>
-          <p>A custom C# script enables you to simulate holding and releasing a keyboard key via a toggle action in Streamer.bot..</p>
+          <p>A custom C# script enables you to simulate holding and releasing a keyboard key via a toggle action in Streamer.bot.</p>
           <a href="./sb-holdnrelease.html" class="btn">View Project</a>
         </div>
         <div class="project-card">
           <div class="slideshow">
-            <img src="./assets/StreamMayhamBeta.png" class="slide active" alt="Project 2 Image 1">
+            <img src="./assets/StreamMayhamBeta.png" class="slide active" alt="[FD] StreamMayham Beta Preview">
           </div>
           <h2>[FD] StreamMayham Beta</h2>
-          <p>A toolkit lets your Twitch viewers trigger fun chaos effects.</p>
+          <p>A toolkit that lets your Twitch viewers trigger fun chaos effects.</p>
           <a href="./sb-streammayham.html" class="btn">View Project</a>
         </div>
       </div>
     </section>
 
-    <!-- Featured Tutorial -->
-    <section style="margin-top: 4rem;">
-      <h2 style="text-align: center; color: #00bcd4;">Featured Tutorial</h2>
-      <p style="text-align: center; max-width: 700px; margin: 0 auto; color: #ccc;">
-        Learn how to create a fully dynamic camera system in Unreal Engine 5 — perfect for streamer overlays and cinematic shots.
-      </p>
-      <div style="text-align: center; margin-top: 1rem;">
-        <a href="./tutorials.html" class="btn">View Tutorials</a>
-      </div>
-    </section>
 
     <!-- Testimonials -->
     <section style="margin-top: 4rem;">
       <h2 style="text-align: center; color: #00bcd4;">What Others Say</h2>
       <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;">
         <div style="background: #1e1e1e; padding: 1rem; border-radius: 10px; max-width: 300px;">
-        <h2 style="text-align: center; color: #00bcd4;">KEPLER</h2>
-          <p style="color: #ccc; font-style: italic;">"This Product works great and did exaclty what i needed."</p>
+          <h2 style="text-align: center; color: #00bcd4;">KEPLER</h2>
+          <p style="color: #ccc; font-style: italic;">"This product works great and did exactly what I needed."</p>
           <p style="text-align: right; color: #00bcd4;">– [FD] HoldNRelease</p>
         </div>
         <div style="background: #1e1e1e; padding: 1rem; border-radius: 10px; max-width: 300px;">
-        <h2 style="text-align: center; color: #00bcd4;">Perilous_Outlaw</h2>
+          <h2 style="text-align: center; color: #00bcd4;">Perilous_Outlaw</h2>
           <p style="color: #ccc; font-style: italic;">"The default look fits perfectly with my stream."</p>
           <p style="text-align: right; color: #00bcd4;">– EasyGoal For Kofi</p>
         </div>
@@ -98,14 +88,52 @@
     </section>
   </main>
 
+<div id="konami-sidebar">
+  <h4>Are you a real God?</h4>
+  <div id="konami-counter">
+    Konami Code triggered: 0
+  </div>
+</div>
+
+
+
   <footer>
     <div class="container">
       <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
     </div>
   </footer>
 
-  <script>
-    // Optional: auto-slide logic if needed later
-  </script>
+<script>
+  const konamiCode = ['w','w','s','s','a','d','a','d','b','a'];
+  let konamiPosition = 0;
+
+  let konamiCounter = localStorage.getItem('konamiCounter');
+  konamiCounter = konamiCounter ? parseInt(konamiCounter) : 0;
+  const counterDisplay = document.getElementById('konami-counter');
+  counterDisplay.textContent = `Konami Code triggered: ${konamiCounter}`;
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === konamiCode[konamiPosition]) {
+      konamiPosition++;
+      if (konamiPosition === konamiCode.length) {
+        konamiCounter++;
+        
+        // Reset if exceeds 1 million
+        if (konamiCounter > 1000000) {
+          konamiCounter = 0;
+        }
+
+        localStorage.setItem('konamiCounter', konamiCounter);
+        counterDisplay.textContent = `Konami Code triggered: ${konamiCounter}`;
+        alert('🎉 Konami Code Activated! Developer mode unlocked!');
+        konamiPosition = 0;
+      }
+    } else {
+      konamiPosition = 0;
+    }
+  });
+</script>
+
+
 </body>
 </html>

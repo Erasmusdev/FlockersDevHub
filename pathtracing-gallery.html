@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Unreal Engine PathTracing Test - Gallery</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <header>
@@ -19,35 +19,67 @@
     </div>
   </header>
 
-  <main class="container">
-    <p>A showcase of Unreal Engine's PathTracing Versus No PathTracing</p>
+<main class="container">
+  <h2 class="gallery-title">PathTracing Comparison Gallery</h2>
+  <p class="gallery-description">
+    Explore how lighting realism is transformed using Unreal Engine's PathTracing system. Click any image to view in full screen.
+  </p>
 
-    <section class="gallery">
-      <div class="card">
-        <img src="./assets/BathroomWOPT.png" alt="Without Pathtracing" />
-      </div>
-      <div class="card">
-        <img src="./assets/BathroomWPT.png" alt="With Pathtracing" />
-      </div>
-      <div class="card">
-        <img src="./assets/BedroomWOPT.png" alt="Without Pathtracing" />
-      </div>
-      <div class="card">
-        <img src="./assets/BedroomWPT.png" alt="With Pathtracing" />
-      </div>
-      <div class="card">
-        <img src="./assets/HallwayWOPT.png" alt="Without Pathtracing" />
-      </div>
-      <div class="card">
-        <img src="./assets/HallwayWPT.png" alt="With Pathtracing" />
-      </div>
-    </section>
-  </main>
+  <section class="gallery-grid">
 
-  <!-- Lightbox -->
+    <div class="comparison-card">
+      <h3>Bathroom Scene</h3>
+      <div class="comparison-images">
+        <div>
+          <img src="./assets/BathroomWOPT.png" alt="Bathroom without PathTracing" />
+          <p>Without PathTracing</p>
+        </div>
+        <div>
+          <img src="./assets/BathroomWPT.png" alt="Bathroom with PathTracing" />
+          <p>With PathTracing</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <h3>Bedroom Scene</h3>
+      <div class="comparison-images">
+        <div>
+          <img src="./assets/BedroomWOPT.png" alt="Bedroom without PathTracing" />
+          <p>Without PathTracing</p>
+        </div>
+        <div>
+          <img src="./assets/BedroomWPT.png" alt="Bedroom with PathTracing" />
+          <p>With PathTracing</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-card">
+      <h3>Hallway Scene</h3>
+      <div class="comparison-images">
+        <div>
+          <img src="./assets/HallwayWOPT.png" alt="Hallway without PathTracing" />
+          <p>Without PathTracing</p>
+        </div>
+        <div>
+          <img src="./assets/HallwayWPT.png" alt="Hallway with PathTracing" />
+          <p>With PathTracing</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+
   <div class="lightbox" id="lightbox">
-    <span class="lightbox-close" id="lightbox-close">&times;</span>
-    <img id="lightbox-img" src="" alt="Expanded image" />
+    <div class="lightbox-content">
+      <span class="lightbox-close" id="lightbox-close">&times;</span>
+      <span class="lightbox-nav prev" id="lightbox-prev">&#10094;</span>
+      <img id="lightbox-img" src="" alt="" />
+      <span class="lightbox-nav next" id="lightbox-next">&#10095;</span>
+    </div>
   </div>
 
   <footer>
@@ -60,24 +92,52 @@
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxClose = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
 
-    document.querySelectorAll('.card img').forEach(img => {
+    const images = Array.from(document.querySelectorAll('.comparison-gallery img'));
+    let currentIndex = 0;
+
+    images.forEach((img, index) => {
       img.addEventListener('click', () => {
-        lightboxImg.src = img.src;
-        lightbox.classList.add('active');
+        currentIndex = index;
+        openLightbox(images[currentIndex].src);
       });
     });
 
-    lightboxClose.addEventListener('click', () => {
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+    }
+
+    function closeLightbox() {
       lightbox.classList.remove('active');
       lightboxImg.src = '';
-    });
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      openLightbox(images[currentIndex].src);
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      openLightbox(images[currentIndex].src);
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    nextBtn?.addEventListener('click', showNext);
+    prevBtn?.addEventListener('click', showPrev);
 
     lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) {
-        lightbox.classList.remove('active');
-        lightboxImg.src = '';
-      }
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
     });
   </script>
 </body>

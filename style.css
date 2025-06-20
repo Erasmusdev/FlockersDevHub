@@ -16,42 +16,246 @@ body {
 
 /* === Header === */
 header {
-  background: #1e1e1e;
-  padding: 10px 0;
-  margin-bottom: 20px;
+  position: relative;
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+  padding: 60px 20px;
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* dark overlay for readability */
+  z-index: 0;
+  border-radius: 0 0 20px 20px;
 }
 
 header h1 {
+  position: relative;
+  font-size: 3rem;
   margin: 0;
-  color: #00bcd4;
-}
-
-nav {
-  margin-top: 10px;
+  z-index: 1;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 nav a {
-  color: #f4f4f4;
-  margin-right: 15px;
+  position: relative;
   text-decoration: none;
-  transition: color 0.2s ease;
+  color: #00bcd4;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
 }
 
-nav a:hover {
-  color: #00bcd4;
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #00bcd4;
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s ease;
 }
+
+nav a:hover::after {
+  width: 100%;
+}
+
+
+/* === NAV (Mobile) === */
+.menu-toggle {
+  width: 30px;
+  height: 22px;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.menu-toggle span {
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: #00bcd4;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle span:nth-child(1) {
+  top: 0;
+}
+
+.menu-toggle span:nth-child(2) {
+  top: 9px;
+}
+
+.menu-toggle span:nth-child(3) {
+  top: 18px;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 9px;
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 9px;
+}
+
+
 
 /* === Hero Section (Home) === */
 .hero {
-  background: #222;
-  padding: 60px 0;
+  position: relative;
+  background: url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+  color: #fff;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  padding: 0 20px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* overlay for contrast */
+  z-index: 0;
+  border-radius: 0 0 20px 20px;
 }
 
 .hero h2 {
-  font-size: 2rem;
-  margin-bottom: 10px;
+  position: relative;
+  font-size: 3rem;
+  margin: 0 0 10px;
+  font-weight: 700;
+  z-index: 1;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
 }
+
+.hero p {
+  position: relative;
+  font-size: 1.25rem;
+  margin: 0 0 25px;
+  z-index: 1;
+  font-weight: 300;
+  max-width: 700px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.hero .btn {
+  position: relative;
+  background-color: #00bcd4;
+  color: #fff;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 188, 212, 0.5);
+}
+
+.hero .btn:hover {
+  background-color: #019bb2;
+  box-shadow: 0 8px 25px rgba(1, 155, 178, 0.7);
+}
+
+.meet-the-team {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.meet-the-team h2 {
+  font-size: 2.8rem;
+  color: #00bcd4;
+  margin-bottom: 40px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+.team-card {
+  background: linear-gradient(145deg, #22272e, #181c20);
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow:
+    0 10px 20px rgba(0, 188, 212, 0.15),
+    0 4px 6px rgba(0, 188, 212, 0.1);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s ease;
+  cursor: default;
+}
+
+.team-card:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow:
+    0 25px 45px rgba(0, 188, 212, 0.4),
+    0 10px 20px rgba(0, 188, 212, 0.25);
+}
+
+.team-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+  transition: transform 0.35s ease;
+}
+
+.team-card:hover .team-photo {
+  transform: scale(1.1);
+}
+
+.team-name {
+  font-size: 1.5rem;
+  color: #00bcd4;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.team-role {
+  font-size: 1rem;
+  font-style: italic;
+  color: #7bdcf7;
+  margin-bottom: 15px;
+}
+
+.team-bio {
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.5;
+  min-height: 90px; /* Keep card height consistent */
+}
+
 
 /* === Footer === */
 footer {
@@ -68,45 +272,60 @@ footer {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
   margin-top: 30px;
+  perspective: 1200px; /* added for 3D effect */
 }
 
+/* Updated Project Card with 3D Modern Card style */
 .project-card {
-  background: #1c1c1c;
-  border-radius: 10px;
+    border: 3px solid #00bcd4 !important;
+  background: linear-gradient(145deg, #22272e, #181c20);
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  padding-bottom: 20px;
+  box-shadow:
+    0 4px 6px rgba(0, 188, 212, 0.2),
+    0 15px 30px rgba(0, 188, 212, 0.15);
+  cursor: pointer;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+  will-change: transform, box-shadow;
+  transform-style: preserve-3d;
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px;
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
+  transform: translateY(-15px) rotateX(8deg) rotateY(-8deg) scale(1.05) !important;
+  box-shadow:
+    0 20px 40px rgba(0, 188, 212, 0.6),
+    0 40px 60px rgba(0, 188, 212, 0.4); /* ← added missing comma */
 }
 
-/* === Slideshow styles === */
-.slideshow {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-}
 
-.slide {
-  position: absolute;
-  top: 0; left: 0;
+
+
+/* Project card images */
+.project-card img {
+  display: block;
   width: 100%;
-  height: 100%;
+  height: 180px;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+  border-radius: 18px 18px 0 0;
+  box-shadow:
+    inset 0 0 25px rgba(0, 188, 212, 0.2);
+  transition: transform 0.35s ease;
+  backface-visibility: hidden;
 }
 
-.slide.active {
-  opacity: 1;
-  z-index: 2;
+.project-card:hover img {
+  transform: scale(1.1) translateZ(40px);
+}
+
+@media screen and (max-width: 600px) {
+  .project-card img {
+    height: 140px;
+  }
 }
 
 .project-card h2 {
@@ -140,12 +359,36 @@ footer {
   background-color: #019bb2;
 }
 
+/* === Slideshow styles === */
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
 /* === Gallery Grid (Bigger images) === */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 15px;
   margin-top: 30px;
+  perspective: 1200px;
 }
 
 .gallery img {
@@ -194,8 +437,16 @@ body.dark-mode footer {
 }
 
 body.dark-mode .project-card {
-  background: #181818;
-  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+  background: linear-gradient(145deg, #1a1f24, #121519);
+  box-shadow:
+    0 4px 6px rgba(0, 188, 212, 0.1),
+    0 15px 30px rgba(0, 188, 212, 0.1);
+}
+
+body.dark-mode .project-card:hover {
+  box-shadow:
+    0 20px 40px rgba(0, 188, 212, 0.4),
+    0 40px 60px rgba(0, 188, 212, 0.25);
 }
 
 body.dark-mode nav a:hover,
@@ -203,6 +454,9 @@ body.dark-mode .btn:hover {
   color: #fff;
   background-color: #028b9e;
 }
+
+/* (The rest of your CSS remains unchanged) */
+
 
 /* === Added 3D Modern Cards Styles for .gallery and .card === */
 .gallery {
@@ -670,4 +924,176 @@ body.dark-mode .card:hover {
 
 .contact-section button:hover {
   background-color: #019bb2;
+}
+
+#konami-sidebar {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: #111;
+  color: #0ff;
+  font-family: monospace;
+  padding: 1rem 1.5rem;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  box-shadow: -2px 2px 8px rgba(0, 255, 255, 0.3);
+  width: 160px;
+  text-align: center;
+  cursor: default;
+  user-select: none;
+  z-index: 9999;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#konami-sidebar:hover {
+  background: #00bcd4;
+  color: #111;
+  box-shadow: -2px 2px 12px #00bcd4;
+}
+
+#konami-sidebar h4 {
+  margin: 0 0 0.5rem;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+#konami-counter {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  animation: zoomIn 0.3s ease-in-out;
+}
+
+.lightbox img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: #fff;
+  color: #000;
+  font-size: 32px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3rem;
+  color: white;
+  cursor: pointer;
+  padding: 0 1rem;
+  user-select: none;
+  z-index: 10001;
+}
+
+.lightbox-nav.prev {
+  left: 0;
+}
+
+.lightbox-nav.next {
+  right: 0;
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.9); opacity: 0 }
+  to { transform: scale(1); opacity: 1 }
+}
+
+
+.gallery-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+
+.gallery-description {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.gallery-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.comparison-card {
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.comparison-card h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.comparison-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.comparison-images img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.comparison-images img:hover {
+  transform: scale(1.03);
+}
+
+.comparison-images p {
+  text-align: center;
+  margin-top: 0.5rem;
+  color: #aaa;
+  font-size: 0.95rem;
 }
