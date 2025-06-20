@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>[FD] SB HoldNRelease | Unreal Dev Hub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>[FD] SB HoldNRelease</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./tutorials.html">Tutorials</a>
+        <a href="./contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product-page" style="max-width: 900px;">
+    <!-- Product Summary -->
+    <section>
+      <h2>Advanced Key Control for Streamer.bot</h2>
+      <p>
+        <strong>[FD] SB HoldNRelease</strong> is a custom C# script that allows you to simulate holding and releasing any keyboard key using a simple toggle action in <strong>Streamer.bot</strong>.
+        Unlike default keybinds that require you to physically hold a key, this tool lets you virtually hold a key — then release it — through automation.
+      </p>
+      <p>
+        You can assign any key using its <em>virtual key code</em> and control it entirely through Streamer.bot triggers or actions. It’s ideal for scenarios like holding sprint, crouch, or push-to-talk, where built-in toggles fall short. Easy to customize, lightweight, and fully integrated with Streamer.bot.
+      </p>
+    </section>
+
+    <!-- Features -->
+    <section>
+      <h3>Key Features</h3>
+      <ul>
+        <li> Toggle ON: Simulates a key being held down</li>
+        <li> Toggle OFF: Instantly releases the key</li>
+        <li> Assign any key via virtual key code</li>
+        <li> Seamless Streamer.bot integration</li>
+        <li> Lightweight & clean C# script</li>
+        <li> Fully customizable for advanced setups</li>
+      </ul>
+    </section>
+
+    <!-- How it Works -->
+    <section>
+      <h3>How It Works</h3>
+      <p>
+        The script listens for a toggle variable inside Streamer.bot. When triggered:
+      </p>
+      <ul>
+        <li>✔️ If <code>true</code> → the key is “pressed and held”</li>
+        <li>✔️ If <code>false</code> → the key is “released”</li>
+      </ul>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>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</code></pre>
+      </div>
+    </section>
+
+    <!-- Download -->
+    <section>
+      <h3>Download & Setup (Optional)</h3>
+      <p>Download the script and import it into Streamer.bot. Includes setup instructions.</p>
+      <a href="./assets/[FD]-SB-HoldNRelease.zip" class="btn">Download Script</a>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+      <h3>FAQ</h3>
+      <details>
+        <summary>Can I hold mouse buttons too?</summary>
+        <p>At the moment, only keyboard keys are supported. Mouse support may come in a future update.</p>
+      </details>
+      <details>
+        <summary>Is it compatible with all games?</summary>
+        <p>Yes, most games recognize the simulated input. However, always check your game’s rules regarding input simulation.</p>
+      </details>
+    </section>
+
+    <!-- Virtual Key Codes -->
+<section>
+  <h3>Virtual Key Codes Reference</h3>
+  <p>You can use the following table to find the Virtual Key Code (VK) for any key. Use the decimal or hex value when assigning keys in Streamer.bot.</p>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <thead>
+      <tr style="background-color: #333232;">
+        <th style="padding: 8px; border: 1px solid #ccc;">Key Name</th>
+        <th style="padding: 8px; border: 1px solid #ccc;">VK Code (Hex)</th>
+        <th style="padding: 8px; border: 1px solid #ccc;">VK Code (Decimal)</th>
+        <th style="padding: 8px; border: 1px solid #ccc;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">A</td><td>0x41</td><td>65</td><td>Letter A</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">B</td><td>0x42</td><td>66</td><td>Letter B</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">C</td><td>0x43</td><td>67</td><td>Letter C</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">D</td><td>0x44</td><td>68</td><td>Letter D</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">E</td><td>0x45</td><td>69</td><td>Letter E</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">F</td><td>0x46</td><td>70</td><td>Letter F</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">G</td><td>0x47</td><td>71</td><td>Letter G</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">H</td><td>0x48</td><td>72</td><td>Letter H</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">I</td><td>0x49</td><td>73</td><td>Letter I</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">J</td><td>0x4A</td><td>74</td><td>Letter J</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">K</td><td>0x4B</td><td>75</td><td>Letter K</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">L</td><td>0x4C</td><td>76</td><td>Letter L</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">M</td><td>0x4D</td><td>77</td><td>Letter M</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">N</td><td>0x4E</td><td>78</td><td>Letter N</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">O</td><td>0x4F</td><td>79</td><td>Letter O</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">P</td><td>0x50</td><td>80</td><td>Letter P</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Q</td><td>0x51</td><td>81</td><td>Letter Q</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">R</td><td>0x52</td><td>82</td><td>Letter R</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">S</td><td>0x53</td><td>83</td><td>Letter S</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">T</td><td>0x54</td><td>84</td><td>Letter T</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">U</td><td>0x55</td><td>85</td><td>Letter U</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">V</td><td>0x56</td><td>86</td><td>Letter V</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">W</td><td>0x57</td><td>87</td><td>Letter W</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">X</td><td>0x58</td><td>88</td><td>Letter X</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Y</td><td>0x59</td><td>89</td><td>Letter Y</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Z</td><td>0x5A</td><td>90</td><td>Letter Z</td></tr>
+    </tbody>
+  </table>
+</section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => (button.innerText = "Copy"), 2000);
+      });
+    }
+  </script>
+</body>
+</html>

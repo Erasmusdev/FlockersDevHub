@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[FD] StreamMayham | Unreal Dev Hub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Easy Goal For Ko-fi V2</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product-page">
+    <!-- Hero -->
+    <section class="hero">
+      <h2>🎯 Stylish & Animated Ko-fi Goal Widget</h2>
+      <p>Perfect for spooky streams, charity events, and fun audience engagement.</p>
+      <a href="https://ko-fi.com/s/b38925f84f" class="btn" target="_blank">🎁 Download Easy Goal</a>
+    </section>
+
+    <!-- Description -->
+    <section class="card-section">
+      <p><strong>Easy Goal For Ko-fi V2</strong> is a customizable and animated donation tracker built for creators using <strong>Ko-fi</strong>. Integrates with <strong>Streamer.bot</strong> or browser triggers for rich interactions.</p>
+      <p>Features a unique blood-bag animation that fills with each donation. Perfect for horror streamers or themed campaigns.</p>
+    </section>
+
+    <!-- Features -->
+    <section class="card-section">
+      <h3>✨ Key Features</h3>
+      <ul class="icon-list">
+        <li>🎨 Fully customizable color palette</li>
+        <li>💉 Fluid blood-bag animation on goal progress</li>
+        <li>⚙️ Easy to configure with Streamer.bot</li>
+        <li>📊 Live progress animation</li>
+        <li>🧰 Lightweight and modern visual style</li>
+      </ul>
+    </section>
+
+
+<section class="card-section">
+  <h3>🖼️ Example Previews</h3>
+  <div class="gallery">
+    <img src="./assets/Easygoalexample.png" alt="Goal Tracker Preview 1" />
+    
+    <div class="video-embed">
+      <iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/yR0ZsyRgBnQ?si=Lu-6APdo6UzfrU5f" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+
+ 
+    <section class="card-section">
+      <div class="code-block">
+        <h3>🔧 Streamer.bot Import</h3>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>[ Insert your encoded streamer.bot asset string here ]</code></pre>
+      </div>
+    </section>
+
+
+    <section class="card-section">
+      <h3>❓ Frequently Asked Questions</h3>
+      <details>
+        <summary>🛡️ Is this paid?</summary>
+        <p>No, this tool is free! Donations are welcome on Ko-fi to help support development.</p>
+      </details>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Unreal Dev Hub</p>
+      <p>Created by Unreal Dev</p>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode(btn) {
+      const code = btn.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = "Copy", 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

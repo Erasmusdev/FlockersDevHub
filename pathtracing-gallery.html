@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unreal Engine PathTracing Test - Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Unreal Engine PathTracing Test</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./tutorials.html">Tutorials</a>
+        <a href="./contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <p>A showcase of Unreal Engine's PathTracing Versus No PathTracing</p>
+
+    <section class="gallery">
+      <div class="card">
+        <img src="./assets/BathroomWOPT.png" alt="Without Pathtracing" />
+      </div>
+      <div class="card">
+        <img src="./assets/BathroomWPT.png" alt="With Pathtracing" />
+      </div>
+      <div class="card">
+        <img src="./assets/BedroomWOPT.png" alt="Without Pathtracing" />
+      </div>
+      <div class="card">
+        <img src="./assets/BedroomWPT.png" alt="With Pathtracing" />
+      </div>
+      <div class="card">
+        <img src="./assets/HallwayWOPT.png" alt="Without Pathtracing" />
+      </div>
+      <div class="card">
+        <img src="./assets/HallwayWPT.png" alt="With Pathtracing" />
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Expanded image" />
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    document.querySelectorAll('.card img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightbox.classList.add('active');
+      });
+    });
+
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+      lightboxImg.src = '';
+    });
+
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+        lightboxImg.src = '';
+      }
+    });
+  </script>
+</body>
+</html>
