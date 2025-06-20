@@ -1,12 +1,12 @@
 // Firebase config (replace with your actual config)
-    const firebaseConfig = {
-      apiKey: "AIzaSyB2Z6FegNJkXIs_Fdk5Qn7DaoQtFPdpshU",
-      authDomain: "flockersdevhub-6ae8a.firebaseapp.com",
-      projectId: "flockersdevhub-6ae8a",
-      storageBucket: "flockersdevhub-6ae8a.firebasestorage.app",
-      messagingSenderId: "821197375071",
-      appId: "1:821197375071:web:9b36cee3c1e1af1f3c7dea"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyB2Z6FegNJkXIs_Fdk5Qn7DaoQtFPdpshU",
+  authDomain: "flockersdevhub-6ae8a.firebaseapp.com",
+  projectId: "flockersdevhub-6ae8a",
+  storageBucket: "flockersdevhub-6ae8a.firebasestorage.app",
+  messagingSenderId: "821197375071",
+  appId: "1:821197375071:web:9b36cee3c1e1af1f3c7dea"
+};
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -73,16 +73,16 @@ premadeGrid.addEventListener("click", e => {
   }
 });
 
-// Image upload handler
+// Image upload handler — updated to load and preview the image correctly
 imageInput.addEventListener("change", e => {
   const file = e.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = () => {
-    previewImg.src = reader.result;
-    selectedImageSrc = reader.result;
-    Array.from(premadeGrid.children).forEach(img => img.classList.remove("selected"));
+    previewImg.src = reader.result;    // set preview image src
+    selectedImageSrc = reader.result;  // update selected image src
+    Array.from(premadeGrid.children).forEach(img => img.classList.remove("selected")); // deselect premade
     applyTintColor();
     applyCaption();
     applyAnimations();

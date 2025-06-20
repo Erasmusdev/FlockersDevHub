@@ -18,9 +18,31 @@
   <aside class="sidebar">
     <details open>
       <summary>Animations</summary>
-      <label><input type="checkbox" name="animation" value="fade-in" /> Fade In</label>
-      <label><input type="checkbox" name="animation" value="slide-in" /> Slide In</label>
-      <label><input type="checkbox" name="animation" value="zoom-in" /> Zoom In</label>
+
+      <label class="animation-option" for="animFadeIn">
+        Fade In
+        <span class="toggle-switch">
+          <input type="checkbox" name="animation" value="fade-in" id="animFadeIn" />
+          <span class="toggle-slider"></span>
+        </span>
+      </label>
+
+      <label class="animation-option" for="animSlideIn">
+        Slide In
+        <span class="toggle-switch">
+          <input type="checkbox" name="animation" value="slide-in" id="animSlideIn" />
+          <span class="toggle-slider"></span>
+        </span>
+      </label>
+
+      <label class="animation-option" for="animZoomIn">
+        Zoom In
+        <span class="toggle-switch">
+          <input type="checkbox" name="animation" value="zoom-in" id="animZoomIn" />
+          <span class="toggle-slider"></span>
+        </span>
+      </label>
+
     </details>
 
     <details>
@@ -34,6 +56,7 @@
       <input type="text" id="captionText" placeholder="Enter caption text" />
     </details>
 
+    <!-- New section for premade images -->
     <details open>
       <summary>Premade Images</summary>
       <div class="premade-grid" id="premadeGrid">
@@ -43,24 +66,29 @@
       </div>
     </details>
 
-    <!-- Moved upload and save into sidebar -->
-    <div class="upload-save-container">
-      <input type="file" id="imageInput" accept="image/*" />
-      <button id="saveBtn" disabled>Save Overlay</button>
-    </div>
+    <!-- Moved Upload & Save here -->
+    <details open>
+      <summary>Upload & Save</summary>
+      <div class="upload-save-container">
+        <input type="file" id="imageInput" accept="image/*" />
+        <button id="saveBtn" disabled>Save Overlay</button>
+      </div>
+    </details>
   </aside>
 
   <main class="main-content">
     <h1>Overlay Customizer</h1>
     <p class="subtitle">Select or upload an image, customize settings, and save</p>
 
-    <div class="preview-wrapper">
-      <img id="previewImg" alt="Overlay Preview" />
-      <div class="tint-layer"></div>
-      <div class="overlay-caption"></div>
-    </div>
+    <div class="card">
+      <div class="preview-wrapper">
+        <img id="previewImg" alt="Overlay Preview" />
+        <div class="tint-layer"></div>
+        <div class="overlay-caption"></div>
+      </div>
 
-    <div id="output"></div>
+      <div id="output"></div>
+    </div>
   </main>
 
   <script src="builder.js"></script>

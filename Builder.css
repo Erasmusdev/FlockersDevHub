@@ -327,16 +327,111 @@ button:hover:not(:disabled) {
   .main-content {
     padding: 1rem;
   }
-  .card {
-    padding: 1rem 1.5rem;
-  }
-  .preview-wrapper {
-    height: 350px; /* smaller for mobile */
-    max-width: 100%;
-  }
-  .overlay-caption {
-    font-size: 1.2rem; /* smaller text on mobile */
-    bottom: 10px;
-    left: 10px;
-  }
+.card {
+  width: 100%;       /* Take full width of the container */
+  max-width: 800px;  /* Or any max width you prefer */
+  min-height: 500px; /* Make it taller */
+  margin: 20px auto; /* Center horizontally with margin */
+  padding: 20px;     /* Add some padding */
+  box-sizing: border-box;
+  /* Optional: add a bit of a shadow or border for better visibility */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.preview-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 600px;
+  margin: 0 auto 1rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 200, 248, 0.5);
+  overflow: hidden;
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#previewImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  display: block;
+}
+
+
+.tint-layer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--tint-color, rgba(0, 200, 248, 0.5)); /* default tint */
+  pointer-events: none;
+}
+
+.overlay-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  color: white;
+  font-size: 1.2em;
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+  pointer-events: none;
+  user-select: none;
+}
+}
+/* === Toggle Switch Styles for Animation Checkboxes === */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.toggle-switch input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  border-radius: 22px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #ddd;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-slider {
+  background-color: #00c8f8;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-slider::before {
+  transform: translateX(18px);
+  background-color: #fff;
+}
+
+.toggle-switch input[type="checkbox"]:focus + .toggle-slider {
+  box-shadow: 0 0 2px 3px #00c8f8;
 }
