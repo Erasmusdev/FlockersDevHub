@@ -1,124 +1,176 @@
-// Your existing variables and functions
-const premadeGrid = document.getElementById('premadeGrid');
-const imageInput = document.getElementById('imageInput');
-const previewImg = document.getElementById('previewImg');
-const animateCheckbox = document.getElementById('animateCheckbox');
-const saveBtn = document.getElementById('saveBtn');
-const output = document.getElementById('output');
-
-// New: login button element (make sure this exists in your HTML)
-const googleLoginBtn = document.getElementById('google-login-btn');
-
-let selectedPremade = null;
-let uploadedFile = null;
-
-// Firebase imports and config (make sure Firebase SDK scripts are included in your HTML)
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  // ... other config values
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-// Your existing helper functions...
-
-function clearPremadeSelection() {
-  premadeGrid.querySelectorAll('img').forEach(img => img.classList.remove('selected'));
-  selectedPremade = null;
-}
-
-function setPreview(src) {
-  previewImg.classList.remove('fade-in');
-  previewImg.src = src;
-  if (animateCheckbox.checked) {
-    previewImg.onload = () => {
-      previewImg.classList.add('fade-in');
-      previewImg.onload = null;
+// Firebase config (replace with your actual config)
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2Z6FegNJkXIs_Fdk5Qn7DaoQtFPdpshU",
+      authDomain: "flockersdevhub-6ae8a.firebaseapp.com",
+      projectId: "flockersdevhub-6ae8a",
+      storageBucket: "flockersdevhub-6ae8a.firebasestorage.app",
+      messagingSenderId: "821197375071",
+      appId: "1:821197375071:web:9b36cee3c1e1af1f3c7dea"
     };
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// DOM references
+const previewImg = document.getElementById("previewImg");
+const premadeGrid = document.getElementById("premadeGrid");
+const imageInput = document.getElementById("imageInput");
+const saveBtn = document.getElementById("saveBtn");
+const output = document.getElementById("output");
+
+const tintColorInput = document.getElementById("tintColor");
+const tintOpacityInput = document.getElementById("tintOpacity");
+const captionTextInput = document.getElementById("captionText");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+const tintLayer = document.querySelector(".tint-layer");
+const overlayCaption = document.querySelector(".overlay-caption");
+
+let selectedImageSrc = previewImg.src || "";
+let selectedAnimations = new Set();
+
+// Update UI for logged in/out state
+function updateUIForUser(user) {
+  if (user) {
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    saveBtn.disabled = false;
   } else {
-    previewImg.onload = null;
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    saveBtn.disabled = true;
   }
 }
 
-// Premade image selection
-premadeGrid.addEventListener('click', e => {
-  if (e.target.tagName === 'IMG') {
-    clearPremadeSelection();
-    e.target.classList.add('selected');
-    selectedPremade = e.target.src;
-    uploadedFile = null;
-    imageInput.value = '';
-    setPreview(selectedPremade);
-  }
+auth.onAuthStateChanged(user => {
+  updateUIForUser(user);
 });
-
-// File upload input
-imageInput.addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  uploadedFile = file;
-  clearPremadeSelection();
-  selectedPremade = null;
-  setPreview(URL.createObjectURL(file));
-});
-
-// Animate toggle re-apply
-animateCheckbox.addEventListener('change', () => {
-  if (previewImg.src) {
-    setPreview(previewImg.src);
-  }
-});
-
-// Save button click handler (replace with Firebase or your backend logic)
-saveBtn.addEventListener('click', () => {
-  if (!previewImg.src) {
-    alert('Please upload or select an image first.');
-    return;
-  }
-
-  // For demo: output info about selected image and animation state
-  let info = `Image URL: ${uploadedFile ? 'Local File (upload needed)' : selectedPremade}\n`;
-  info += `Animation: ${animateCheckbox.checked ? 'On' : 'Off'}`;
-  output.innerHTML = `
-    <p>✅ Overlay ready!</p>
-    <pre style="white-space: pre-wrap; word-break: break-word;">${info}</pre>
-  `;
-});
-
-// --- Firebase Authentication part ---
 
 // Login with Google
-googleLoginBtn.addEventListener('click', () => {
-  signInWithPopup(auth, provider)
-    .then(result => {
-      const user = result.user;
-      console.log('User signed in:', user);
-      output.innerHTML = `<p>Welcome, ${user.displayName}!</p>`;
-      // You can now show/hide UI, fetch user data, etc.
-    })
-    .catch(error => {
-      console.error('Login error:', error);
-      alert('Login failed. Please try again.');
-    });
+loginBtn.addEventListener("click", () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(console.error);
 });
 
-// Detect auth state changes to react to login/logout
-onAuthStateChanged(auth, user => {
-  if (user) {
-    console.log('User logged in:', user);
-    output.innerHTML = `<p>Welcome back, ${user.displayName}!</p>`;
-    googleLoginBtn.style.display = 'none'; // Hide login button when logged in
-    // Show user profile, load user data etc.
-  } else {
-    console.log('User logged out');
-    output.innerHTML = `<p>Please log in.</p>`;
-    googleLoginBtn.style.display = 'inline-block'; // Show login button when logged out
-    // Hide profile etc.
+// Logout
+logoutBtn.addEventListener("click", () => {
+  auth.signOut().catch(console.error);
+});
+
+// Premade overlay click handler
+premadeGrid.addEventListener("click", e => {
+  if (e.target.tagName === "IMG") {
+    Array.from(premadeGrid.children).forEach(img => img.classList.remove("selected"));
+    e.target.classList.add("selected");
+    selectedImageSrc = e.target.src;
+    previewImg.src = selectedImageSrc;
+    imageInput.value = "";
+    applyTintColor();
+    applyCaption();
+    applyAnimations();
   }
 });
+
+// Image upload handler
+imageInput.addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    previewImg.src = reader.result;
+    selectedImageSrc = reader.result;
+    Array.from(premadeGrid.children).forEach(img => img.classList.remove("selected"));
+    applyTintColor();
+    applyCaption();
+    applyAnimations();
+  };
+  reader.readAsDataURL(file);
+});
+
+// Convert hex to RGB
+function hexToRgb(hex) {
+  const cleanHex = hex.replace(/^#/, '');
+  if (cleanHex.length !== 6) return null;
+
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+
+  return { r, g, b };
+}
+
+// Apply tint color with opacity
+function applyTintColor() {
+  const hex = tintColorInput.value;
+  const opacity = parseFloat(tintOpacityInput.value);
+  const rgb = hexToRgb(hex);
+  if (!rgb) return;
+
+  const rgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
+
+  tintLayer.style.backgroundColor = rgba;
+  tintLayer.style.boxShadow = `inset 0 0 50px ${rgba}`;
+
+  overlayCaption.style.color = rgba;
+  overlayCaption.style.textShadow = `0 0 10px ${rgba}`;
+}
+
+// Update caption text
+function applyCaption() {
+  overlayCaption.textContent = captionTextInput.value.trim();
+}
+
+// Animation checkboxes
+const animationCheckboxes = document.querySelectorAll("input[name=animation]");
+animationCheckboxes.forEach(cb =>
+  cb.addEventListener("change", () => {
+    selectedAnimations.clear();
+    animationCheckboxes.forEach(box => {
+      if (box.checked) selectedAnimations.add(box.value);
+    });
+    applyAnimations();
+  })
+);
+
+// Apply animation classes
+function applyAnimations() {
+  previewImg.classList.remove("fade-in", "slide-in", "zoom-in");
+  void previewImg.offsetWidth; // trigger reflow
+  selectedAnimations.forEach(anim => previewImg.classList.add(anim));
+}
+
+// Listen to tint and opacity changes
+tintColorInput.addEventListener("input", applyTintColor);
+tintOpacityInput.addEventListener("input", applyTintColor);
+
+// Listen to caption changes
+captionTextInput.addEventListener("input", applyCaption);
+
+// Save overlay (placeholder)
+saveBtn.addEventListener("click", () => {
+  const data = {
+    image: selectedImageSrc,
+    tintColor: tintColorInput.value,
+    tintOpacity: tintOpacityInput.value,
+    caption: captionTextInput.value,
+    animations: Array.from(selectedAnimations),
+    user: auth.currentUser ? auth.currentUser.email : "Not logged in",
+  };
+
+  output.innerHTML =
+    `<strong>Overlay saved!</strong><br>` +
+    `User: ${data.user}<br>` +
+    `Tint Color: ${data.tintColor}<br>` +
+    `Opacity: ${data.tintOpacity}<br>` +
+    `Caption: ${data.caption}<br>` +
+    `Animations: ${data.animations.join(", ") || "None"}` +
+    `<br><br><input type="text" readonly value="${selectedImageSrc}" title="Overlay Image Source"/>`;
+});
+
+// Initialize on page load
+applyTintColor();
+applyCaption();
+applyAnimations();

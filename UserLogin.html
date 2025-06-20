@@ -3,174 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Overlay Creator with Login</title>
+  <title>Login - FlockersDevHub</title>
   <style>
-    body {
-      margin: 0;
-      background-color: #1a1a1a;
-      color: #ddd;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem 1rem;
-      min-height: 100vh;
-    }
-    h1 {
-      color: #00c8f8;
-      font-weight: 700;
-      margin-bottom: 0.2rem;
-      text-align: center;
-    }
-    p.subtitle {
-      color: #aaa;
-      font-size: 1rem;
-      margin-top: 0;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .card {
-      background: rgba(30, 30, 30, 0.9);
-      border-radius: 20px;
-      padding: 2rem 3rem;
-      width: 100%;
-      max-width: 600px;
-      box-shadow:
-        0 0 15px 2px rgba(0, 200, 248, 0.4),
-        inset 0 0 15px 1px rgba(0, 200, 248, 0.25);
-      margin-bottom: 2.5rem;
-      text-align: center;
-    }
-    input[type="file"], input[type="email"], input[type="password"] {
-      background-color: #222;
-      border: 1px solid #333;
-      padding: 0.6rem 0.8rem;
-      border-radius: 12px;
-      color: #ddd;
-      font-size: 1rem;
-      width: 100%;
-      max-width: 350px;
-      margin: 0.5rem auto 1.5rem;
-      display: block;
-    }
-    button {
-      background-color: #00c8f8;
-      border: none;
-      color: #111;
-      font-weight: 700;
-      padding: 0.8rem 2.2rem;
-      border-radius: 20px;
-      font-size: 1.15rem;
-      cursor: pointer;
-      box-shadow: 0 0 18px #00c8f8;
-      user-select: none;
-      transition: background-color 0.3s ease;
-      display: block;
-      margin: 1rem auto 0;
-      width: 100%;
-      max-width: 350px;
-    }
-    button:hover:not(:disabled) {
-      background-color: #00a8dc;
-      box-shadow: 0 0 30px #00a8dc;
-    }
-    button:disabled {
-      background-color: #555;
-      cursor: not-allowed;
-      box-shadow: none;
-      color: #999;
-    }
-    #previewImg {
-      max-width: 100%;
-      max-height: 250px;
-      border-radius: 20px;
-      border: 3px solid #00c8f8;
-      box-shadow: 0 0 25px #00c8f8;
-      display: block;
-      margin: 0 auto 1.5rem;
-      object-fit: contain;
-      background-color: #111;
-    }
-    #output {
-      margin-top: 2rem;
-      color: #00c8f8;
-      font-weight: 600;
-      text-align: center;
-      max-width: 600px;
-      word-break: break-word;
-    }
-    #output input {
-      margin-top: 0.4rem;
-      font-family: monospace;
-      width: 100%;
-      max-width: 600px;
-      padding: 0.6rem 1rem;
-      border-radius: 15px;
-      border: none;
-      outline: none;
-      color: #111;
-      background-color: #00c8f8;
-      font-weight: 700;
-      user-select: all;
-      cursor: pointer;
-      box-shadow: 0 0 15px #00c8f8;
-    }
-    #output button {
-      margin-top: 1rem;
-      background-color: #0088bb;
-      border-radius: 15px;
-      padding: 0.5rem 1.2rem;
-      color: #111;
-      font-weight: 700;
-      box-shadow: 0 0 15px #0088bb;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      user-select: none;
-    }
-    #output button:hover {
-      background-color: #006f95;
-      box-shadow: 0 0 25px #006f95;
-    }
-    .code-block {
-      background: #222;
-      border-radius: 15px;
-      padding: 0.8rem;
-      margin: 1rem 0;
-      text-align: left;
-      position: relative;
-    }
-    .code-block pre {
-      margin: 0;
-      overflow-x: auto;
-      white-space: nowrap;
-      color: #00c8f8;
-      font-weight: 600;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #00c8f8;
-      color: #111;
-      border: none;
-      border-radius: 8px;
-      padding: 0.3rem 0.8rem;
-      cursor: pointer;
-      font-weight: 700;
-      user-select: none;
-      transition: background-color 0.3s ease;
-    }
-    .copy-btn:hover {
-      background-color: #0088bb;
-    }
+    /* Your existing styles for login UI here */
   </style>
 </head>
 <body>
-  <h1>Overlay Creator with Login</h1>
-  <p class="subtitle">Create, save, and manage your custom overlays</p>
+  <h1>Login to FlockersDevHub</h1>
 
-  <!-- AUTH UI -->
   <div id="auth-container" class="card">
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="Password" />
@@ -180,71 +20,29 @@
     <div id="auth-message" style="color:#f66; margin-top: 1rem;"></div>
   </div>
 
-  <!-- PROFILE UI -->
-  <div id="profile-container" class="card" style="display:none;">
-    <h2>Welcome, <span id="user-email"></span></h2>
-    <button id="logout-btn">Logout</button>
-
-    <!-- Overlay Creator -->
-    <input type="file" id="imageInput" accept="image/*" />
-    <img id="previewImg" alt="Overlay preview" />
-    <label style="color:#00c8f8; font-weight:600; cursor:pointer; user-select:none;">
-      <input type="checkbox" id="animateCheckbox" style="vertical-align:middle; margin-right:8px;" />
-      Apply animation (fade-in)
-    </label>
-    <button id="saveBtn">Save Overlay</button>
-
-    <!-- Saved links -->
-    <h3 style="margin-top: 2rem;">Your Generated Links</h3>
-    <div id="user-links">No overlays saved yet.</div>
-  </div>
-
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-
   <script>
-    // Your Firebase config
     const firebaseConfig = {
-        apiKey: "AIzaSyB2Z6FegNJkXIs_Fdk5Qn7DaoQtFPdpshU",
-        authDomain: "flockersdevhub-6ae8a.firebaseapp.com",
-        projectId: "flockersdevhub-6ae8a",
-        storageBucket: "flockersdevhub-6ae8a.firebasestorage.app",
-        messagingSenderId: "821197375071",
-        appId: "1:821197375071:web:9b36cee3c1e1af1f3c7dea"
+      apiKey: "AIzaSyB2Z6FegNJkXIs_Fdk5Qn7DaoQtFPdpshU",
+      authDomain: "flockersdevhub-6ae8a.firebaseapp.com",
+      projectId: "flockersdevhub-6ae8a",
+      storageBucket: "flockersdevhub-6ae8a.firebasestorage.app",
+      messagingSenderId: "821197375071",
+      appId: "1:821197375071:web:9b36cee3c1e1af1f3c7dea"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
 
-    // Elements
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const loginBtn = document.getElementById('login-btn');
     const registerBtn = document.getElementById('register-btn');
+    const googleLoginBtn = document.getElementById('google-login-btn');
     const authMessage = document.getElementById('auth-message');
 
-    const authContainer = document.getElementById('auth-container');
-    const profileContainer = document.getElementById('profile-container');
-    const userEmailSpan = document.getElementById('user-email');
-    const logoutBtn = document.getElementById('logout-btn');
-
-    const imageInput = document.getElementById('imageInput');
-    const previewImg = document.getElementById('previewImg');
-    const animateCheckbox = document.getElementById('animateCheckbox');
-    const saveBtn = document.getElementById('saveBtn');
-    const userLinksDiv = document.getElementById('user-links');
-
-    const googleLoginBtn = document.getElementById('google-login-btn');
-
-    let fileData = null;
-
-    // Register user with email/password
     registerBtn.addEventListener('click', () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value.trim();
@@ -264,7 +62,6 @@
         });
     });
 
-    // Login user with email/password
     loginBtn.addEventListener('click', () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value.trim();
@@ -276,6 +73,8 @@
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
           authMessage.textContent = '';
+          // Redirect to builder page after login
+          window.location.href = 'builder.html';
         })
         .catch(err => {
           authMessage.style.color = '#f66';
@@ -283,161 +82,19 @@
         });
     });
 
-    // Google Sign-In
     googleLoginBtn.addEventListener('click', () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
         .then(() => {
           authMessage.textContent = '';
+          // Redirect on successful Google login
+          window.location.href = 'builder.html';
         })
         .catch(err => {
           authMessage.style.color = '#f66';
           authMessage.textContent = err.message;
         });
     });
-
-    // Logout
-    logoutBtn.addEventListener('click', () => {
-      auth.signOut();
-    });
-
-    // Auth state change listener
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        authContainer.style.display = 'none';
-        profileContainer.style.display = 'block';
-        userEmailSpan.textContent = user.email;
-        loadUserLinks(user.uid);
-      } else {
-        authContainer.style.display = 'block';
-        profileContainer.style.display = 'none';
-        userEmailSpan.textContent = '';
-        userLinksDiv.innerHTML = 'No overlays saved yet.';
-        previewImg.src = '';
-        fileData = null;
-        animateCheckbox.checked = false;
-        emailInput.value = '';
-        passwordInput.value = '';
-        authMessage.textContent = '';
-      }
-    });
-
-    // Image preview on file select
-    imageInput.addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (file) {
-        fileData = file;
-        previewImg.src = URL.createObjectURL(file);
-        if (animateCheckbox.checked) {
-          previewImg.style.animation = 'fadeIn 1s ease forwards';
-        } else {
-          previewImg.style.animation = '';
-        }
-      } else {
-        previewImg.src = '';
-        fileData = null;
-      }
-    });
-
-    animateCheckbox.addEventListener('change', () => {
-      if (animateCheckbox.checked && previewImg.src) {
-        previewImg.style.animation = 'fadeIn 1s ease forwards';
-      } else {
-        previewImg.style.animation = '';
-      }
-    });
-
-    // Save overlay (upload image + store link)
-    saveBtn.addEventListener('click', () => {
-      if (!fileData) {
-        alert('Please select an image to save.');
-        return;
-      }
-      const user = auth.currentUser;
-      if (!user) {
-        alert('Please log in to save overlays.');
-        return;
-      }
-
-      saveBtn.disabled = true;
-      saveBtn.textContent = 'Saving...';
-
-      // Upload to Firebase Storage
-      const storageRef = storage.ref();
-      const imageRef = storageRef.child(`overlays/${user.uid}/${Date.now()}_${fileData.name}`);
-
-      imageRef.put(fileData).then(snapshot => snapshot.ref.getDownloadURL()).then(downloadURL => {
-        // Save URL in Firestore under user's collection
-        return db.collection('users').doc(user.uid).collection('links').add({
-          url: downloadURL,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          animated: animateCheckbox.checked
-        });
-      }).then(() => {
-        alert('Overlay saved!');
-        loadUserLinks(user.uid);
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Save Overlay';
-      }).catch(err => {
-        alert('Error saving overlay: ' + err.message);
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Save Overlay';
-      });
-    });
-
-    // Load user saved overlays and display
-    function loadUserLinks(uid) {
-      userLinksDiv.innerHTML = 'Loading...';
-      db.collection('users').doc(uid).collection('links')
-        .orderBy('createdAt', 'desc')
-        .get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            userLinksDiv.innerHTML = '<p>No overlays saved yet.</p>';
-            return;
-          }
-
-          userLinksDiv.innerHTML = '';
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            const url = data.url;
-            const animated = data.animated;
-
-            const codeBlock = document.createElement('div');
-            codeBlock.className = 'code-block';
-
-            const copyBtn = document.createElement('button');
-            copyBtn.textContent = 'Copy';
-            copyBtn.className = 'copy-btn';
-            copyBtn.addEventListener('click', () => {
-              navigator.clipboard.writeText(url).then(() => {
-                copyBtn.textContent = 'Copied!';
-                setTimeout(() => (copyBtn.textContent = 'Copy'), 1500);
-              });
-            });
-
-            const pre = document.createElement('pre');
-            pre.textContent = url;
-
-            codeBlock.appendChild(copyBtn);
-            codeBlock.appendChild(pre);
-
-            userLinksDiv.appendChild(codeBlock);
-          });
-        })
-        .catch(err => {
-          userLinksDiv.innerHTML = '<p>Error loading overlays: ' + err.message + '</p>';
-        });
-    }
-
   </script>
-
-  <style>
-    /* Fade-in animation */
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-  </style>
 </body>
 </html>
