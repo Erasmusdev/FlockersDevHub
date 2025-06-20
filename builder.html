@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Overlay Creator</title>
+  <link rel="stylesheet" href="./Builder.css" />
+</head>
+<body>
+  <h1>Overlay Creator</h1>
+  <p class="subtitle">Create and save custom stream overlays</p>
+
+  <div class="card">
+    <div class="controls-wrapper">
+      <div id="premadeGrid" class="premade-grid" aria-label="Premade overlays">
+        <img src="../assets/BedroomWPT.png" alt="Beer Overlay" />
+        <img src="../assets/HallwayWPT.png" alt="Juice Overlay" />
+        <img src="../assets/Developer.jpg" alt="Hat Overlay" />
+        <img src="../assets/BathroomWOPT.png" alt="Flower Overlay" />
+      </div>
+
+      <input type="file" id="imageInput" accept="image/*" aria-label="Upload your overlay image" />
+    </div>
+
+    <label class="switch" for="animateCheckbox">
+      <input type="checkbox" id="animateCheckbox" />
+      <span class="slider"></span>
+      <span class="toggle-label">Apply animation (fade-in)</span>
+    </label>
+
+    <img id="previewImg" alt="Overlay Preview" class="overlay-preview" />
+
+    <button id="saveBtn">Save Overlay</button>
+
+    <div id="output" role="alert" aria-live="polite"></div>
+  </div>
+
+  <script src="./builder.js"></script>
+</body>
+</html>

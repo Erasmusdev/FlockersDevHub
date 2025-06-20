@@ -14,16 +14,24 @@ body {
   padding: 20px;
 }
 
+
+
 /* === Header === */
 header {
   position: relative;
   background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-  padding: 60px 20px;
+  padding: 20px 40px;  /* reduce top-bottom padding for better layout */
   color: #fff;
-  text-align: center;
+  /* Remove text-align center to allow flex */
+  /* text-align: center; */
   overflow: hidden;
   border-radius: 0 0 20px 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1; /* ensure above overlay */
 }
 
 header::before {
@@ -37,11 +45,18 @@ header::before {
 
 header h1 {
   position: relative;
-  font-size: 3rem;
+  font-size: 2.5rem; /* smaller font to fit horizontally */
   margin: 0;
-  z-index: 1;
   font-weight: 700;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 1;
 }
 
 nav a {
@@ -50,6 +65,7 @@ nav a {
   color: #00bcd4;
   padding: 0.5rem 1rem;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 nav a::after {
@@ -66,6 +82,23 @@ nav a::after {
 nav a:hover::after {
   width: 100%;
 }
+
+.login-btn {
+  background-color: #00bcd4;
+  color: #111;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 0 10px #00bcd4;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #008ba3;
+  box-shadow: 0 0 20px #008ba3;
+}
+
 
 
 /* === NAV (Mobile) === */
