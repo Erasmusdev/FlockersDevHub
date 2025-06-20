@@ -1,0 +1,92 @@
+/* login.css - matching FlockersDevHub theme */
+
+body {
+  margin: 0;
+  background: #121212;
+  color: #00c8f8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  user-select: none;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px #00c8f8;
+}
+
+#auth-container {
+  background: #1e1e1e;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 200, 248, 0.6);
+  padding: 2rem 3rem;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#auth-container input[type="email"],
+#auth-container input[type="password"] {
+  background: #2a2a2a;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  color: #00c8f8;
+  box-shadow: inset 0 0 10px #00c8f8;
+  transition: background 0.3s ease;
+}
+
+#auth-container input[type="email"]::placeholder,
+#auth-container input[type="password"]::placeholder {
+  color: #00c8f880;
+}
+
+#auth-container input[type="email"]:focus,
+#auth-container input[type="password"]:focus {
+  outline: none;
+  background: #353535;
+}
+
+#auth-container button {
+  background: #00c8f8;
+  border: none;
+  border-radius: 15px;
+  padding: 0.8rem 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #111;
+  cursor: pointer;
+  box-shadow: 0 0 20px #00c8f8;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#auth-container button:hover {
+  background: #007ca8;
+  color: #e0f7ff;
+  box-shadow: 0 0 25px #007ca8;
+}
+
+#auth-message {
+  font-weight: 600;
+  font-size: 0.95rem;
+  min-height: 1.2em;
+  text-align: center;
+}
+
+#google-login-btn {
+  background: #dd4b39;
+  box-shadow: 0 0 20px #dd4b39;
+  color: white;
+}
+
+#google-login-btn:hover {
+  background: #b73b2b;
+  box-shadow: 0 0 25px #b73b2b;
+}
