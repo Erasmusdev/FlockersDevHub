@@ -22,7 +22,7 @@
       <label class="animation-option" for="animFadeIn">
         Fade In
         <span class="toggle-switch">
-          <input type="checkbox" name="animation" value="fade-in" id="animFadeIn" />
+          <input type="radio" name="animation" value="fade-in" id="animFadeIn">
           <span class="toggle-slider"></span>
         </span>
       </label>
@@ -30,18 +30,19 @@
       <label class="animation-option" for="animSlideIn">
         Slide In
         <span class="toggle-switch">
-          <input type="checkbox" name="animation" value="slide-in" id="animSlideIn" />
+          <input type="radio" name="animation" value="slide-in" id="animSlideIn">
           <span class="toggle-slider"></span>
         </span>
       </label>
 
-      <label class="animation-option" for="animZoomIn">
-        Zoom In
+      <label class="animation-option" for="animNone">
+        None
         <span class="toggle-switch">
-          <input type="checkbox" name="animation" value="zoom-in" id="animZoomIn" />
+          <input type="radio" name="animation" value="none" id="animNone" checked>
           <span class="toggle-slider"></span>
         </span>
       </label>
+
 
     </details>
 
@@ -73,9 +74,19 @@
       <summary>Upload & Save</summary>
       <div class="upload-save-container">
         <input type="file" id="imageInput" accept="image/*" />
-        <button id="saveBtn" disabled>Save Overlay</button>
+        <button id="saveBtn">Save Overlay</button>
       </div>
     </details>
+
+    <!-- New Layers section -->
+    <details open>
+      <summary>Layers</summary>
+      <div id="layersList" class="layers-list">
+        <!-- Layers will be dynamically added here -->
+      </div>
+      <button id="addLayerBtn" title="Add current image as a new layer">Add Layer</button>
+    </details>
+
   </aside>
 
   <main class="main-content">
@@ -84,9 +95,8 @@
 
     <div class="canvas-container">
       <div class="preview-canvas" id="previewCanvas">
-        <img id="previewImg" src="./assets/STSPreview01.png" alt="Overlay Preview" />
-        <div class="tint-layer"></div>
-        <div class="overlay-caption"></div>
+        <!-- Multiple layer images will be inserted here dynamically -->
+        <!-- For backward compatibility, no single previewImg anymore -->
       </div>
     </div>
 

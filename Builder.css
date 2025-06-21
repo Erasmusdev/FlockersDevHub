@@ -186,8 +186,8 @@ p.subtitle {
 /* Preview wrapper */
 .preview-canvas {
   position: relative;
-  width: 1920;
-  height: 1080; 
+  width: 1920px;
+  height: 1080px; 
   aspect-ratio: 16 / 9; /* Keeps a nice widescreen ratio */
   margin: 0 auto 1rem;
   border-radius: 20px;
@@ -199,10 +199,48 @@ p.subtitle {
   align-items: center;
 }
 
+/* Ensure wrapper respects width/height properly */
+.layer-image-wrapper {
+  box-sizing: border-box;
+  border: 2px dashed transparent; /* Outline for selected layer can be enabled dynamically */
+}
+
+/* Optional: highlight active layer wrapper (can be toggled via JS) */
+.layer-image-wrapper.active {
+  border-color: #00c8f8;
+}
+
+/* Resize handles */
+.resize-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border: 2px solid #00c8f8;
+  border-radius: 50%;
+  box-sizing: border-box;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+}
+
+/* Handle positions */
+.resize-handle.nw { top: 0; left: 0; cursor: nwse-resize; }
+.resize-handle.ne { top: 0; right: 0; cursor: nesw-resize; }
+.resize-handle.sw { bottom: 0; left: 0; cursor: nesw-resize; }
+.resize-handle.se { bottom: 0; right: 0; cursor: nwse-resize; }
+
+/* Tint layer overlay inside each layer */
+.layer-tint {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  border-radius: 20px;
+  z-index: 2;
+}
 
 #previewImg {
-  width: 1920;
-  height: 1080; 
+  width: 1920px;
+  height: 1080px; 
   object-fit: contain;
   display: block;
   border-radius: 20px;
@@ -216,11 +254,102 @@ p.subtitle {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 200, 248, 0.5); /* default, overwritten by JS */
+  background-color: rgba(0, 200, 248, 0); /* fully transparent */
   pointer-events: none;
   border-radius: 20px;
   z-index: 2;
 }
+
+/* Layers List Container */
+.layers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background-color: #111;
+  padding: 0.5rem;
+}
+
+/* Each Layer Item */
+.layer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background-color: #222;
+  color: #ddd;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+.layer-item:hover {
+  background-color: #00c8f8;
+  color: #111;
+  box-shadow: inset 0 0 6px 2px #00c8f8;
+}
+
+/* Active Layer Highlight */
+.layer-item.active {
+  background-color: #00c8f8;
+  color: #111;
+  box-shadow: inset 0 0 10px 4px #00a1c9;
+}
+
+/* Eye icon for visibility toggle */
+.layer-item .eye-icon {
+  margin-right: 12px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+.layer-item .eye-icon:hover {
+  color: #00a1c9;
+}
+
+/* Layer caption text (flex grow to fill space) */
+.layer-item .caption-text {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Controls container (up/down buttons) */
+.layer-item .controls {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Move Up/Down Buttons */
+.layer-item .controls button {
+  background: transparent;
+  border: none;
+  color: #ddd;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  user-select: none;
+}
+.layer-item .controls button:disabled {
+  color: #555;
+  cursor: default;
+}
+.layer-item .controls button:not(:disabled):hover {
+  background-color: #00a1c9;
+  color: #111;
+}
+
 
 .overlay-caption {
   position: absolute;
@@ -237,7 +366,6 @@ p.subtitle {
   max-width: 90%;
   word-wrap: break-word;
 }
-
 
 /* Save button */
 button {
@@ -369,3 +497,41 @@ button:hover:not(:disabled) {
 .toggle-switch input[type="checkbox"]:focus + .toggle-slider {
   box-shadow: 0 0 2px 3px #00c8f8;
 }
+
+/* Layers List */
+.layers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+  border: 1px solid #333;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: #222;
+}
+.layers-list .layer-item {
+  background: #333;
+  color: #ddd;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+}
+.layers-list .layer-item:hover {
+  background: #00c8f8;
+  color: #111;
+}
+.layers-list .layer-item button {
+  background: transparent;
+  border: none;
+  color: #ddd;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
