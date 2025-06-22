@@ -5,20 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - FlockersDevHub</title>
   <link rel="stylesheet" href="./login.css" />
-  <style>
-    /* Your existing styles for login UI here */
-  </style>
+
 </head>
 <body>
-  <h1>Login</h1>
-
-  <div id="auth-container" class="card">
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button id="login-btn">Login</button>
-    <button id="register-btn">Register</button>
+  <div class="container">
+    <h1>Overlay Creator</h1>
+    <p>Create animated stream overlays with image layers, transitions, and effects in just a few clicks.</p>
     <button id="google-login-btn">Sign in with Google</button>
-    <div id="auth-message" style="color:#f66; margin-top: 1rem;"></div>
+    <div id="auth-message"></div>
   </div>
 
   <!-- Firebase SDK -->
@@ -26,73 +20,26 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyB2Z6FegNJkXIs_Fdk5Qn7DaoQtFPdpshU",
-      authDomain: "flockersdevhub-6ae8a.firebaseapp.com",
-      projectId: "flockersdevhub-6ae8a",
-      storageBucket: "flockersdevhub-6ae8a.firebasestorage.app",
-      messagingSenderId: "821197375071",
-      appId: "1:821197375071:web:9b36cee3c1e1af1f3c7dea"
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
     };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const loginBtn = document.getElementById('login-btn');
-    const registerBtn = document.getElementById('register-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
     const authMessage = document.getElementById('auth-message');
-
-    registerBtn.addEventListener('click', () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-      if (!email || !password) {
-        authMessage.style.color = '#f66';
-        authMessage.textContent = 'Please enter email and password.';
-        return;
-      }
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          authMessage.style.color = '#0f0';
-          authMessage.textContent = 'Registration successful! You can now log in.';
-        })
-        .catch(err => {
-          authMessage.style.color = '#f66';
-          authMessage.textContent = err.message;
-        });
-    });
-
-    loginBtn.addEventListener('click', () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-      if (!email || !password) {
-        authMessage.style.color = '#f66';
-        authMessage.textContent = 'Please enter email and password.';
-        return;
-      }
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          authMessage.textContent = '';
-          // Redirect to builder page after login
-          window.location.href = 'builder.html';
-        })
-        .catch(err => {
-          authMessage.style.color = '#f66';
-          authMessage.textContent = err.message;
-        });
-    });
 
     googleLoginBtn.addEventListener('click', () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
         .then(() => {
-          authMessage.textContent = '';
-          // Redirect on successful Google login
           window.location.href = 'builder.html';
         })
         .catch(err => {
-          authMessage.style.color = '#f66';
           authMessage.textContent = err.message;
         });
     });

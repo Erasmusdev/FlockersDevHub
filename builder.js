@@ -1,12 +1,11 @@
 // Firebase config (replace with your actual config)
 const firebaseConfig = {
-  apiKey: "AIzaSyB2Z6FegNJkXIs_Fdk5Qn7DaoQtFPdpshU",
-  authDomain: "flockersdevhub-6ae8a.firebaseapp.com",
-  projectId: "flockersdevhub-6ae8a",
-  storageBucket: "flockersdevhub-6ae8a.firebasestorage.app",
-  messagingSenderId: "821198356849",
-  appId: "1:821198356849:web:ebdc5eaf96b9a5ca279f59",
-  measurementId: "G-T58RYJJGVC",
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 firebase.initializeApp(firebaseConfig);

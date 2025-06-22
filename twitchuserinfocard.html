@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Easy Goal V2 | Unreal Dev Hub</title>
+  <title>[FD] Twitch User Card | Unreal Dev Hub</title>
   <link rel="stylesheet" href="style.css" />
+
 </head>
 <body>
   <header>
     <div class="container">
-      <h1>Easy Goal For Ko-fi V2</h1>
+      <h1>Twitch User Info Card</h1>
       <nav>
         <a href="./index.html">Home</a>
         <a href="./projects.html">Projects</a>
@@ -22,8 +23,8 @@
   <main class="container product-page">
     <!-- Hero -->
     <section class="hero">
-      <h2>🎯 Stylish & Animated Ko-fi Goal Widget</h2>
-      <p>Perfect for spooky streams, charity events, and fun audience engagement.</p>
+      <h2>🎯 Twitch User Info Card</h2>
+      <p>Enhance your Twitch streaming experience with our comprehensive OBS stream overlay widget.</p>
       <a href="https://ko-fi.com/s/b38925f84f" class="btn" target="_blank">🎁 Download Easy Goal</a>
     </section>
 
@@ -37,51 +38,59 @@
     <section class="card-section">
       <h3>✨ Key Features</h3>
       <ul class="icon-list">
-        <li>🎨 Fully customizable color palette</li>
-        <li>💉 Fluid blood-bag animation on goal progress</li>
-        <li>⚙️ Easy to configure with Streamer.bot</li>
-        <li>📊 Live progress animation</li>
-        <li>🧰 Lightweight and modern visual style</li>
+        <li>🎨 Total bits spent</li>
+        <li>💉 Channel points used</li>
+        <li>⚙️ Subscription duration</li>
+        <li>📊 Messages sent in chat</li>
+        <li>🧰 Most recent emote (coming soon)</li>
       </ul>
     </section>
 
+    <!-- Gallery -->
+    <section class="card-section">
+      <h3>🖼️ Example Previews</h3>
+        <div class="video-embed">
+          <iframe width="560" height="350" 
+            src="https://www.youtube.com/embed/YuKqFibLa2Y?si=0HAp7tMac37TDPk4" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      <div class="gallery">
+        <img class="modal-target" src="./assets/Infocard01.png" alt="" />
+        <img class="modal-target" src="./assets/Infocard02.png" alt="" />
 
-<section class="card-section">
-  <h3>🖼️ Example Previews</h3>
-      <div class="video-embed">
-      <iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/yR0ZsyRgBnQ?si=Lu-6APdo6UzfrU5f" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen>
-      </iframe>
-    </div>
-  <div class="gallery">
-    <img  class="modal-target" src="./assets/Easygoalexample.png" alt="Goal Tracker Preview 1" />
-  </div>
-</section>
+      </div>
+    </section>
 
-
- 
+    <!-- Code Block -->
     <section class="card-section">
       <div class="code-block">
         <h3>🔧 Streamer.bot Import</h3>
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre><code>[ Insert your encoded streamer.bot asset string here ]</code></pre>
+        <pre><code>[import code comes here] (coming soon)</code></pre>
       </div>
     </section>
 
+    <!-- Download -->
+    <section>
+      <h3>Download & Setup (Optional)</h3>
+      <p>Download the script and import it into Streamer.bot. Includes setup instructions.</p>
+      <a href="./assets/[FD]Twitch-Info-CardV0.0.6.7z" class="btn">Download Package</a>
+    </section>
 
+    <!-- FAQ -->
     <section class="card-section">
       <h3>❓ Frequently Asked Questions</h3>
       <details>
         <summary>🛡️ Is this paid?</summary>
         <p>No, this tool is free! Donations are welcome on Ko-fi to help support development.</p>
       </details>
+      
     </section>
-
   </main>
 
   <footer>
