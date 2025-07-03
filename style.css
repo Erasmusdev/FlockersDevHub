@@ -215,8 +215,74 @@ nav a:hover::after {
 }
 
 
-
-
+    .gallery-slider {
+      max-width: 800px;
+      margin: 30px auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    #slider-img {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: opacity 0.5s ease;
+      display: block;
+    }
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+    }
+    .lightbox.active {
+      display: flex;
+    }
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+    .lightbox-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+    }
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      color: white;
+      font-size: 2.5rem;
+      user-select: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .lightbox-close:hover,
+    .lightbox-nav:hover {
+      color: #38ebff;
+    }
+    .lightbox-close {
+      top: -40px;
+      right: 0;
+    }
+    .lightbox-nav.prev {
+      top: 50%;
+      left: -50px;
+      transform: translateY(-50%);
+    }
+    .lightbox-nav.next {
+      top: 50%;
+      right: -50px;
+      transform: translateY(-50%);
+    }
 .meet-the-team {
   max-width: 1100px;
   margin: 60px auto;
@@ -419,48 +485,8 @@ footer {
   z-index: 2;
 }
 
-/* === Gallery Grid (Bigger images) === */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 15px;
-  margin-top: 30px;
-  perspective: 1200px;
-}
 
-.gallery img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  cursor: pointer;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease;
-}
 
-.gallery img:hover {
-  transform: scale(1.05);
-}
-
-/* === Responsive Nav & Gallery === */
-@media screen and (max-width: 600px) {
-  nav a {
-    display: block;
-    margin: 10px 0;
-  }
-
-  .hero h2 {
-    font-size: 1.5rem;
-  }
-
-  .gallery {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  }
-
-  .gallery img {
-    height: 180px;
-  }
-}
 
 /* === Dark Mode Support === */
 body.dark-mode {
@@ -495,10 +521,6 @@ body.dark-mode .btn:hover {
 /* (The rest of your CSS remains unchanged) */
 
 
-/* === Added 3D Modern Cards Styles for .gallery and .card === */
-.gallery {
-  perspective: 1200px;
-}
 
 .card {
   background: linear-gradient(145deg, #22272e, #181c20);
@@ -1078,24 +1100,7 @@ body.dark-mode .card:hover {
 }
 
 
-.gallery-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-top: 2rem;
-}
 
-.gallery-description {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-  color: #ccc;
-}
-
-.gallery-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
 
 .comparison-card {
   background-color: #1e1e1e;
@@ -1171,11 +1176,3 @@ body.dark-mode .card:hover {
       color: #ccc;
     }
 
-    .gallery img {
-      cursor: zoom-in;
-      transition: transform 0.2s;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.02);
-    }

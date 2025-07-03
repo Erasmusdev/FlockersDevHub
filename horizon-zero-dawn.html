@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Horizon Zero Dawn Reshade - Gallery</title>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Horizon Zero Dawn Reshade</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./tutorials.html">Tutorials</a>
+        <a href="./contact.html">Contact</a>
+        <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+        <script>
+          kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+          kofiwidget2.draw();
+        </script>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product-page">
+    <!-- Hero -->
+    <section class="hero">
+      <h2>🎯 Horizon Zero Down Reshade</h2>
+      <p>Perfect for the best gaming experience.</p>
+      <a href="./assets/HRZDCollorThune-308-1-0-1729523905.zip" class="btn" target="_blank">🎁 Download Reshade</a>
+    </section>
+
+<!-- Description -->
+<section class="card-section">
+  <h2>Balanced ReShade for Horizon Zero Dawn</h2>
+  <p><strong>HRZD Collor-Thune</strong> is a lightweight <strong>ReShade</strong> profile crafted to subtly enhance the visual tone of Horizon Zero Dawn.</p>
+  <p>This mod focuses on creating a more balanced and natural color palette. The base game can sometimes appear overly bright or saturated, which may detract from the beautiful in-game environments. This ReShade aims to correct that by smoothing out intensity for a cleaner, more realistic presentation.</p>
+
+  <h3>Features:</h3>
+  <ul>
+    <li><strong>Balanced Color Palette:</strong> Reduces overly bright or blown-out visuals for a more cohesive look.</li>
+    <li><strong>Enhanced Visual Depth:</strong> Tweaked contrast and brightness bring out subtle environmental details without breaking immersion.</li>
+    <li><strong>Easy Installation:</strong> Drop the files into your game directory—no complicated setup required.</li>
+    <li><strong>Low Performance Impact:</strong> Optimized to maintain smooth frame rates across most systems.</li>
+  </ul>
+
+  <p>This is a great choice for players seeking a more grounded and visually refined experience, while staying true to the original artistic direction of the game.</p>
+</section>
+
+
+    <!-- Features -->
+    <section class="card-section">
+      <h3>✨ Key Features</h3>
+      <ul class="icon-list">
+        <li>⚙️ Easy to install</li>
+        <li>📊 Light On Performance</li>
+      </ul>
+    </section>
+
+    <!-- Example Previews with Slideshow -->
+    <section class="card-section">
+      <h3>🖼️ Example Previews</h3>
+      <section class="gallery-slider" id="gallery-slider">
+        <img id="slider-img" src="" alt="Gallery Image" />
+      </section>
+    </section>
+
+    <section class="card-section">
+      <div class="code-block">
+        <h3>🔧 Discord invite</h3>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>discord.me/unreald</code></pre>
+      </div>
+    </section>
+
+    <section class="card-section">
+      <h3>❓ Frequently Asked Questions</h3>
+      <details>
+        <summary>🛡️ Is this paid?</summary>
+        <p>No, this is free! Donations are welcome on Ko-fi to help support development.</p>
+      </details>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <span class="lightbox-close" id="lightbox-close">&times;</span>
+      <span class="lightbox-nav prev" id="lightbox-prev">&#10094;</span>
+      <img id="lightbox-img" src="" alt="" />
+      <span class="lightbox-nav next" id="lightbox-next">&#10095;</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+  </footer>
+
+    <script>
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => (button.innerText = "Copy"), 2000);
+      });
+    }
+  </script>
+
+  <script>
+async function loadSlideshow(jsonPath = './json/hrzd.json') {
+  try {
+    const res = await fetch(jsonPath);
+    const data = await res.json();
+
+    const images = Object.values(data).map(obj => `./assets/reshades/hrzd/${obj.webp}`);
+
+    let currentIndex = 0;
+
+    const sliderImg = document.getElementById('slider-img');
+    const gallerySlider = document.getElementById('gallery-slider');
+
+    let autoCycleInterval;
+    let autoCycleDelay = 4000; // 4 seconds per slide
+    let manualNavTimeout;
+
+    // Show the current image with fade effect
+    function showImage(index) {
+      sliderImg.style.opacity = 0;
+      setTimeout(() => {
+        sliderImg.src = images[index];
+        sliderImg.style.opacity = 1;
+        currentIndex = index;
+      }, 250);
+    }
+
+    // Automatically advance to next image
+    function startAutoCycle() {
+      stopAutoCycle(); // clear any existing interval first
+      autoCycleInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      }, autoCycleDelay);
+    }
+
+    // Stop automatic cycling
+    function stopAutoCycle() {
+      if (autoCycleInterval) {
+        clearInterval(autoCycleInterval);
+        autoCycleInterval = null;
+      }
+    }
+
+    // When user manually clicks, go prev or next and pause auto cycling temporarily
+    gallerySlider.addEventListener('click', e => {
+      const rect = gallerySlider.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      stopAutoCycle();
+      if (clickX < rect.width / 2) {
+        // Previous image
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+      } else {
+        // Next image
+        currentIndex = (currentIndex + 1) % images.length;
+      }
+      showImage(currentIndex);
+
+      // Restart auto cycle after a short delay (e.g., 6 seconds)
+      if (manualNavTimeout) clearTimeout(manualNavTimeout);
+      manualNavTimeout = setTimeout(() => {
+        startAutoCycle();
+      }, 6000);
+    });
+
+    // Open lightbox on image double-click
+    sliderImg.addEventListener('dblclick', () => {
+      openLightbox(currentIndex);
+    });
+
+    // Keyboard navigation for slider
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') {
+        stopAutoCycle();
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+        if (manualNavTimeout) clearTimeout(manualNavTimeout);
+        manualNavTimeout = setTimeout(() => {
+          startAutoCycle();
+        }, 6000);
+      } else if (e.key === 'ArrowRight') {
+        stopAutoCycle();
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+        if (manualNavTimeout) clearTimeout(manualNavTimeout);
+        manualNavTimeout = setTimeout(() => {
+          startAutoCycle();
+        }, 6000);
+      }
+    });
+
+    // Initialize with first image
+    showImage(currentIndex);
+    startAutoCycle();
+
+
+        // Lightbox code below
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('lightbox-close');
+        const prevLightboxBtn = document.getElementById('lightbox-prev');
+        const nextLightboxBtn = document.getElementById('lightbox-next');
+
+        function openLightbox(index) {
+          lightboxImg.src = images[index];
+          lightbox.classList.add('active');
+          currentIndex = index;
+        }
+
+        function closeLightbox() {
+          lightbox.classList.remove('active');
+          lightboxImg.src = '';
+        }
+
+        function nextLightbox() {
+          currentIndex = (currentIndex + 1) % images.length;
+          lightboxImg.src = images[currentIndex];
+        }
+
+        function prevLightbox() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          lightboxImg.src = images[currentIndex];
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+        nextLightboxBtn.addEventListener('click', nextLightbox);
+        prevLightboxBtn.addEventListener('click', prevLightbox);
+
+        lightbox.addEventListener('click', e => {
+          if (e.target === lightbox) closeLightbox();
+        });
+  } catch (err) {
+    console.error('Slideshow loading error:', err);
+  }
+}
+    loadSlideshow();
+  </script>
+</body>
+</html>
