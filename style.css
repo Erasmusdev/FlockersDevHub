@@ -150,7 +150,7 @@ nav a:hover::after {
 /* === Hero Section (Home) === */
 .hero {
   position: relative;
-  background: url('https://media.discordapp.net/attachments/1273694996872167485/1385771082396602448/image.png?ex=685898e4&is=68574764&hm=beb5172a2fc818176ae4a79ada97fdd4696fb5afa1c899dcff88f6928bc31a38&=&format=webp&quality=lossless&width=2315&height=1216') no-repeat center center/cover;
+  background: url('./assets/STSPreview03.png') no-repeat center center/cover;
   color: #fff;
   height: 400px;
   display: flex;
