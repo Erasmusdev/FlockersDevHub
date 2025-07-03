@@ -164,6 +164,7 @@ nav a:hover::after {
   overflow: hidden;
 }
 
+
 .hero::before {
   content: "";
   position: absolute;
@@ -213,6 +214,143 @@ nav a:hover::after {
   background-color: #019bb2;
   box-shadow: 0 8px 25px rgba(1, 155, 178, 0.7);
 }
+
+
+/* === Hero Section (herohlar) === */
+.herohlar {
+  position: relative;
+  background: url('./assets/reshades/hlax/21-1722731134-1010357683.webp') no-repeat center center/cover;
+  color: #fff;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  border-radius: 50px 50px 50px 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.herohlar::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.5); /* overlay for contrast */
+  z-index: 0;
+  border-radius: 0 0 20px 20px;
+}
+
+.herohlar h2 {
+  position: relative;
+  font-size: 3rem;
+  margin: 0 0 10px;
+  font-weight: 700;
+  z-index: 1;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+}
+
+.herohlar p {
+  position: relative;
+  font-size: 1.25rem;
+  margin: 0 0 25px;
+  z-index: 1;
+  font-weight: 300;
+  max-width: 700px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.herohlar .btn {
+  position: relative;
+  background-color: #00bcd4;
+  color: #fff;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 188, 212, 0.5);
+}
+
+.herohlar .btn:hover {
+  background-color: #019bb2;
+  box-shadow: 0 8px 25px rgba(1, 155, 178, 0.7);
+}
+
+
+/* === Hero Section (herohrzd) === */
+.herohrzd {
+  position: relative;
+  background: url('./assets/reshades/hrzd/308-1729523652-1723280407.webp') no-repeat center center/cover;
+  color: #fff;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  border-radius: 50px 50px 50px 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.herohrzd::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.5); /* overlay for contrast */
+  z-index: 0;
+  border-radius: 0 0 20px 20px;
+}
+
+.herohrzd h2 {
+  position: relative;
+  font-size: 3rem;
+  margin: 0 0 10px;
+  font-weight: 700;
+  z-index: 1;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+}
+
+.herohrzd p {
+  position: relative;
+  font-size: 1.25rem;
+  margin: 0 0 25px;
+  z-index: 1;
+  font-weight: 300;
+  max-width: 700px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.herohrzd .btn {
+  position: relative;
+  background-color: #00bcd4;
+  color: #fff;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 188, 212, 0.5);
+}
+
+.herohrzd .btn:hover {
+  background-color: #019bb2;
+  box-shadow: 0 8px 25px rgba(1, 155, 178, 0.7);
+}
+
 
 
     .gallery-slider {
