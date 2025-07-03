@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="./style.css" />
-  <title>Horizon Zero Dawn Reshade - Gallery</title>
+  <title>CyberPunk | NeonDusk - Gallery</title>
 </head>
 <body>
   <header>
     <div class="container">
-      <h1>Horizon Zero Dawn Reshade</h1>
+      <h1>CyberPunk | NeonDusk</h1>
       <nav>
         <a href="./index.html">Home</a>
         <a href="./projects.html">Projects</a>
@@ -25,15 +25,15 @@
 
   <main class="container product-page">
     <!-- Hero -->
-    <section class="herohrzd">
-      <h2>🎯 Horizon Zero Down Reshade</h2>
+    <section class="NeonDusk">
+      <h2>🎯 CyberPunk Reshade | NeonDusk</h2>
       <p>Perfect for the best gaming experience.</p>
     </section>
 
 <!-- Description -->
 <section class="card-section">
-  <h2>Balanced ReShade for Horizon Zero Dawn</h2>
-  <p><strong>HRZD Collor-Thune</strong> is a lightweight <strong>ReShade</strong> profile crafted to subtly enhance the visual tone of Horizon Zero Dawn.</p>
+  <h2>Enhanced visuals ReShade for CyberPunk</h2>
+  <p><strong>NeonDusk</strong> is a lightweight <strong>ReShade</strong> profile crafted to subtly enhance the visual tone of CyberPunk.</p>
   <p>This mod focuses on creating a more balanced and natural color palette. The base game can sometimes appear overly bright or saturated, which may detract from the beautiful in-game environments. This ReShade aims to correct that by smoothing out intensity for a cleaner, more realistic presentation.</p>
 
   <h3>Features:</h3>
@@ -58,15 +58,15 @@
     </section>
         <section class="card-section">
       <div class="code-block">
-        <h3>ℹ️ HRZD Collor-Thune | Version Info</h3>
+        <h3>ℹ️ NeonDusk Reshade | Version Info</h3>
       <ul class="icon-list">
-        <li> Filename | HRZD Collor-Thune</li>
+        <li> Filename | NeonDusk</li>
         <li> Category | Full Version</li>
         <li> Author | Flockers Design</li>
         <li> Updated | June 3th, 2025</li>
-        <li> Size | 5.83 KB</li>
+        <li> Size | 5KB</li>
       </ul>
-        <a href="./assets/HRZDCollorThune-308-1-0-1729523905.zip" target="_blank">
+        <a href="./assets/NeonDusk-8783-1-0-1689356721.zip" target="_blank">
         <img src="./assets/DownloadButton2.png" width="300" height="70" />
       </a>
      </div>
@@ -116,12 +116,12 @@
   </script>
 
   <script>
-async function loadSlideshow(jsonPath = './json/hrzd.json') {
+async function loadSlideshow(jsonPath = './json/NeonDusk.json') {
   try {
     const res = await fetch(jsonPath);
     const data = await res.json();
 
-    const images = Object.values(data).map(obj => `./assets/reshades/hrzd/${obj.webp}`);
+    const images = Object.values(data).map(obj => `./assets/reshades/NeonDusk/${obj.webp}`);
 
     let currentIndex = 0;
 

@@ -352,6 +352,74 @@ nav a:hover::after {
 }
 
 
+/* === Hero Section (NeonDusk) === */
+.NeonDusk {
+  position: relative;
+  background: url('./assets/reshades/NeonDusk/8783-1689356332-1395055117.webp') no-repeat center center/cover;
+  color: #fff;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  border-radius: 50px 50px 50px 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+
+.NeonDusk::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.5); /* overlay for contrast */
+  z-index: 0;
+  border-radius: 0 0 20px 20px;
+}
+
+.NeonDusk h2 {
+  position: relative;
+  font-size: 3rem;
+  margin: 0 0 10px;
+  font-weight: 700;
+  z-index: 1;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+}
+
+.NeonDusk p {
+  position: relative;
+  font-size: 1.25rem;
+  margin: 0 0 25px;
+  z-index: 1;
+  font-weight: 300;
+  max-width: 700px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.NeonDusk .btn {
+  position: relative;
+  background-color: #00bcd4;
+  color: #fff;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 188, 212, 0.5);
+}
+
+.NeonDusk .btn:hover {
+  background-color: #019bb2;
+  box-shadow: 0 8px 25px rgba(1, 155, 178, 0.7);
+}
+
 
     .gallery-slider {
       max-width: 800px;
