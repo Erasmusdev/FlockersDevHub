@@ -19,7 +19,7 @@ body {
 /* === Header === */
 header {
   position: relative;
-  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+  background: url('https://media.istockphoto.com/id/1222031200/nl/vector/de-achtergrond-van-de-ruimte-fantastische-buitenmening-met-realistische-heldere-sterren-en.jpg?s=1024x1024&w=is&k=20&c=dlIsvFdUcUwSiH8YCBKpwPMyG-Ob0buUcXqGrJcEFb0=') no-repeat center center/cover;
   padding: 20px 40px;  /* reduce top-bottom padding for better layout */
   color: #fff;
   /* Remove text-align center to allow flex */
@@ -51,6 +51,8 @@ header h1 {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   z-index: 1;
 }
+
+
 
 .header-right {
   display: flex;
@@ -1382,3 +1384,86 @@ body.dark-mode .card:hover {
       color: #ccc;
     }
 
+/* Partner Section Styles */
+.partner-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Partner Card Styles */
+.partner-card {
+  background: #1b1b1b;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(56, 235, 255, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(56, 235, 255, 0.25);
+}
+
+.partner-card h3 {
+  color: #38ebff;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.partner-card p {
+  color: #ccc;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Updated: Remove position relative from links to avoid conflicts */
+.partner-card a {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0; /* reset margin since we'll space with flex gap */
+  text-decoration: none; /* optional, cleaner look */
+  cursor: pointer;
+}
+
+/* Twitch Embed Styling */
+.twitch-embed {
+  display: flex;              /* new: enable flex layout */
+  flex-direction: column;     /* stack iframe and button vertically */
+  align-items: center;        /* center horizontally */
+  gap: 1rem;                  /* space between iframe and button */
+}
+
+.twitch-embed iframe {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  height: 300px;
+  max-height: 100%;
+}
+
+/* Footer Styling */
+footer {
+  background: #111;
+  text-align: center;
+  padding: 1rem 0;
+  border-top: 1px solid #333;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Small Screen Adjustments */
+@media (max-width: 768px) {
+  .partner-container {
+    grid-template-columns: 1fr;
+  }
+  .partner-card {
+    padding: 1rem;
+  }
+}
