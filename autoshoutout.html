@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[FD] AutoShoutout | Install Guide</title>
+  <link rel="icon" href="./assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>[FD] AutoShoutout</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./contact.html">Contact</a>
+        <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+        <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');kofiwidget2.draw();</script> 
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product-page">
+
+    <section class="hero">
+      <h2>📣 AutoShoutout Installation Guide</h2>
+      <p>Automate Twitch shoutouts with personalized overlays and audio! This guide helps you install and configure AutoShoutout using Streamer.bot and OBS.</p>
+      <a href="https://discord.me/unreald" class="btn" target="_blank">🎁 Join Discord</a>
+    </section>
+
+    <section class="card-section">
+      <h3>What is AutoShoutout?</h3>
+      <p><strong>AutoShoutout</strong> is a Streamer.bot automation that detects when a Twitch streamer enters your chat and automatically plays a customizable overlay, audio cue, and typed message — all hands-free.</p>
+    </section>
+
+    <section class="card-section">
+      <h3>Installation Overview</h3>
+      <ol>
+        <li>Download the AutoShoutout .zip package</li>
+        <li>Import the `.sba` file into Streamer.bot</li>
+        <li>Connect your Twitch account in Streamer.bot</li>
+        <li>Customize overlay text and audio</li>
+        <li>Enable the action trigger: <strong>On Twitch Chat Message</strong></li>
+      </ol>
+    </section>
+
+    <section class="card-section">
+      <h3>Required Software</h3>
+      <ul>
+        <li>Streamer.bot (latest version)</li>
+        <li>OBS Studio (with WebSocket plugin)</li>
+        <li>Twitch account connected to Streamer.bot</li>
+      </ul>
+    </section>
+
+    <section class="card-section">
+      <h3>Setting Up the Action</h3>
+      <ol>
+        <li>Open Streamer.bot</li>
+        <li>Go to <code>Actions</code> > <code>Import</code> > Select the provided `.sba` file</li>
+        <li>Edit the action to personalize overlays or add audio</li>
+        <li>Ensure OBS WebSocket is enabled and authenticated</li>
+        <li>Test with a friend or an alt Twitch account</li>
+      </ol>
+    </section>
+
+    <section class="card-section">
+      <h3>Customization Tips</h3>
+      <ul>
+        <li>Add sound effects using <strong>OBS Source Toggle</strong> or <strong>Play Sound</strong></li>
+        <li>Use the {user} tag for dynamic usernames</li>
+        <li>Combine with OBS filters for animations</li>
+        <li>Create a whitelist of VIPs/Streamers if needed</li>
+      </ul>
+    </section>
+
+    <section class="card-section">
+      <h3>FAQ</h3>
+      <details>
+        <summary>Does this require OBS?</summary>
+        <p>Yes, OBS is required if you're using overlays. Audio-only shoutouts can work without it.</p>
+      </details>
+      <details>
+        <summary>Can I control who gets a shoutout?</summary>
+        <p>Yes, you can edit the C# subaction to check against a list of usernames, roles, or categories.</p>
+      </details>
+      <details>
+        <summary>Will it repeat if someone chats multiple times?</summary>
+        <p>No. It only triggers once per user per stream session unless you reset the tracking variable manually.</p>
+      </details>
+    </section>
+
+    <section class="card-section">
+      <div class="code-block">
+        <h3>📦 Version Info</h3>
+        <ul class="icon-list">
+          <li>Filename | ADVSO</li>
+          <li>Category | Twitch Automation</li>
+          <li>Version | V0.0.6</li>
+          <li>Author | Flockers Design</li>
+          <li>Updated | April 12th, 2025</li>
+          <li>Size | 12KB</li>
+        </ul>
+        <a href="./assets/ADVSO-V0.0.6.7z" target="_blank">
+        <img src="./assets/Download.png" width="300" height="70" />
+        </a>
+      </div>
+    </section>
+
+    <div class="code-block">
+              <h3>Streamerbot Import Code (Optional)</h3>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>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</code></pre>
+      </div>
+    </section>
+
+
+<section class="card-section">
+  <h3>🖼️ Install Tutorial</h3>
+      <div class="video-embed">
+      <iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/4aIm5eIaZhY?si=Lu-6APdo6UzfrU5f" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+  </footer>
+
+    <script>
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => (button.innerText = "Copy"), 2000);
+      });
+    }
+  </script>
+</body>
+</html>
