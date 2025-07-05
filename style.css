@@ -1427,17 +1427,17 @@ body.dark-mode .card:hover {
   color: #ccc;
   font-size: 0.95rem;
   line-height: 1.5;
-  margin: 0; /* reset margin since we'll space with flex gap */
-  text-decoration: none; /* optional, cleaner look */
+  margin: 0; 
+  text-decoration: none; 
   cursor: pointer;
 }
 
 /* Twitch Embed Styling */
 .twitch-embed {
-  display: flex;              /* new: enable flex layout */
-  flex-direction: column;     /* stack iframe and button vertically */
-  align-items: center;        /* center horizontally */
-  gap: 1rem;                  /* space between iframe and button */
+  display: flex;             
+  flex-direction: column;    
+  align-items: center;       
+  gap: 1rem;                 
 }
 
 .twitch-embed iframe {
