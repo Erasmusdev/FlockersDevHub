@@ -577,6 +577,7 @@ footer {
   color: #aaa;
 }
 
+
 /* === Project Grid === */
 .project-grid {
   display: grid;
@@ -584,6 +585,17 @@ footer {
   gap: 30px;
   margin-top: 30px;
   perspective: 1200px; /* added for 3D effect */
+}
+
+.project-section {
+  margin-bottom: 3rem;
+}
+
+.project-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
 }
 
 /* Updated Project Card with 3D Modern Card style */

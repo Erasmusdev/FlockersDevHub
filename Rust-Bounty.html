@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>[FD] Bounty Plugin | Unreal Dev Hub</title>
+  <link rel="icon" href="./assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>[FD] Rust Bounty Plugin</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./contact.html">Contact</a>
+        <script src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+        <script>
+          kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+          kofiwidget2.draw();
+        </script>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product-page">
+    <!-- Hero -->
+    <section class="hero">
+      <h2>🎯 Rust Bounty System</h2>
+      <p>Spice up your Rust server with a fully functional bounty system! Reward players for hunting down targets — PvP has never been more thrilling.</p>
+      <a href="https://discord.me/unreald" class="btn" target="_blank">🎁 Join Discord</a>
+    </section>
+
+    <!-- Plugin Summary -->
+    <section>
+      <h2>🏹 What Is It?</h2>
+      <p>
+        The <strong>[FD] Bounty Plugin</strong> is a custom Rust plugin for Oxide/uMod (or Carbon) that allows players to place and collect bounties on each other.
+        When a bounty is placed on a player, others can see it and claim rewards by eliminating that target.
+      </p>
+      <p>
+        Perfect for PvP-focused servers, bounty boards, or survival challenges. Fully customizable via config.
+      </p>
+    </section>
+
+    <!-- Key Features -->
+    <section>
+      <h3>✨ Features</h3>
+      <ul>
+        <li> Players can place bounties on others using commands</li>
+        <li> Automatically rewards killer with bounty reward</li>
+        <li> Configurable currency: scrap, economics, server rewards, etc.</li>
+        <li> Broadcasts bounty announcements server-wide (optional)</li>
+        <li> API hooks for integration with discord</li>
+        <li> Easy to install and update</li>
+      </ul>
+    </section>
+
+    <!-- Installation -->
+    <section>
+      <h3>📦 Installation</h3>
+      <ol>
+        <li>Download the plugin from below.</li>
+        <li>Upload the <code>.cs</code> file to your server’s <code>/oxide/plugins</code> folder (or <code>/carbon/plugins</code>).</li>
+        <li>modify settngs <code>BountySystem.json</code> Here you can change the min max ammount and the Discord Webhook.</li>
+        <li>Restart the server or use <code>/oxide.reload BountyPlugin</code> (replace name as needed).</li>
+
+      </ol>
+    </section>
+
+    <!-- Requirements -->
+    <section>
+      <h3>🔧 Dependencies (Recommended/Optional)</h3>
+      <ul>
+        <li><strong>oxide</strong> </li>
+        <li><strong>ServerRewards</strong> (optional reward currency)</li>
+        <li><strong>PermissionsManager</strong> (to limit who can place bounties)</li>
+      </ul>
+    </section>
+
+    <!-- How it Works -->
+    <section>
+      <h3>⚙️ How It Works</h3>
+      <ul>
+        <li>Players type <code>/bounty add [player] [amount]</code> to place a bounty.</li>
+        <li>The bounty is publicly listed or optionally hidden.</li>
+        <li>When a bounty target is killed, the killer receives the reward automatically.</li>
+        <li>Admins can configure cooldowns, minimum amounts, reward types, and more via config file.</li>
+      </ul>
+    </section>
+
+    <!-- Download -->
+    <section class="card-section">
+      <div class="code-block">
+        <h3>📥 Download</h3>
+        <ul class="icon-list">
+          <li><strong>Filename</strong> | BountyPlugin.cs</li>
+          <li><strong>Category</strong> | Rust Plugin</li>
+          <li><strong>Version</strong> | V1.0</li>
+          <li><strong>Author</strong> | Flockers Design</li>
+          <li><strong>Updated</strong> | July 2025</li>
+          <li><strong>Size</strong> | ~12 KB</li>
+        </ul>
+        <a href="./assets/PlayerBountyV1.0.4.zip" target="_blank">
+          <img src="./assets/Download.png" width="300" height="70" />
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+      <h3>❓ FAQ</h3>
+      <details>
+        <summary>Can I limit who can use bounty commands?</summary>
+        <p>Yes! Use Oxide permissions to restrict access to specific player groups or admins only.</p>
+      </details>
+      <details>
+        <summary>Does it support clans or teams?</summary>
+        <p>Currently, individual tracking is supported. Integration with Clans or Teams plugin is being explored.</p>
+      </details>
+      <details>
+        <summary>What happens if a player logs out with a bounty?</summary>
+        <p>The bounty remains active until it’s claimed or canceled manually.</p>
+      </details>
+    </section>
+
+  </main>
+</body>
+</html>
