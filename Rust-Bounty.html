@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>[FD] Bounty Plugin | Unreal Dev Hub</title>
-  <link rel="icon" href="./assets/favicon.png" type="image/png">
+  <link rel="icon" href="./assets/favicon.png" type="image/png" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
@@ -42,19 +42,23 @@
       <p>
         Perfect for PvP-focused servers, bounty boards, or survival challenges. Fully customizable via config.
       </p>
-      <img src="./assets/20250708002008_1.jpg" width="1000" height="600" />
+      <img src="./assets/20250708002008_1.jpg" width="1000" height="600" alt="Rust Bounty Plugin Screenshot" />
     </section>
 
     <!-- Key Features -->
     <section>
       <h3>✨ Features</h3>
       <ul>
-        <li> Players can place bounties on others using commands</li>
-        <li> Automatically rewards killer with bounty reward</li>
-        <li> Configurable currency: scrap, economics, server rewards, etc.</li>
-        <li> Broadcasts bounty announcements server-wide (optional)</li>
-        <li> API hooks for integration with discord</li>
-        <li> Easy to install and update</li>
+        <li>Players can place bounties on others using simple chat commands.</li>
+        <li>Automatically rewards the killer with the bounty reward item.</li>
+        <li>Configurable reward currency (default: scrap) and bounty limits.</li>
+        <li>Cooldown system to prevent bounty spam.</li>
+        <li>Optional server-wide broadcast messages on bounty placement.</li>
+        <li>Discord webhook integration for bounty notifications.</li>
+        <li>Admin commands for removing bounties manually.</li>
+        <li>Prevents placing bounties on offline players (configurable).</li>
+        <li>Delayed reward payout on self-kill to prevent abuse.</li>
+        <li>Localization and permission support via Oxide/uMod API.</li>
       </ul>
     </section>
 
@@ -62,34 +66,76 @@
     <section>
       <h3>📦 Installation</h3>
       <ol>
-        <li>Download the plugin from below.</li>
+        <li>Download the plugin <code>BountySystem.cs</code> file from below.</li>
         <li>Upload the <code>.cs</code> file to your server’s <code>/oxide/plugins</code> folder (or <code>/carbon/plugins</code>).</li>
-        <li>modify settngs <code>BountySystem.json</code> Here you can change the min max ammount and the Discord Webhook.</li>
-        <li>Restart the server or use <code>/oxide.reload BountyPlugin</code> (replace name as needed).</li>
-
+        <li>Edit the config file <code>BountySystem.json</code> to customize settings such as minimum/maximum bounty amounts, cooldown time, reward item, and Discord webhook URL.</li>
+        <li>Restart the server or reload the plugin using <code>/oxide.reload BountySystem</code>.</li>
+        <li>Set up permissions with <code>bountysystem.use</code> to control who can place bounties.</li>
       </ol>
     </section>
 
-    <!-- Requirements -->
+    <!-- Dependencies -->
     <section>
       <h3>🔧 Dependencies (Recommended/Optional)</h3>
       <ul>
-        <li><strong>oxide</strong> </li>
-        <li><strong>ServerRewards</strong> (optional reward currency)</li>
-        <li><strong>PermissionsManager</strong> (to limit who can place bounties)</li>
+        <li><strong>Oxide/uMod</strong> - Required plugin framework.</li>
+        <li><strong>ServerRewards</strong> - Optional, for alternative reward currencies.</li>
+        <li><strong>PermissionsManager</strong> - Recommended for fine-grained command access control.</li>
       </ul>
+    </section>
+
+    <!-- Configuration -->
+    <section>
+      <h3>⚙️ Configuration Options</h3>
+      <table>
+        <thead>
+          <tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>MinBounty</code></td><td>50</td><td>Minimum bounty amount allowed.</td></tr>
+          <tr><td><code>MaxBounty</code></td><td>2000</td><td>Maximum bounty amount allowed.</td></tr>
+          <tr><td><code>CooldownSeconds</code></td><td>300</td><td>Cooldown time in seconds between bounty placements per player.</td></tr>
+          <tr><td><code>RewardItemShortname</code></td><td>"scrap"</td><td>Item used as bounty reward.</td></tr>
+          <tr><td><code>RequireTargetOnline</code></td><td>true</td><td>If true, targets must be online to receive bounties.</td></tr>
+          <tr><td><code>WebhookUrl</code></td><td>""</td><td>Discord webhook URL for bounty notifications (optional).</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- How it Works -->
     <section>
       <h3>⚙️ How It Works</h3>
       <ul>
-        <li>Players type <code>/bounty add [player] [amount]</code> to place a bounty.</li>
-        <li>The bounty is publicly listed or optionally hidden.</li>
-        <li>When a bounty target is killed, the killer receives the reward automatically.</li>
-        <li>Admins can configure cooldowns, minimum amounts, reward types, and more via config file.</li>
+        <li>Players place bounties with <code>/bounty add &lt;player&gt; &lt;amount&gt;</code>.</li>
+        <li>Bounties are publicly visible and can be listed or queried.</li>
+        <li>Killing a bounty target rewards the killer automatically with the configured item.</li>
+        <li>Cooldowns prevent spamming bounties.</li>
+        <li>Admins can remove bounties via command.</li>
+        <li>Discord notifications for bounty placement and claims (if webhook is configured).</li>
       </ul>
     </section>
+
+    <!-- Commands -->
+    <section>
+      <h3>💬 Commands</h3>
+      <ul>
+        <li><code>/bounty add &lt;player&gt; &lt;amount&gt;</code> — Place a bounty on a player.</li>
+        <li><code>/bounty info &lt;player&gt;</code> — Check bounty details for a player.</li>
+        <li><code>/bounty remove &lt;player&gt;</code> — <em>Admin only:</em> Remove a bounty.</li>
+        <li><code>/bounty list</code> — List all active bounties.</li>
+      </ul>
+    </section>
+
+    <!-- Permissions -->
+    <section>
+      <h3>🔐 Permissions</h3>
+      <p>
+        <code>bountysystem.use</code> — Required to use bounty commands.
+      </p>
+    </section>
+
+     <h3>🔐 Discord Embed</h3>
+      <img src="./assets/bountycard.png" width="368" height="621" alt="Bounty Discord Embed" />
 
     <!-- Download -->
     <section class="card-section">
@@ -98,13 +144,13 @@
         <ul class="icon-list">
           <li><strong>Filename</strong> | BountySystem.cs</li>
           <li><strong>Category</strong> | Rust Plugin</li>
-          <li><strong>Version</strong> | V1.0.4</li>
+          <li><strong>Version</strong> | 1.0.5</li>
           <li><strong>Author</strong> | Flockers Design</li>
-          <li><strong>Updated</strong> | July 8th 2025</li>
+          <li><strong>Updated</strong> | July 8th, 2025</li>
           <li><strong>Size</strong> | ~12 KB</li>
         </ul>
-        <a href="./assets/PlayerBountyV1.0.4.zip" target="_blank">
-          <img src="./assets/Download.png" width="300" height="70" />
+        <a href="./assets/PlayerBountyV1.0.5.zip" target="_blank">
+          <img src="./assets/Download.png" width="300" height="70" alt="Download Button" />
         </a>
       </div>
     </section>
@@ -114,15 +160,15 @@
       <h3>❓ FAQ</h3>
       <details>
         <summary>Can I limit who can use bounty commands?</summary>
-        <p>Yes! Use Oxide permissions to restrict access to specific player groups or admins only.</p>
+        <p>Yes! Use Oxide permissions to restrict access to specific player groups or admins only by assigning the <code>bountysystem.use</code> permission.</p>
       </details>
       <details>
         <summary>Does it support clans or teams?</summary>
-        <p>Currently, individual tracking is supported. Integration with Clans or Teams plugin is being explored.</p>
+        <p>Currently, individual player tracking is supported. Integration with clans or teams plugins is planned for future updates.</p>
       </details>
       <details>
         <summary>What happens if a player logs out with a bounty?</summary>
-        <p>The bounty remains active until it’s claimed or canceled manually.</p>
+        <p>The bounty remains active until it is claimed by another player or removed by an admin.</p>
       </details>
     </section>
 
