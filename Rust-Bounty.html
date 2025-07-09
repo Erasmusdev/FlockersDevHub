@@ -87,8 +87,8 @@
     <!-- Configuration -->
     <section>
       <h3>⚙️ Configuration Options</h3>
-      <table>
-        <thead>
+    <table class="mayhem-table">
+      <thead>
           <tr><th>Setting</th><th>Default</th><th>Description</th></tr>
         </thead>
         <tbody>
@@ -96,11 +96,18 @@
           <tr><td><code>MaxBounty</code></td><td>2000</td><td>Maximum bounty amount allowed.</td></tr>
           <tr><td><code>CooldownSeconds</code></td><td>300</td><td>Cooldown time in seconds between bounty placements per player.</td></tr>
           <tr><td><code>RewardItemShortname</code></td><td>"scrap"</td><td>Item used as bounty reward.</td></tr>
-          <tr><td><code>RequireTargetOnline</code></td><td>true</td><td>If true, targets must be online to receive bounties.</td></tr>
-          <tr><td><code>WebhookUrl</code></td><td>""</td><td>Discord webhook URL for bounty notifications (optional).</td></tr>
+          <tr><td><code>RequireTargetOnline</code></td><td>true</td><td>If true, targets must be online to receive bounties / If true, targets can be offline to receive bounties.</td></tr>
+          <tr><td><code>WebhookUrl</code></td><td>"https://discord.com/api/YOUR API KEY"</td><td>Discord webhook URL for bounty notifications (optional).</td></tr>
         </tbody>
       </table>
     </section>
+  </div>
+</section>
+
+
+
+
+
 
     <!-- How it Works -->
     <section>
