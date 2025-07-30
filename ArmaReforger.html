@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arma Reforger Server Installer | Unreal Dev Hub</title>
+  <link rel="icon" href="./assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Arma Reforger Dedicated Server</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./contact.html">Contact</a>
+        <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+        <script>
+          kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+          kofiwidget2.draw();
+        </script>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product-page" style="max-width: 900px;">
+
+    <!-- Hero -->
+    <section class="hero">
+      <h2>Install & Host Your Own Server in Minutes</h2>
+      <p>This script automates the setup of your Arma Reforger dedicated server — from downloading the files to configuring the basics.</p>
+      <a href="https://discord.me/unreald" class="btn" target="_blank">Join Discord for Support</a>
+    </section>
+
+    <!-- Overview -->
+    <section>
+      <h3>Features</h3>
+      <ul>
+        <li>Downloads and installs SteamCMD automatically</li>
+        <li>Fetches and updates Arma Reforger server files</li>
+        <li>Generates <code>configs/config.json</code> with default settings</li>
+        <li>Creates a <code>start_server.bat</code> launcher</li>
+        <li>Adds Windows Firewall rules (UDP/TCP)</li>
+      </ul>
+    </section>
+
+    <!-- Requirements -->
+    <section>
+      <h3>Requirements</h3>
+      <ul>
+        <li>Windows 10 or newer</li>
+        <li>Internet access (for SteamCMD and updates)</li>
+        <li><a href="https://aka.ms/vs/17/release/vc_redist.x64.exe" target="_blank">Visual C++ Redistributable (x64)</a></li>
+        <li>Router access (for public server hosting)</li>
+        <li><a href="https://community.bistudio.com/wiki/Arma_Reforger:Server_Config#top-page" target="_blank">Official Source</a></li>
+      </ul>
+    </section>
+
+    <!-- Instructions -->
+    <section>
+      <h3>Installation Steps</h3>
+      <ol>
+        <li>Download and extract the installer package</li>
+        <li>Install the <strong>VC_redist.x64</strong> if not already installed</li>
+        <li>Right-click <code>install_server.bat</code> → <strong>Run as Administrator</strong></li>
+        <li>The script will:
+          <ul>
+            <li>Download and extract SteamCMD</li>
+            <li>Install or update the server files</li>
+            <li>Create <code>configs/config.json</code> (if missing)</li>
+            <li>Generate <code>start_server.bat</code></li>
+          </ul>
+        </li>
+        <li>Edit <code>configs/config.json</code> to match your preferences</li>
+        <li>Launch the server using <code>start_server.bat</code></li>
+      </ol>
+    </section>
+
+    <!-- Config -->
+    <section>
+      <h3>Configuration Example</h3>
+      <p>Edit <code>configs/config.json</code> after installation. Below is a full example:</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>{
+	"bindAddress": "0.0.0.0",
+	"bindPort": 2001,
+	"publicAddress": "83.81.148.69",
+	"publicPort": 2001,
+	"a2s": {
+		"address": "83.81.148.69",
+		"port": 17777
+	},
+	"rcon": {
+		"address": "83.81.148.69",
+		"port": 19999,
+		"password": "Flockers22",
+		"permission": "monitor",
+		"blacklist": [],
+		"whitelist": []
+	},
+	"game": {
+		"name": "WildLands Warfare | [EU#1] Dev Environment",
+		"password": "Flockers222",
+		"passwordAdmin": "Flockers@22",
+		"admins" : [
+			"76561198234014080"
+		],
+		"scenarioId": "{ECC61978EDCC2B5A}Missions/23_Campaign.conf",
+		"maxPlayers": 32,
+		"visible": true,
+		"crossPlatform": true,
+		"supportedPlatforms": [
+			"PLATFORM_PC",
+			"PLATFORM_XBL",
+      "PLATFORM_PSN"
+		],
+		"gameProperties": {
+			"serverMaxViewDistance": 2500,
+			"serverMinGrassDistance": 50,
+			"networkViewDistance": 1000,
+			"disableThirdPerson": false,
+			"fastValidation": true,
+			"battlEye": true,
+			"VONDisableUI": true,
+			"VONDisableDirectSpeechUI": true,
+			"missionHeader": {
+				"m_iPlayerCount": 40,
+				"m_eEditableGameFlags": 6,
+				"m_eDefaultGameFlags": 6,
+				"other": "values"
+			}
+		},
+		"mods": [
+
+		]
+	},
+	"operating": {
+		"lobbyPlayerSynchronise": true,
+		"joinQueue" : {
+			"maxSize" : 12
+		},
+		"disableNavmeshStreaming": [
+			"Soldiers",
+			"BTRlike"
+		]
+	}
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Port Forwarding -->
+    <section>
+      <h3>Port Forwarding</h3>
+      <p>To host your server publicly, open these ports on your router and forward them to your server’s local IP address:</p>
+      <ul>
+        <li><strong>Game:</strong> UDP 2001</li>
+        <li><strong>A2S Query:</strong> UDP 17777</li>
+        <li><strong>RCON:</strong> TCP & UDP 19999</li>
+      </ul>
+      <p>Need help? Join <a href="https://discord.me/unreald" target="_blank">Discord</a>.</p>
+    </section>
+
+    <!-- Download -->
+    <section class="card-section">
+      <h3>Download</h3>
+      <ul class="icon-list">
+        <li><strong>Package:</strong> ArmaReforgerServer</li>
+        <li><strong>Version:</strong> 1.0</li>
+        <li><strong>Author:</strong> Flockers Design</li>
+        <li><strong>Last Updated:</strong> july 30, 2025</li>
+      </ul>
+      <a href="./assets/ArmaReforger_ONE-click_ServerInstaller.7z" target="_blank">
+        <img src="./assets/Download.png" width="300" height="70" alt="Download Button" />
+      </a>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+      <h3>FAQ</h3>
+      <details>
+        <summary>Do I need to forward ports manually?</summary>
+        <p>Yes. The script handles Windows Firewall rules, but router port forwarding must be configured manually.</p>
+      </details>
+      <details>
+        <summary>Can I change server settings later?</summary>
+        <p>Yes. Edit <code>configs/config.json</code> and restart the server.</p>
+      </details>
+      <details>
+        <summary>Where is the start script?</summary>
+        <p>Look for <code>start_server.bat</code> in the <code>arma_reforger_server</code> folder.</p>
+      </details>
+      <details>
+        <summary>Does the server auto-restart if it crashes?</summary>
+        <p>The default script does not include auto-restart. A watchdog can be added on request.</p>
+      </details>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Flockers Design. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => (button.innerText = "Copy"), 2000);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects | Unreal Dev Hub</title>
+  <link rel="icon" href="./assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>MY PROJECTS</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./contact.html">Contact</a>
+<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');kofiwidget2.draw();</script> 
+      </nav>
+    </div>
+  </header>
+<main class="container">
+
+  <!-- SOFTWARE SECTION -->
+  <section class="project-section">
+    <h1>Dedicated Server Files</h1>
+    <div class="project-grid">
+      <!-- Card 1 -->
+      <div class="project-card">
+        <div class="slideshow" data-delay="3500">
+          <img src="./assets/arma-reforger.jpg.0d81087bb3bc1765d016f68411147ecb.jpg" class="slide active" alt="" />
+        </div>
+        <h2>Arma Reforger 2005 </h2>
+        <p>Easy and simple Arma Reforger Server installer.</p>
+        <a href="./ArmaReforger.html" class="btn">More Info!</a>
+      </div>
+
+
+
+</main>
+
+
+  </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.slideshow').forEach(slideshow => {
+      const slides = slideshow.querySelectorAll('.slide');
+      const delay = parseInt(slideshow.dataset.delay || 3000);
+      let index = 0;
+
+      setInterval(() => {
+        slides[index].classList.remove('active');
+        index = (index + 1) % slides.length;
+        slides[index].classList.add('active');
+      }, delay);
+    });
+  </script>
+</body>
+</html>
