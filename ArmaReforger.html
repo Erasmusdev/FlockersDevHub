@@ -81,31 +81,33 @@
     <section>
       <h3>Configuration Example</h3>
       <p>Edit <code>configs/config.json</code> after installation. Below is a full example:</p>
+      <p>DO NOT Edit <code>publicPort / bindPort /</code> after installation. Below is a full example:</p>
       <div class="code-block">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
         <pre><code>{
 	"bindAddress": "0.0.0.0",
 	"bindPort": 2001,
-	"publicAddress": "83.81.148.69",
+	"publicAddress": "ADD-YOURPUBLIC-IP",
 	"publicPort": 2001,
 	"a2s": {
-		"address": "83.81.148.69",
+		"address": "ADD-YOURPUBLIC-IP",
 		"port": 17777
 	},
 	"rcon": {
 		"address": "83.81.148.69",
 		"port": 19999,
-		"password": "Flockers22",
+		"password": "ADD-PASSWORD",
 		"permission": "monitor",
 		"blacklist": [],
 		"whitelist": []
 	},
 	"game": {
-		"name": "WildLands Warfare | [EU#1] Dev Environment",
-		"password": "Flockers222",
-		"passwordAdmin": "Flockers@22",
+		"name": "ADD-SERVER-NAME",
+		"password": "ADD-PASSWORD",
+		"passwordAdmin": "ADD-PASSWORD",
 		"admins" : [
-			"76561198234014080"
+			"USER-STEAM-ID",
+      "SECOND-ADMIN"
 		],
 		"scenarioId": "{ECC61978EDCC2B5A}Missions/23_Campaign.conf",
 		"maxPlayers": 32,
