@@ -127,8 +127,8 @@
 			"USER-STEAM-ID",
       "SECOND-ADMIN"
 		],
-		"scenarioId": "{ECC61978EDCC2B5A}Missions/23_Campaign.conf",
-		"maxPlayers": 32,
+		"scenarioId": "{AAD43C10045857C1}Missions/RHS_Conflict.conf",
+		"maxPlayers": 64,
 		"visible": true,
 		"crossPlatform": true,
 		"supportedPlatforms": [
@@ -484,6 +484,20 @@
       </div>
     </section>
 
+        <section>
+      <h3>Start_Server.Bat </h3>
+      <p>
+        This is the requred server command line:
+      </p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>@echo off
+cd /d "%~dp0"
+"YOUR-FOLDER-LOCATION\arma_reforger_server\ArmaReforgerServer.exe" -config ".\configs\config.json"
+exit /b</code></pre>
+      </div>
+    </section>
+
     <!-- Port Forwarding -->
     <section>
       <h3>Port Forwarding</h3>
@@ -497,6 +511,25 @@
     </section>
 
     <!-- Download -->
+      <div class="code-block">
+        <h3>ℹ️ Version Info</h3>
+      <ul class="icon-list">
+        <li> Filename | ArmaReforgerServer</li>
+        <li> Category | Beta Release</li>
+        <li> Version | V1.2</li>
+        <li> Author | Flockers Design</li>
+        <li> Updated | July 31th, 2025</li>
+        <li> Size | 12KB</li>
+      </ul>
+        <a href="./assets/ArmaReforger_ONE-click_ServerInstaller.zip" target="_blank">
+        <img src="./assets/Download.png" width="300" height="70" />
+      </a>
+     </div>
+    </section>
+  </main>
+
+
+
     <section class="card-section">
       <h3>Download</h3>
       <ul class="icon-list">
@@ -509,4 +542,13 @@
       </a>
      </div>
     </section>
+      <script>
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => (button.innerText = "Copy"), 2000);
+      });
+    }
+  </script>
   </main>
