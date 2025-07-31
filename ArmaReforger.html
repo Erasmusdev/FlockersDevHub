@@ -45,6 +45,18 @@
       </ul>
     </section>
 
+    <!-- Coming Soon Section -->
+    <section style="text-align: center; margin: 50px 0;">
+      <h3 style="font-weight: 700; font-size: 1.5rem; margin-bottom: 20px;">
+        Coming soon: Local Control panel to control your server even easier
+      </h3>
+      <img 
+        src="https://media.discordapp.net/attachments/418114032948609024/1400299506079236318/image.png?ex=688c220a&is=688ad08a&hm=9667ee875d2e5e53ba237b31a9d6e605e25a566fec835f66bcb70a4d48e2c739&=&format=webp&quality=lossless" 
+        alt="Coming Soon" 
+        style="max-width: 100%; height: auto; border: 2px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" 
+      />
+    </section>
+
     <!-- Requirements -->
     <section>
       <h3>Requirements</h3>
@@ -177,50 +189,4 @@
         <li><strong>Package:</strong> ArmaReforgerServer</li>
         <li><strong>Version:</strong> 1.0</li>
         <li><strong>Author:</strong> Flockers Design</li>
-        <li><strong>Last Updated:</strong> july 30, 2025</li>
-      </ul>
-      <a href="./assets/ArmaReforger_ONE-click_ServerInstaller.7z" target="_blank">
-        <img src="./assets/Download.png" width="300" height="70" alt="Download Button" />
-      </a>
-    </section>
-
-    <!-- FAQ -->
-    <section>
-      <h3>FAQ</h3>
-      <details>
-        <summary>Do I need to forward ports manually?</summary>
-        <p>Yes. The script handles Windows Firewall rules, but router port forwarding must be configured manually.</p>
-      </details>
-      <details>
-        <summary>Can I change server settings later?</summary>
-        <p>Yes. Edit <code>configs/config.json</code> and restart the server.</p>
-      </details>
-      <details>
-        <summary>Where is the start script?</summary>
-        <p>Look for <code>start_server.bat</code> in the <code>arma_reforger_server</code> folder.</p>
-      </details>
-      <details>
-        <summary>Does the server auto-restart if it crashes?</summary>
-        <p>The default script does not include auto-restart. A watchdog can be added on request.</p>
-      </details>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Flockers Design. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script>
-    function copyCode(button) {
-      const code = button.nextElementSibling.innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        button.innerText = "Copied!";
-        setTimeout(() => (button.innerText = "Copy"), 2000);
-      });
-    }
-  </script>
-</body>
-</html>
+        <li><strong>Last Updated:</strong>
