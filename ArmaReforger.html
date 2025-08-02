@@ -1,160 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Arma Reforger Server Installer | Unreal Dev Hub</title>
-  <link rel="icon" href="./assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arma Reforger Server Installer | Unreal Dev Hub</title>
+  <link rel="icon" href="./assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>Arma Reforger Dedicated Server</h1>
-      <nav>
-        <a href="./index.html">Home</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-        <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
-        <script>
-          kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
-          kofiwidget2.draw();
-        </script>
-      </nav>
-    </div>
-  </header>
+  <header>
+    <div class="container">
+      <h1>Arma Reforger Dedicated Server</h1>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./contact.html">Contact</a>
+        <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+        <script>
+          kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+          kofiwidget2.draw();
+        </script>
+      </nav>
+    </div>
+  </header>
 
-  <main class="container product-page" style="max-width: 900px;">
+  <main class="container product-page" style="max-width: 900px;">
 
-    <!-- Hero -->
-    <section class="hero">
-      <h2>Install & Host Your Own Server in Minutes</h2>
-      <p>This script automates the setup of your Arma Reforger dedicated server — from downloading the files to configuring the basics.</p>
-      <a href="https://discord.me/unreald" class="btn" target="_blank">Join Discord for Support</a>
+        <section class="hero">
+      <h2>Install & Host Your Own Server in Minutes</h2>
+      <p>This script automates the setup of your Arma Reforger dedicated server — from downloading the files to configuring the basics.</p>
+      <a href="https://discord.me/unreald" class="btn" target="_blank">Join Discord for Support</a>
+    </section>
+
+    <section class="server-connect-card">
+        <h3>Join Our Arma Reforger Server!</h3>
+        <h4><strong>[EU#1] PVPVE | WildLands Warfare | AFE | ACE | W.C.S | AI Faction</strong></h4>
+         
+        <div class="details-grid">
+            <div class="detail-item">
+                <span>IP Address</span>
+                <strong id="serverIp">83.81.148.69</strong>
+            </div>
+            <div class="detail-item">
+                <span>Port</span>
+                <strong id="serverPort">2001</strong>
+            </div>
+            <div class="detail-item">
+                <span>Password</span>
+                <strong id="serverPassword">None</strong> </div>
+        </div>
+
+        <button class="btn" onclick="copyServerDetails()">Copy Connection Details</button>
+        
+        <div id="copyFeedback" class="copy-feedback"></div>
     </section>
 
-        <!-- Coming Soon Section -->
-    <section style="text-align: center; margin: 50px 0;">
-      <h3 style="font-weight: 700; font-size: 1.5rem; margin-bottom: 20px;">
-        NEW VISUAL UPDATE & NEW SETTINGS
-      </h3>
-      <img 
-        src="https://media.discordapp.net/attachments/1273694996872167485/1400856305379577946/image.png?ex=688ed159&is=688d7fd9&hm=daa89bcdbe99364602288285f0e54b169043830e8b2ea920b41611381c3dde7b&=&format=webp&quality=lossless" 
-        alt="Coming Soon" 
-        style="max-width: 100%; height: auto; border: 2px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" 
-      />
-    </section>
+            <section style="text-align: center; margin: 50px 0;">
+      <h3 style="font-weight: 700; font-size: 1.5rem; margin-bottom: 20px;">
+        NEW VISUAL UPDATE & NEW SETTINGS
+      </h3>
+      <img 
+        src="https://media.discordapp.net/attachments/1273694996872167485/1400856305379577946/image.png?ex=688ed159&is=688d7fd9&hm=daa89bcdbe99364602288285f0e54b169043830e8b2ea920b41611381c3dde7b&=&format=webp&quality=lossless" 
+        alt="Coming Soon" 
+        style="max-width: 100%; height: auto; border: 2px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" 
+      />
+    </section>
 
-    <!-- Overview -->
-    <div class="code-block">
-    <section>
-      <h3>Features</h3>
-      <ul>
-        <li>Downloads and installs SteamCMD automatically</li>
-        <li>Fetches and updates Arma Reforger server files</li>
-        <li>Generates <code>configs/config.json</code> with default settings</li>
-        <li>Creates a <code>start_server.bat</code> launcher</li>
-        <li>Adds Windows Firewall rules (UDP/TCP)</li>
-      </ul>
-    </section>
+        <div class="code-block">
+    <section>
+      <h3>Features</h3>
+      <ul>
+        <li>Downloads and installs SteamCMD automatically</li>
+        <li>Fetches and updates Arma Reforger server files</li>
+        <li>Generates <code>configs/config.json</code> with default settings</li>
+        <li>Creates a <code>start_server.bat</code> launcher</li>
+        <li>Adds Windows Firewall rules (UDP/TCP)</li>
+      </ul>
+    </section>
 </div>
 
-    <!-- Requirements -->
-    <div class="code-block">
-    <section>
-      <h3>Requirements</h3>
-      <ul>
-        <li>Windows 10 or newer</li>
-        <li>Internet access (for SteamCMD and updates)</li>
-        <li>Download Visual C++ Redistributable (x64): <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe" target="_blank">https://aka.ms/vs/17/release/vc_redist.x64.exe</a></li>
-        <li>Router access is required (for public server hosting)</li>
-        <li>View the official server config documentation: <a href="https://community.bistudio.com/wiki/Arma_Reforger:Server_Config#top-page" target="_blank">https://community.bistudio.com/wiki/Arma_Reforger:Server_Config#top-page</a></li>
-        <v>And to find your public IP go to: <a href="https://whatismyipaddress.com/nl/mijn-ip" target="_blank">https://whatismyipaddress.com/nl/mijn-ip</a></li>
-      </ul>
-    </section>
+        <div class="code-block">
+    <section>
+      <h3>Requirements</h3>
+      <ul>
+        <li>Windows 10 or newer</li>
+        <li>Internet access (for SteamCMD and updates)</li>
+        <li>Download Visual C++ Redistributable (x64): <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe" target="_blank">https://aka.ms/vs/17/release/vc_redist.x64.exe</a></li>
+        <li>Router access is required (for public server hosting)</li>
+        <li>View the official server config documentation: <a href="https://community.bistudio.com/wiki/Arma_Reforger:Server_Config#top-page" target="_blank">https://community.bistudio.com/wiki/Arma_Reforger:Server_Config#top-page</a></li>
+        <v>And to find your public IP go to: <a href="https://whatismyipaddress.com/nl/mijn-ip" target="_blank">https://whatismyipaddress.com/nl/mijn-ip</a></li>
+      </ul>
+    </section>
 </div>
-    <!-- Instructions -->
-  <div class="code-block">
-    <section>
-      <h3>Installation Steps</h3>
-      <ol>
-        <li>Download and extract the installer package</li>
-        <li>Install the <strong>VC_redist.x64</strong> if not already installed</li>
-        <li>Right-click <code>install_server.bat</code> → <strong>Run as Administrator</strong></li>
-        <li>The script will: 
-          <ul>
-            <li>Download and extract SteamCMD</li>
-            <li>Run the Installer.bat <strong>In administrator mode</strong> </li>
-          </ul>
-        </li>
-        <li>Launch the server using <code>Control_panel.bat This will open the Control panel</code></li>
-        <li>Edit the server config then hit Save all settings </li>
-        <li>Start the server Just hit Start server</li>
-      </ol>
-    </section>
+      <div class="code-block">
+    <section>
+      <h3>Installation Steps</h3>
+      <ol>
+        <li>Download and extract the installer package</li>
+        <li>Install the <strong>VC_redist.x64</strong> if not already installed</li>
+        <li>Right-click <code>install_server.bat</code> → <strong>Run as Administrator</strong></li>
+        <li>The script will: 
+          <ul>
+            <li>Download and extract SteamCMD</li>
+            <li>Run the Installer.bat <strong>In administrator mode</strong> </li>
+          </ul>
+        </li>
+        <li>Launch the server using <code>Control_panel.bat This will open the Control panel</code></li>
+        <li>Edit the server config then hit Save all settings </li>
+        <li>Start the server Just hit Start server</li>
+      </ol>
+    </section>
 </div>
-           <!-- Port Forwarding -->
-<section>
-      <h3>Port Forwarding</h3>
-      <p>To host your server publicly, open these ports on your router and forward them to your server’s local IP address:</p>
+           <section>
+      <h3>Port Forwarding</h3>
+      <p>To host your server publicly, open these ports on your router and forward them to your server’s local IP address:</p>
 
-  <div class="mayhem-table-wrapper">
-    <table class="mayhem-table">
-      <thead>
-        <tr>
-          <th>Game</th>
-          <th>Game Ports</th>
-          <th>TA2S Query Ports</th>
-          <th>RCON Ports</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Arma Reforger</td>
-          <td>UDP 2001</td>
-          <td>UDP 17777</td>
-          <td>TCP & UDP 19999</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-        <p>Need help? Join <a href="https://discord.me/unreald" target="_blank">Discord</a>.</p>
+  <div class="mayhem-table-wrapper">
+    <table class="mayhem-table">
+      <thead>
+        <tr>
+          <th>Game</th>
+          <th>Game Ports</th>
+          <th>TA2S Query Ports</th>
+          <th>RCON Ports</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Arma Reforger</td>
+          <td>UDP 2001</td>
+          <td>UDP 17777</td>
+          <td>TCP & UDP 19999</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+        <p>Need help? Join <a href="https://discord.me/unreald" target="_blank">Discord</a>.</p>
 </section>
 
 </div>
-    <div class="code-block">
-    <section>
-      <h3>Known Bug('s)</h3>
-      <ul>
-        <li>Non at this moment</li>
-      </ul>
-    </section>
-    </div>
- 
-    <!-- Download -->
-      <div class="code-block">
-        <h3>ℹ️ Version Info</h3>
-      <ul class="icon-list">
-        <li> Filename | ArmaReforgerServer</li>
-        <li> Category | Beta Release</li>
-        <li> Version | V1.3</li>
-        <li> Author | Flockers Design</li>
-        <li> Updated | August 2th, 2025</li>
-        <li> Size | 56.7KB</li>
-      </ul>
-        <a href="./assets/ArmaReforger_ONE-click_ServerInstaller.zip" target="_blank">
-        <img src="./assets/Download.png" width="300" height="70" />
-      </a>
-     </div>
-    </section>
-  </main>
-      <script>
-    function copyCode(button) {
-      const code = button.nextElementSibling.innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        button.innerText = "Copied!";
-        setTimeout(() => (button.innerText = "Copy"), 2000);
-      });
+    <div class="code-block">
+    <section>
+      <h3>Known Bug('s)</h3>
+      <ul>
+        <li>Non at this moment</li>
+      </ul>
+    </section>
+    </div>
+ 
+          <div class="code-block">
+        <h3>ℹ️ Version Info</h3>
+      <ul class="icon-list">
+        <li> Filename | ArmaReforgerServer</li>
+        <li> Category | Beta Release</li>
+        <li> Version | V1.3</li>
+        <li> Author | Flockers Design</li>
+        <li> Updated | August 2th, 2025</li>
+        <li> Size | 56.7KB</li>
+      </ul>
+        <a href="./assets/ArmaReforger_ONE-click_ServerInstaller.zip" target="_blank">
+        <img src="./assets/Download.png" width="300" height="70" />
+      </a>
+     </div>
+    </section>
+  </main>
+      <script>
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => (button.innerText = "Copy"), 2000);
+      });
+    }
+
+    // New JavaScript for Direct Connect Button
+    function copyServerDetails() {
+        const ip = document.getElementById('serverIp').innerText;
+        const port = document.getElementById('serverPort').innerText;
+        const password = document.getElementById('serverPassword').innerText;
+        const connectionString = `${ip}:${port}`;
+        const feedbackDiv = document.getElementById('copyFeedback');
+
+        navigator.clipboard.writeText(connectionString).then(() => {
+            let feedbackText = `Copied server IP:Port (${connectionString}) to clipboard!`;
+            if (password && password !== "None") {
+                feedbackText += `\n\nAlso note the password: "${password}"`;
+            }
+            feedbackText += `\n\nNow open Arma Reforger, go to Multiplayer -> Direct Connect, and paste.`;
+            
+            feedbackDiv.innerText = feedbackText;
+            feedbackDiv.classList.add('show');
+            setTimeout(() => {
+                feedbackDiv.classList.remove('show');
+            }, 6000); // Hide after 6 seconds
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            feedbackDiv.innerText = 'Could not automatically copy to clipboard. Please manually copy the IP, Port, and Password (if any).';
+            feedbackDiv.classList.add('show');
+            setTimeout(() => {
+                feedbackDiv.classList.remove('show');
+            }, 8000); // Keep error message longer
+        });
     }
-  </script>
-  </main>
+  </script>
+</body>
+</html>
