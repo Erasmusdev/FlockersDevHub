@@ -184,6 +184,36 @@
       konamiPosition = 0;
     }
   });
+
+    // New JavaScript for Direct Connect Button
+    function copyServerDetails() {
+        const ip = document.getElementById('serverIp').innerText;
+        const port = document.getElementById('serverPort').innerText;
+        const password = document.getElementById('serverPassword').innerText;
+        const connectionString = `${ip}:${port}`;
+        const feedbackDiv = document.getElementById('copyFeedback');
+
+        navigator.clipboard.writeText(connectionString).then(() => {
+            let feedbackText = `Copied server IP:Port (${connectionString}) to clipboard!`;
+            if (password && password !== "None") {
+                feedbackText += `\n\nAlso note the password: "${password}"`;
+            }
+            feedbackText += `\n\nNow open Arma Reforger, go to Multiplayer -> Direct Connect, and paste.`;
+            
+            feedbackDiv.innerText = feedbackText;
+            feedbackDiv.classList.add('show');
+            setTimeout(() => {
+                feedbackDiv.classList.remove('show');
+            }, 6000); // Hide after 6 seconds
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            feedbackDiv.innerText = 'Could not automatically copy to clipboard. Please manually copy the IP, Port, and Password (if any).';
+            feedbackDiv.classList.add('show');
+            setTimeout(() => {
+                feedbackDiv.classList.remove('show');
+            }, 8000); // Keep error message longer
+        });
+    }
 </script>
 
 
