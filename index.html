@@ -19,9 +19,9 @@
       <a href="./contact.html">Contact</a>
 <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');kofiwidget2.draw();</script> 
     </nav>
-       <!-- Login Currently disabled -->
+       <!-- Login Currently disabled 
   <a href="./UserLogin.html" class="login-btn">Overlay Creator</a>
-  </div>
+  </div>-->
 </header>
 
 
@@ -35,29 +35,6 @@
     <a href="https://discord.me/unreald" class="btn" target="_blank">🎁 Join Discord</a>
   </section>
 
-    <section class="server-connect-card">
-        <h3>Join Our Arma Reforger Server!</h3>
-        <h4><strong> [EU#1] Into the Zone | STALKER PvPvE | ACE</strong></h4>
-         
-        <div class="details-grid">
-            <div class="detail-item">
-                <span>IP Address</span>
-                <strong id="serverIp">83.81.148.69</strong>
-            </div>
-            <div class="detail-item">
-                <span>Port</span>
-                <strong id="serverPort">2001</strong>
-            </div>
-            <div class="detail-item">
-                <span>Password</span>
-                <strong id="serverPassword">None</strong> </div>
-        </div>
-
-        <button class="btn" onclick="copyServerDetails()">Copy Connection Details</button>
-        
-        <div id="copyFeedback" class="copy-feedback"></div>
-    </section>
-
     <!-- Project Showcase -->
 <section class="meet-the-team">
   <h2> latest Updated projects</h2>
@@ -66,7 +43,7 @@
       <img src="./assets/arma-reforger.jpg.0d81087bb3bc1765d016f68411147ecb.jpg" alt="Erasmus" class="team-photo" />
       <div class="team-info">
         <h3 class="team-name">UPDATE! Arma Reforger Server Files</h3>
-        <p class="team-role">V1.3</p>
+        <p class="team-role">V1.5</p>
         <a href="./ArmaReforger.html" class="login-btn">Download Now For Free</a>
       </div>
     </article>
@@ -185,35 +162,6 @@
     }
   });
 
-    // New JavaScript for Direct Connect Button
-    function copyServerDetails() {
-        const ip = document.getElementById('serverIp').innerText;
-        const port = document.getElementById('serverPort').innerText;
-        const password = document.getElementById('serverPassword').innerText;
-        const connectionString = `${ip}:${port}`;
-        const feedbackDiv = document.getElementById('copyFeedback');
-
-        navigator.clipboard.writeText(connectionString).then(() => {
-            let feedbackText = `Copied server IP:Port (${connectionString}) to clipboard!`;
-            if (password && password !== "None") {
-                feedbackText += `\n\nAlso note the password: "${password}"`;
-            }
-            feedbackText += `\n\nNow open Arma Reforger, go to Multiplayer -> Direct Connect, and paste.`;
-            
-            feedbackDiv.innerText = feedbackText;
-            feedbackDiv.classList.add('show');
-            setTimeout(() => {
-                feedbackDiv.classList.remove('show');
-            }, 6000); // Hide after 6 seconds
-        }).catch(err => {
-            console.error('Failed to copy: ', err);
-            feedbackDiv.innerText = 'Could not automatically copy to clipboard. Please manually copy the IP, Port, and Password (if any).';
-            feedbackDiv.classList.add('show');
-            setTimeout(() => {
-                feedbackDiv.classList.remove('show');
-            }, 8000); // Keep error message longer
-        });
-    }
 </script>
 
 
