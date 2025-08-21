@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Elite Dangerous Local Market | Live Tracker</title>
+    <link rel="icon" href="./assets/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff66;
+            --secondary-color: #00cc55;
+            --background-color: #1a1a1a;
+            --border-color: #006633;
+            --text-color: #e0e0e0;
+            --glass-effect: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --gradient-start: #0a0a0a;
+            --gradient-end: #000000;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 5px solid var(--primary-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .product-page {
+            flex-grow: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .code-block pre {
+            background: #0d0d0d;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .code-block pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .hero {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .code-block h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .code-block ul,
+        .code-block ol {
+            list-style-position: inside;
+            margin-left: 20px;
+        }
+
+        .code-block li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .code-block strong {
+            color: var(--primary-color);
+        }
+
+        .download-section {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download-section .code-block {
+            display: inline-block;
+            text-align: left;
+            padding: 30px;
+        }
+
+        .download-section img {
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .download-section img:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid var(--border-color);
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .product-page {
+                grid-template-columns: 1fr;
+            }
+
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Elite Dangerous Local Market | Live Tracker</h1>
+            <nav>
+                <a href="./index.html">Home</a>
+                <a href="./projects.html">Projects</a>
+                <a href="./contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container product-page">
+        <section class="hero">
+            <h2>ELDLM - Elite Dangerous Local Market</h2>
+            <p>A simple, lightweight application to track live commodity prices in your local star system, right on your screen.</p>
+            <a href="https://discord.me/unreald" class="btn" target="_blank">Join Discord for Support</a>
+        </section>
+
+        <section class="info-section">
+            <div class="code-block">
+                <h3>What Does the App Do?</h3>
+                <ul>
+                    <li>It tracks **live commodity market prices** from the EDDN data feed.</li>
+                    <li>The data is displayed on a local web page that can be viewed in your browser or with a VR overlay.</li>
+                    <li>The market data **updates automatically** every 15 seconds.</li>
+                </ul>
+                <div class="gallery">
+                    <a href="./assets/ELMD.png" target="_blank">
+                        <img class="modal-target" src="./assets/ELMD.png" width="500" height="300" alt="Local Market Tracker" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <h3>Features</h3>
+                <ul>
+                    <li>**Local Market Price Tracker** for Elite Dangerous.</li>
+                    <li>**Live Updates** every 15 seconds.</li>
+                    <li>Runs on your **own local Python server**.</li>
+                    <li>Simple, **lightweight**, and easy to use.</li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+                <h3>Prerequisites</h3>
+                <ul>
+                    <li>**Windows 10** or newer.</li>
+                    <li>**Python 3.7** or newer installed. You can download it from <a href="https://www.python.org/downloads" target="_blank">python.org</a>.</li>
+                    <li>**Internet access** to receive data from the EDDN feed.</li>
+                    <li>**Recommneded browser** Chrome to be sure the link works as intended<pre><code>http://localhost:5000/market_data </code></pre> </li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+                <h3>Installation Steps</h3>
+                <ol>
+                    <li>Download the latest version of the application using the button below.</li>
+                    <li>Extract the `.zip` file to a folder on your computer.</li>
+                    <li>Double-click the `start_server.bat` file.</li>
+                    <li>A command window will open and install all necessary Python libraries.</li>
+                    <li>Once complete, a new browser tab will automatically open, showing your VR kneeboard.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <div class="code-block">
+                <h3>Manual Installation (Alternative)</h3>
+                <p>If you prefer to install the dependencies manually, navigate to the extracted application folder in your command prompt and use the following command to install all required libraries from the `requirements.txt` file:</p>
+                <pre><code>pip install -r requirements.txt</code></pre>
+            </div>
+
+            <div class="code-block">
+                <h3>Troubleshooting</h3>
+                <ul>
+                    <li>**If the page doesn't load:** Ensure your Python server is running and check your firewall settings.</li>
+                    <li>**No market data is showing:** Make sure you are in a star system with a station that has a market and that the EDDN data is flowing.</li>
+                    <li>For further assistance, join our Discord server.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="download-section">
+            <div class="code-block">
+                <h3>ℹ️ Version Info</h3>
+                <ul class="icon-list">
+                    <li>Filename | EDLM Live Market Tracker</li>
+                    <li>Category | Beta Release</li>
+                    <li>Version | V0.0.58</li>
+                    <li>Author | FlockersDesign</li>
+                    <li>Updated | August 22st, 2025</li>
+                    <li>Size | 40.0 KB</li>
+                </ul>
+                <a href="/assets/EDLM-Tracker.zip">
+                    <img src="./assets/Download.png" width="300" height="70" alt="Download Button" />
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+    <script>
+        kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+        kofiwidget2.draw();
+    </script>
+
+    <footer>
+        <p>&copy; 2025 Flockers Design</p>
+    </footer>
+</body>
+</html>
