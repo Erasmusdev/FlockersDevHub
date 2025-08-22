@@ -10,13 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #00ff66;
-            --secondary-color: #00cc55;
-            --background-light: #1a1a2e;
-            --card-background: #2a2a44;
-            --text-dark: #e0e0e0;
-            --text-light: #aaaaaa;
-            --border-color: #3e3e5c;
+            --primary-color: #38ebff;
+            --secondary-color: #2cc2d6;
+            --background-light: #11131c;
+            --card-background: #1a1d29;
+            --text-dark: #ffffff;
+            --text-light: #b0b0b0;
+            --border-color: #444754;
         }
 
         * {
@@ -61,12 +61,13 @@
         }
 
         nav a {
-            color: var(--text-dark);
+            color: var(--text-light);
             text-decoration: none;
             font-weight: bold;
             font-size: 1rem;
             padding: 8px 15px;
             position: relative;
+            transition: color 0.3s ease;
         }
 
         nav a::after {
@@ -79,6 +80,10 @@
             height: 3px;
             background-color: var(--primary-color);
             transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
         }
 
         nav a:hover::after {
@@ -105,25 +110,26 @@
 
         section h2, section h3 {
             font-family: 'Exo 2', sans-serif;
-            color: var(--text-dark);
+            color: var(--primary-color);
             margin-bottom: 15px;
         }
 
         .hero {
             text-align: center;
-            background: linear-gradient(135deg, #2a2a44, #35355a);
+            background: linear-gradient(135deg, #1a1d29, #232836);
         }
 
         .hero h2 {
             font-size: 2.5rem;
-            color: var(--secondary-color);
+            color: var(--primary-color);
         }
 
         .hero p {
             color: var(--text-light);
+            font-size: 1.2rem;
         }
 
-        .btn {
+        .btn, .download-btn {
             display: inline-block;
             max-width: 250px;
             padding: 14px 30px;
@@ -134,12 +140,22 @@
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.3s ease;
             margin-top: 20px;
+            text-align: center;
         }
-
-        .btn:hover {
+        
+        .btn:hover, .download-btn:hover {
             background-color: var(--secondary-color);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 255, 102, 0.3);
+            box-shadow: 0 5px 15px rgba(56, 235, 255, 0.3);
+        }
+        
+        .download-btn {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
         }
 
         .info-grid {
@@ -151,10 +167,11 @@
         .card h3 {
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
+            color: var(--primary-color);
         }
 
         .card pre {
-            background: #151522;
+            background: #151820;
             border: 1px solid var(--border-color);
             padding: 1rem;
             border-radius: 8px;
@@ -173,10 +190,21 @@
             margin-left: 20px;
             color: var(--text-light);
         }
+        
+        .card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .card a:hover {
+            text-decoration: underline;
+        }
 
         .card li {
             margin-bottom: 8px;
             line-height: 1.6;
+            color: var(--text-light);
         }
 
         .card strong {
@@ -192,17 +220,6 @@
 
         .download-section {
             text-align: center;
-        }
-
-        .download-section img {
-            max-width: 200px; /* Adjusted size */
-            height: auto;
-            margin-top: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .download-section img:hover {
-            transform: scale(1.05);
         }
 
         footer {
@@ -257,9 +274,9 @@
             <section class="card">
                 <h3>What Does the App Do?</h3>
                 <ul>
-                    <li>It tracks **live commodity market prices** from the EDDN data feed.</li>
+                    <li>It tracks <strong>live commodity market prices</strong> from the EDDN data feed.</li>
                     <li>The data is displayed on a local web page that can be viewed in your browser or with a VR overlay.</li>
-                    <li>The market data **updates automatically** every 15 seconds.</li>
+                    <li>The market data <strong>updates automatically</strong> every 15 seconds.</li>
                 </ul>
                 <div class="gallery">
                     <a href="./assets/ELMD.png" target="_blank">
@@ -271,20 +288,20 @@
             <section class="card">
                 <h3>Features</h3>
                 <ul>
-                    <li>**Local Market Price Tracker** for Elite Dangerous.</li>
-                    <li>**Live Updates** every 15 seconds.</li>
-                    <li>Runs on your **own local Python server**.</li>
-                    <li>Simple, **lightweight**, and easy to use.</li>
+                    <li><strong>Local Market Price Tracker</strong> for Elite Dangerous.</li>
+                    <li><strong>Live Updates</strong> every 15 seconds.</li>
+                    <li>Runs on your <strong>own local Python server</strong>.</li>
+                    <li>Simple, <strong>lightweight</strong>, and easy to use.</li>
                 </ul>
             </section>
 
             <section class="card">
                 <h3>Prerequisites</h3>
                 <ul>
-                    <li>**Windows 10** or newer.</li>
-                    <li>**Python 3.7** or newer installed. You can download it from <a href="https://www.python.org/downloads" target="_blank">python.org</a>.</li>
-                    <li>**Internet access** to receive data from the EDDN feed.</li>
-                    <li>**Recommended browser** Chrome to be sure the link works as intended <pre><code>http://localhost:5000/market_data</code></pre></li>
+                    <li><strong>Windows 10</strong> or newer.</li>
+                    <li><strong>Python 3.7</strong> or newer installed. You can download it from <a href="https://www.python.org/downloads" target="_blank">python.org</a>.</li>
+                    <li><strong>Internet access</strong> to receive data from the EDDN feed.</li>
+                    <li><strong>Recommended browser</strong> Chrome to be sure the link works as intended <pre><code>http://localhost:5000/market_data</code></pre></li>
                 </ul>
             </section>
 
@@ -292,8 +309,8 @@
                 <h3>Installation Steps</h3>
                 <ol>
                     <li>Download the latest version of the application using the button below.</li>
-                    <li>Extract the `.zip` file to a folder on your computer.</li>
-                    <li>Double-click the `start_server.bat` file.</li>
+                    <li>Extract the <code>.zip</code> file to a folder on your computer.</li>
+                    <li>Double-click the <code>start_server.bat</code> file.</li>
                     <li>A command window will open and install all necessary Python libraries.</li>
                     <li>Once complete, a new browser tab will automatically open, showing your VR kneeboard.</li>
                 </ol>
@@ -303,15 +320,15 @@
         <div class="info-grid">
             <section class="card">
                 <h3>Manual Installation (Alternative)</h3>
-                <p>If you prefer to install the dependencies manually, navigate to the extracted application folder in your command prompt and use the following command to install all required libraries from the `requirements.txt` file:</p>
+                <p>If you prefer to install the dependencies manually, navigate to the extracted application folder in your command prompt and use the following command to install all required libraries from the <code>requirements.txt</code> file:</p>
                 <pre><code>pip install -r requirements.txt</code></pre>
             </section>
 
             <section class="card">
                 <h3>Troubleshooting</h3>
                 <ul>
-                    <li>**If the page doesn't load:** Ensure your Python server is running and check your firewall settings.</li>
-                    <li>**No market data is showing:** Make sure you are in a star system with a station that has a market and that the EDDN data is flowing.</li>
+                    <li><strong>If the page doesn't load:</strong> Ensure your Python server is running and check your firewall settings.</li>
+                    <li><strong>No market data is showing:</strong> Make sure you are in a star system with a station that has a market and that the EDDN data is flowing.</li>
                     <li>For further assistance, join our Discord server.</li>
                 </ul>
             </section>
@@ -325,11 +342,11 @@
                     <li>Category | Beta Release</li>
                     <li>Version | V0.0.59</li>
                     <li>Author | FlockersDesign</li>
-                    <li>Updated | August 22st, 2025</li>
+                    <li>Updated | August 22nd, 2025</li>
                     <li>Size | 3.49 KB</li>
                 </ul>
-                <a href="/assets/EDLM-Tracker.zip">
-                    <img src="./assets/Download.png" alt="Download Button" />
+                <a href="/assets/EDLM-Tracker.zip" class="btn download-btn">
+                    Download
                 </a>
             </div>
         </section>
