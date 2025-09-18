@@ -13,35 +13,39 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #121212;
+            background-color: transparent; /* Fully transparent background for OBS */
             color: #fff;
             margin: 0;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrollbars */
         }
 
         .widget-container {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px) saturate(180%);
-            -webkit-backdrop-filter: blur(15px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px; /* Use a large value for a pill shape */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            padding: 10px 20px; /* Smaller padding for a compact look */
-            text-align: left; /* Align content to the left */
-            display: flex; /* Use flexbox for horizontal layout */
+            background: rgba(0, 0, 0, 0.4); /* Darker, semi-transparent background */
+            backdrop-filter: blur(10px) saturate(180%); /* Softer blur for a sleeker glass effect */
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border */
+            border-radius: 50px; /* Pill shape */
+            box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.2); /* Softer shadow */
+            padding: 10px 20px;
+            text-align: left;
+            display: flex;
             align-items: center;
-            gap: 15px; /* Space between album art and text */
-            max-width: 350px;
-            width: 90%;
+            gap: 15px;
+            max-width: 450px; /* Slightly wider to accommodate more text */
+            min-width: 250px; /* Prevent it from becoming too small */
+            width: fit-content; /* Adjust width to content, up to max-width */
             transition: all 0.3s ease;
         }
         
-        /* Specific styling for the login-only state */
+        /* Styling for the login-only state - slightly larger and centered */
         .widget-container.login-state {
             text-align: center;
             padding: 20px;
             border-radius: 20px;
             display: block;
+            width: 300px; /* Fixed width for login state */
+            max-width: none; /* Override max-width for login state */
+            min-width: unset;
         }
 
         #login-button {
@@ -69,56 +73,55 @@
         }
 
         #now-playing {
-            display: none;
+            display: none; /* Managed by JS */
             opacity: 0;
             transition: opacity 0.5s ease;
-            display: flex; /* Always use flexbox for this section */
+            display: flex;
             align-items: center;
-            width: 100%;
+            flex-grow: 1; /* Allow it to grow within the widget-container */
             gap: 15px;
+            min-width: 0; /* Allow content inside flex to shrink beyond its intrinsic size */
         }
 
         #now-playing.visible {
             opacity: 1;
         }
         
-        #now-playing > * {
-            flex-shrink: 0; /* Prevent children from shrinking */
-        }
-        
         #album-art {
-            width: 48px; /* Small square album art */
+            width: 48px;
             height: 48px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             object-fit: cover;
-            flex-shrink: 0;
+            flex-shrink: 0; /* Prevent album art from shrinking */
         }
 
         .track-info {
             display: flex;
             flex-direction: column;
             text-align: left;
-            overflow: hidden; /* Hide overflowing text */
-            flex-grow: 1; /* Allow this container to grow and fill space */
-            white-space: nowrap; /* Prevent all content inside from wrapping */
+            overflow: hidden; /* Crucial: hide any overflow */
+            flex-grow: 1; /* Allow this container to grow and take available space */
+            min-width: 0; /* Allow the content inside this flex item to be flexible */
+        }
+
+        #track-title, #artist-name {
+            white-space: nowrap; /* Keep text on a single line */
+            overflow: hidden; /* Hide anything that goes beyond the container */
+            text-overflow: ellipsis; /* Add "..." for truncated text */
+            margin: 0; /* Remove default paragraph margins */
         }
 
         #track-title {
             font-size: 1em;
             font-weight: 600;
-            margin: 0;
             color: #ffffff;
-            text-overflow: ellipsis; /* Add ellipsis for long titles */
         }
 
         #artist-name {
             font-size: 0.85em;
             color: #b0b0b0;
-            margin: 0;
-            text-overflow: ellipsis;
         }
-
     </style>
 </head>
 <body>
@@ -153,7 +156,6 @@
         const albumArt = document.getElementById('album-art');
         const loginButton = document.getElementById('login-button');
 
-        // Function to generate a random string for the code verifier
         const generateRandomString = (length) => {
             const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let text = '';
@@ -163,7 +165,6 @@
             return text;
         };
 
-        // Function to generate a code challenge from the code verifier
         const generateCodeChallenge = async (codeVerifier) => {
             const encoder = new TextEncoder();
             const data = encoder.encode(codeVerifier);
@@ -260,10 +261,11 @@
                 });
 
                 if (response.status === 204) {
+                    // When nothing is playing, revert to login state appearance
                     mainWidgetContainer.classList.add('login-state');
                     loginSection.style.display = 'block';
                     nowPlayingSection.style.display = 'none';
-                    trackTitle.innerText = "Nothing playing right now.";
+                    trackTitle.innerText = "Nothing playing right now."; // Or some other message
                     artistName.innerText = "";
                     albumArt.style.display = "none";
                     return;
@@ -277,7 +279,7 @@
 
                 const data = await response.json();
                 if (data.item) {
-                    mainWidgetContainer.classList.remove('login-state');
+                    mainWidgetContainer.classList.remove('login-state'); // Ensure correct styling when playing
                     loginSection.style.display = 'none';
                     nowPlayingSection.style.display = 'flex';
                     nowPlayingSection.classList.add('visible');
@@ -286,6 +288,7 @@
                     albumArt.src = data.item.album.images[0].url;
                     albumArt.style.display = "block";
                 } else {
+                    // When Spotify returns an empty item (e.g., player is off, but token is valid)
                     mainWidgetContainer.classList.add('login-state');
                     loginSection.style.display = 'block';
                     nowPlayingSection.style.display = 'none';
