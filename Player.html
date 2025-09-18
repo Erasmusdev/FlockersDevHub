@@ -3,107 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Now Playing Widget - Modern Glass</title>
+    <title>Spotify Now Playing Widget</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
         body {
-            font-family: 'Poppins', sans-serif; /* Modern font */
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #1d2127 0%, #0d0f12 100%); /* Darker, subtle gradient */
-            color: #e0e0e0; /* Lighter text for contrast */
+            background-color: #121212;
+            color: #fff;
             margin: 0;
-            overflow: hidden; /* Prevent scrollbars */
+            overflow: hidden;
         }
 
         .widget-container {
-            background: rgba(255, 255, 255, 0.08); /* Semi-transparent background */
-            backdrop-filter: blur(15px) saturate(180%); /* Frosted glass effect */
-            -webkit-backdrop-filter: blur(15px) saturate(180%); /* For Safari */
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle white border */
-            border-radius: 20px; /* More rounded corners */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Stronger, diffused shadow */
-            padding: 25px 35px; /* Increased padding */
-            text-align: center;
-            max-width: 320px; /* Max width for a compact widget */
-            width: 90%; /* Responsive width */
-            transition: all 0.3s ease; /* Smooth transitions for hover effects */
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px; /* Use a large value for a pill shape */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 10px 20px; /* Smaller padding for a compact look */
+            text-align: left; /* Align content to the left */
+            display: flex; /* Use flexbox for horizontal layout */
+            align-items: center;
+            gap: 15px; /* Space between album art and text */
+            max-width: 350px;
+            width: 90%;
+            transition: all 0.3s ease;
         }
-
-        .widget-container:hover {
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45); /* Slightly more prominent shadow on hover */
-            transform: translateY(-2px); /* Slight lift effect */
+        
+        /* Specific styling for the login-only state */
+        .widget-container.login-state {
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            display: block;
         }
 
         #login-button {
-            background-color: #1ed760; /* Spotify green */
+            background-color: #1ed760;
             color: white;
-            padding: 12px 25px; /* Larger button */
+            padding: 12px 25px;
             border: none;
             border-radius: 500px;
-            font-weight: 600; /* Bolder font weight */
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover */
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
         #login-button:hover {
-            background-color: #1ab24e; /* Darker green on hover */
+            background-color: #1ab24e;
             transform: translateY(-1px);
         }
-
+        
         #login-section p {
             font-size: 0.95em;
-            color: #b0b0b0; /* Subtler text */
+            color: #b0b0b0;
             margin-bottom: 25px;
         }
 
         #now-playing {
             display: none;
-            opacity: 0; /* Start hidden for fade-in */
-            transition: opacity 0.5s ease; /* Fade-in effect */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex; /* Always use flexbox for this section */
+            align-items: center;
+            width: 100%;
+            gap: 15px;
         }
 
         #now-playing.visible {
-            opacity: 1; /* Make visible */
+            opacity: 1;
+        }
+        
+        #now-playing > * {
+            flex-shrink: 0; /* Prevent children from shrinking */
+        }
+        
+        #album-art {
+            width: 48px; /* Small square album art */
+            height: 48px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+            flex-shrink: 0;
         }
 
-        #album-art {
-            width: 160px; /* Slightly larger album art */
-            height: 160px;
-            border-radius: 12px; /* More rounded album art */
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Shadow for album art */
-            object-fit: cover; /* Ensure image covers the area */
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            overflow: hidden; /* Hide overflowing text */
+            flex-grow: 1; /* Allow this container to grow and fill space */
+            white-space: nowrap; /* Prevent all content inside from wrapping */
         }
 
         #track-title {
-            font-size: 1.6em; /* Slightly larger title */
-            font-weight: 700; /* Bold title */
-            margin-bottom: 5px;
-            color: #ffffff; /* Pure white title */
-            white-space: nowrap; /* Prevent title from wrapping prematurely */
-            overflow: hidden; /* Hide overflow */
+            font-size: 1em;
+            font-weight: 600;
+            margin: 0;
+            color: #ffffff;
             text-overflow: ellipsis; /* Add ellipsis for long titles */
         }
 
         #artist-name {
-            font-size: 1.1em; /* Adjusted artist name size */
-            color: #b0b0b0; /* Subtler artist name */
-            margin-top: 0;
-            white-space: nowrap;
-            overflow: hidden;
+            font-size: 0.85em;
+            color: #b0b0b0;
+            margin: 0;
             text-overflow: ellipsis;
         }
+
     </style>
 </head>
 <body>
 
-    <div class="widget-container">
+    <div class="widget-container login-state" id="main-widget-container">
         <div id="login-section">
             <p>To see what you're listening to, please log in to Spotify.</p>
             <a href="#" id="login-button">Log in with Spotify</a>
@@ -111,8 +131,10 @@
 
         <div id="now-playing">
             <img id="album-art" src="" alt="Album Art">
-            <p id="track-title"></p>
-            <p id="artist-name"></p>
+            <div class="track-info">
+                <p id="track-title"></p>
+                <p id="artist-name"></p>
+            </div>
         </div>
     </div>
 
@@ -123,6 +145,7 @@
         const tokenEndpoint = 'https://accounts.spotify.com/api/token';
         const scope = 'user-read-currently-playing';
 
+        const mainWidgetContainer = document.getElementById('main-widget-container');
         const loginSection = document.getElementById('login-section');
         const nowPlayingSection = document.getElementById('now-playing');
         const trackTitle = document.getElementById('track-title');
@@ -160,8 +183,9 @@
             let accessToken = localStorage.getItem('accessToken');
             
             if (accessToken) {
+                mainWidgetContainer.classList.remove('login-state'); // Remove login-specific styling
                 loginSection.style.display = 'none';
-                nowPlayingSection.style.display = 'block';
+                nowPlayingSection.style.display = 'flex'; // Use flex for this layout
                 nowPlayingSection.classList.add('visible'); // Add visible class for fade-in
                 getCurrentlyPlaying();
                 setInterval(getCurrentlyPlaying, 5000); 
@@ -236,6 +260,9 @@
                 });
 
                 if (response.status === 204) {
+                    mainWidgetContainer.classList.add('login-state');
+                    loginSection.style.display = 'block';
+                    nowPlayingSection.style.display = 'none';
                     trackTitle.innerText = "Nothing playing right now.";
                     artistName.innerText = "";
                     albumArt.style.display = "none";
@@ -250,12 +277,18 @@
 
                 const data = await response.json();
                 if (data.item) {
+                    mainWidgetContainer.classList.remove('login-state');
+                    loginSection.style.display = 'none';
+                    nowPlayingSection.style.display = 'flex';
+                    nowPlayingSection.classList.add('visible');
                     trackTitle.innerText = data.item.name;
                     artistName.innerText = data.item.artists.map(artist => artist.name).join(', ');
                     albumArt.src = data.item.album.images[0].url;
                     albumArt.style.display = "block";
-                    nowPlayingSection.classList.add('visible'); // Ensure visible on updates
                 } else {
+                    mainWidgetContainer.classList.add('login-state');
+                    loginSection.style.display = 'block';
+                    nowPlayingSection.style.display = 'none';
                     trackTitle.innerText = "Nothing playing right now.";
                     artistName.innerText = "";
                     albumArt.style.display = "none";
