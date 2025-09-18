@@ -5,61 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Now Playing Widget</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #121212;
+            background-color: transparent; /* Fully transparent background for OBS */
             color: #fff;
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
         }
 
         .widget-container {
-            background-color: #1a1a1a;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4); /* Darker, semi-transparent background */
+            backdrop-filter: blur(10px) saturate(180%); /* Softer blur for a sleeker glass effect */
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border */
+            border-radius: 50px; /* Pill shape */
+            box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.2); /* Softer shadow */
+            padding: 10px 20px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 450px; /* Slightly wider to accommodate more text */
+            min-width: 250px; /* Prevent it from becoming too small */
+            width: fit-content; /* Adjust width to content, up to max-width */
+            transition: all 0.3s ease;
+        }
+        
+        /* Styling for the login-only state - slightly larger and centered */
+        .widget-container.login-state {
             text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            display: block;
+            width: 300px; /* Fixed width for login state */
+            max-width: none; /* Override max-width for login state */
+            min-width: unset;
         }
 
         #login-button {
-            background-color: #1db954;
+            background-color: #1ed760;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 500px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        #login-button:hover {
+            background-color: #1ab24e;
+            transform: translateY(-1px);
+        }
+        
+        #login-section p {
+            font-size: 0.95em;
+            color: #b0b0b0;
+            margin-bottom: 25px;
         }
 
         #now-playing {
-            display: none;
+            display: none; /* Managed by JS */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Allow it to grow within the widget-container */
+            gap: 15px;
+            min-width: 0; /* Allow content inside flex to shrink beyond its intrinsic size */
         }
 
+        #now-playing.visible {
+            opacity: 1;
+        }
+        
         #album-art {
-            width: 150px;
-            height: 150px;
+            width: 48px;
+            height: 48px;
             border-radius: 8px;
-            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+            flex-shrink: 0; /* Prevent album art from shrinking */
+        }
+
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            overflow: hidden; /* Crucial: hide any overflow */
+            flex-grow: 1; /* Allow this container to grow and take available space */
+            min-width: 0; /* Allow the content inside this flex item to be flexible */
+        }
+
+        #track-title, #artist-name {
+            white-space: nowrap; /* Keep text on a single line */
+            overflow: hidden; /* Hide anything that goes beyond the container */
+            text-overflow: ellipsis; /* Add "..." for truncated text */
+            margin: 0; /* Remove default paragraph margins */
         }
 
         #track-title {
-            font-size: 1.5em;
-            font-weight: bold;
+            font-size: 1em;
+            font-weight: 600;
+            color: #ffffff;
         }
 
         #artist-name {
-            font-size: 1.2em;
-            color: #b3b3b3;
+            font-size: 0.85em;
+            color: #b0b0b0;
         }
     </style>
 </head>
 <body>
 
-    <div class="widget-container">
+    <div class="widget-container login-state" id="main-widget-container">
         <div id="login-section">
             <p>To see what you're listening to, please log in to Spotify.</p>
             <a href="#" id="login-button">Log in with Spotify</a>
@@ -67,18 +134,21 @@
 
         <div id="now-playing">
             <img id="album-art" src="" alt="Album Art">
-            <p id="track-title"></p>
-            <p id="artist-name"></p>
+            <div class="track-info">
+                <p id="track-title"></p>
+                <p id="artist-name"></p>
+            </div>
         </div>
     </div>
 
     <script>
-        const clientId = 'd6d3071a35dc4874af1dcf110017ec8d'; // REPLACE WITH YOUR CLIENT ID
-        const redirectUri = 'https://erasmusdev.github.io/FlockersDevHub/Player.html';
+        const clientId = 'd6d3071a35dc4874af1dcf110017ec8d'; // YOUR CLIENT ID HERE
+        const redirectUri = 'https://erasmusdev.github.io/FlockersDevHub/Player.html'; // YOUR GITHUB PAGES URL HERE
         const authEndpoint = 'https://accounts.spotify.com/authorize';
         const tokenEndpoint = 'https://accounts.spotify.com/api/token';
         const scope = 'user-read-currently-playing';
 
+        const mainWidgetContainer = document.getElementById('main-widget-container');
         const loginSection = document.getElementById('login-section');
         const nowPlayingSection = document.getElementById('now-playing');
         const trackTitle = document.getElementById('track-title');
@@ -86,7 +156,6 @@
         const albumArt = document.getElementById('album-art');
         const loginButton = document.getElementById('login-button');
 
-        // Function to generate a random string for the code verifier
         const generateRandomString = (length) => {
             const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let text = '';
@@ -96,7 +165,6 @@
             return text;
         };
 
-        // Function to generate a code challenge from the code verifier
         const generateCodeChallenge = async (codeVerifier) => {
             const encoder = new TextEncoder();
             const data = encoder.encode(codeVerifier);
@@ -116,8 +184,10 @@
             let accessToken = localStorage.getItem('accessToken');
             
             if (accessToken) {
+                mainWidgetContainer.classList.remove('login-state'); // Remove login-specific styling
                 loginSection.style.display = 'none';
-                nowPlayingSection.style.display = 'block';
+                nowPlayingSection.style.display = 'flex'; // Use flex for this layout
+                nowPlayingSection.classList.add('visible'); // Add visible class for fade-in
                 getCurrentlyPlaying();
                 setInterval(getCurrentlyPlaying, 5000); 
             } else {
@@ -177,7 +247,6 @@
         async function getCurrentlyPlaying() {
             let accessToken = localStorage.getItem('accessToken');
             if (!accessToken) {
-                // No token, or token expired and not refreshed, show login button
                 localStorage.clear();
                 location.reload();
                 return;
@@ -192,14 +261,17 @@
                 });
 
                 if (response.status === 204) {
-                    trackTitle.innerText = "Nothing playing right now.";
+                    // When nothing is playing, revert to login state appearance
+                    mainWidgetContainer.classList.add('login-state');
+                    loginSection.style.display = 'block';
+                    nowPlayingSection.style.display = 'none';
+                    trackTitle.innerText = "Nothing playing right now."; // Or some other message
                     artistName.innerText = "";
                     albumArt.style.display = "none";
                     return;
                 }
 
                 if (response.status === 401) {
-                    // Token expired or invalid, clear and force re-login
                     localStorage.clear();
                     location.reload(); 
                     return;
@@ -207,11 +279,19 @@
 
                 const data = await response.json();
                 if (data.item) {
+                    mainWidgetContainer.classList.remove('login-state'); // Ensure correct styling when playing
+                    loginSection.style.display = 'none';
+                    nowPlayingSection.style.display = 'flex';
+                    nowPlayingSection.classList.add('visible');
                     trackTitle.innerText = data.item.name;
                     artistName.innerText = data.item.artists.map(artist => artist.name).join(', ');
                     albumArt.src = data.item.album.images[0].url;
                     albumArt.style.display = "block";
                 } else {
+                    // When Spotify returns an empty item (e.g., player is off, but token is valid)
+                    mainWidgetContainer.classList.add('login-state');
+                    loginSection.style.display = 'block';
+                    nowPlayingSection.style.display = 'none';
                     trackTitle.innerText = "Nothing playing right now.";
                     artistName.innerText = "";
                     albumArt.style.display = "none";
