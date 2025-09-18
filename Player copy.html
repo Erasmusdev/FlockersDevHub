@@ -87,18 +87,13 @@
             opacity: 1;
         }
         
-        /* Album Art as a background-image */
-        #album-art-div { /* Changed from #album-art for the div */
+        #album-art {
             width: 48px;
             height: 48px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            flex-shrink: 0; /* Prevent from shrinking */
-            background-size: cover; /* Ensure image covers the div */
-            background-position: center; /* Center the image */
-            background-repeat: no-repeat; /* Do not repeat */
-            /* Add a placeholder background just in case the image fails to load */
-            background-color: #333; 
+            object-fit: cover;
+            flex-shrink: 0; /* Prevent album art from shrinking */
         }
 
         .track-info {
@@ -138,7 +133,8 @@
         </div>
 
         <div id="now-playing">
-            <div id="album-art-div"></div> <div class="track-info">
+            <img id="album-art" src="" alt="Album Art">
+            <div class="track-info">
                 <p id="track-title"></p>
                 <p id="artist-name"></p>
             </div>
@@ -157,7 +153,7 @@
         const nowPlayingSection = document.getElementById('now-playing');
         const trackTitle = document.getElementById('track-title');
         const artistName = document.getElementById('artist-name');
-        const albumArtDiv = document.getElementById('album-art-div'); // Reference the new div
+        const albumArt = document.getElementById('album-art');
         const loginButton = document.getElementById('login-button');
 
         const generateRandomString = (length) => {
@@ -188,10 +184,10 @@
             let accessToken = localStorage.getItem('accessToken');
             
             if (accessToken) {
-                mainWidgetContainer.classList.remove('login-state');
+                mainWidgetContainer.classList.remove('login-state'); // Remove login-specific styling
                 loginSection.style.display = 'none';
-                nowPlayingSection.style.display = 'flex';
-                nowPlayingSection.classList.add('visible');
+                nowPlayingSection.style.display = 'flex'; // Use flex for this layout
+                nowPlayingSection.classList.add('visible'); // Add visible class for fade-in
                 getCurrentlyPlaying();
                 setInterval(getCurrentlyPlaying, 5000); 
             } else {
@@ -241,7 +237,7 @@
                 const data = await response.json();
                 localStorage.setItem('accessToken', data.access_token);
                 localStorage.setItem('refreshToken', data.refresh_token);
-                window.history.replaceState({}, document.title, redirectUri);
+                window.history.replaceState({}, document.title, redirectUri); // Clean up the URL
                 location.reload(); 
             } catch (error) {
                 console.error('Error fetching access token:', error);
@@ -265,12 +261,13 @@
                 });
 
                 if (response.status === 204) {
+                    // When nothing is playing, revert to login state appearance
                     mainWidgetContainer.classList.add('login-state');
                     loginSection.style.display = 'block';
                     nowPlayingSection.style.display = 'none';
-                    trackTitle.innerText = "Nothing playing right now.";
+                    trackTitle.innerText = "Nothing playing right now."; // Or some other message
                     artistName.innerText = "";
-                    albumArtDiv.style.backgroundImage = "none"; // Clear image
+                    albumArt.style.display = "none";
                     return;
                 }
 
@@ -282,21 +279,22 @@
 
                 const data = await response.json();
                 if (data.item) {
-                    mainWidgetContainer.classList.remove('login-state');
+                    mainWidgetContainer.classList.remove('login-state'); // Ensure correct styling when playing
                     loginSection.style.display = 'none';
                     nowPlayingSection.style.display = 'flex';
                     nowPlayingSection.classList.add('visible');
                     trackTitle.innerText = data.item.name;
                     artistName.innerText = data.item.artists.map(artist => artist.name).join(', ');
-                    // Set background-image for the div
-                    albumArtDiv.style.backgroundImage = `url('${data.item.album.images[0].url}')`;
+                    albumArt.src = data.item.album.images[0].url;
+                    albumArt.style.display = "block";
                 } else {
+                    // When Spotify returns an empty item (e.g., player is off, but token is valid)
                     mainWidgetContainer.classList.add('login-state');
                     loginSection.style.display = 'block';
                     nowPlayingSection.style.display = 'none';
                     trackTitle.innerText = "Nothing playing right now.";
                     artistName.innerText = "";
-                    albumArtDiv.style.backgroundImage = "none"; // Clear image
+                    albumArt.style.display = "none";
                 }
             } catch (error) {
                 console.error("Error fetching currently playing track:", error);
