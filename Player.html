@@ -258,253 +258,311 @@
         </div>
     </div>
 
-    <script>
-        // Constants
-        const authEndpoint = 'https://accounts.spotify.com/authorize';
-        const tokenEndpoint = 'https://accounts.spotify.com/api/token';
-        const currentlyPlayingEndpoint = 'https://api.spotify.com/v1/me/player/currently-playing';
-        const scope = 'user-read-currently-playing';
+<script>
+    // Constants
+    const authEndpoint = 'https://accounts.spotify.com/authorize';
+    const tokenEndpoint = 'https://accounts.spotify.com/api/token';
+    const currentlyPlayingEndpoint = 'https://api.spotify.com/v1/me/player/currently-playing';
+    const scope = 'user-read-currently-playing';
+    
+    // DOM Elements
+    const mainWidgetContainer = document.getElementById('main-widget-container');
+    const setupSection = document.getElementById('setup-section');
+    const clientIdInput = document.getElementById('client-id-input');
+    const redirectUriInput = document.getElementById('redirect-uri-input');
+    const setupButton = document.getElementById('setup-button');
+    const loginSection = document.getElementById('login-section');
+    const nowPlayingSection = document.getElementById('now-playing');
+    const trackTitle = document.getElementById('track-title');
+    const artistName = document.getElementById('artist-name');
+    const albumArt = document.getElementById('album-art');
+    const loginButton = document.getElementById('login-button');
+    const reconfigureButton = document.getElementById('reconfigure-button');
+    const clearDataButton = document.getElementById('clear-data-button');
+
+    // Helper functions (kept the same)
+    const generateRandomString = (length) => {
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let text = '';
+        for (let i = 0; i < length; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+    };
+
+    const generateCodeChallenge = async (codeVerifier) => {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(codeVerifier);
+        const digest = await window.crypto.subtle.digest('SHA-256', data);
+        return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_')
+            .replace(/=+$/, '');
+    };
+
+    // --- State Management and UI Logic (kept the same) ---
+
+    function showSetup() {
+        mainWidgetContainer.classList.add('login-state');
+        setupSection.style.display = 'block';
+        loginSection.style.display = 'none';
+        nowPlayingSection.style.display = 'none';
+    }
+
+    function showLogin() {
+        mainWidgetContainer.classList.add('login-state');
+        setupSection.style.display = 'none';
+        loginSection.style.display = 'block';
+        nowPlayingSection.style.display = 'none';
+    }
+
+    function showNowPlaying() {
+        // Revert container to the sleek, horizontal playing look
+        mainWidgetContainer.classList.remove('login-state'); 
+        mainWidgetContainer.style.flexDirection = 'row';
+        mainWidgetContainer.style.padding = '10px 20px';
+        mainWidgetContainer.style.background = 'rgba(0, 0, 0, 0.4)'; /* Use glass effect for playing state */
+        mainWidgetContainer.style.backdropFilter = 'blur(10px) saturate(180%)'; 
         
-        // DOM Elements
-        const mainWidgetContainer = document.getElementById('main-widget-container');
-        const setupSection = document.getElementById('setup-section');
-        const clientIdInput = document.getElementById('client-id-input');
-        const redirectUriInput = document.getElementById('redirect-uri-input');
-        const setupButton = document.getElementById('setup-button');
-        const loginSection = document.getElementById('login-section');
-        const nowPlayingSection = document.getElementById('now-playing');
-        const trackTitle = document.getElementById('track-title');
-        const artistName = document.getElementById('artist-name');
-        const albumArt = document.getElementById('album-art');
-        const loginButton = document.getElementById('login-button');
-        const reconfigureButton = document.getElementById('reconfigure-button');
-        const clearDataButton = document.getElementById('clear-data-button');
+        setupSection.style.display = 'none';
+        loginSection.style.display = 'none';
+        nowPlayingSection.style.display = 'flex';
+        nowPlayingSection.classList.add('visible');
+    }
 
-        // Helper functions
-        const generateRandomString = (length) => {
-            const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let text = '';
-            for (let i = 0; i < length; i++) {
-                text += possible.charAt(Math.floor(Math.random() * possible.length));
-            }
-            return text;
-        };
+    // --- State Initialization: UPDATED TO CHECK URL FIRST ---
+    const urlParams = new URLSearchParams(window.location.search);
+    let authCode = urlParams.get('code');
 
-        const generateCodeChallenge = async (codeVerifier) => {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(codeVerifier);
-            const digest = await window.crypto.subtle.digest('SHA-256', data);
-            return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
-                .replace(/\+/g, '-')
-                .replace(/\//g, '_')
-                .replace(/=+$/, '');
-        };
-
-        // --- State Management and UI Logic ---
-
-        function showSetup() {
-            mainWidgetContainer.classList.add('login-state');
-            setupSection.style.display = 'block';
-            loginSection.style.display = 'none';
-            nowPlayingSection.style.display = 'none';
-        }
-
-        function showLogin() {
-            mainWidgetContainer.classList.add('login-state');
-            setupSection.style.display = 'none';
-            loginSection.style.display = 'block';
-            nowPlayingSection.style.display = 'none';
-        }
-
-        function showNowPlaying() {
-            // Revert container to the sleek, horizontal playing look
-            mainWidgetContainer.classList.remove('login-state'); 
-            mainWidgetContainer.style.flexDirection = 'row';
-            mainWidgetContainer.style.padding = '10px 20px';
-            mainWidgetContainer.style.background = 'rgba(0, 0, 0, 0.4)'; /* Use glass effect for playing state */
-            mainWidgetContainer.style.backdropFilter = 'blur(10px) saturate(180%)'; 
-            
-            setupSection.style.display = 'none';
-            loginSection.style.display = 'none';
-            nowPlayingSection.style.display = 'flex';
-            nowPlayingSection.classList.add('visible');
-        }
-        
-        // Load stored credentials
-        let clientId = localStorage.getItem('spotifyClientId');
-        let redirectUri = localStorage.getItem('spotifyRedirectUri');
-        let accessToken = localStorage.getItem('accessToken');
-        const urlParams = new URLSearchParams(window.location.search);
-        let authCode = urlParams.get('code');
+    // Use tokens from URL (for OBS) if present, otherwise use Local Storage
+    let clientId = urlParams.get('client_id') || localStorage.getItem('spotifyClientId');
+    let redirectUri = urlParams.get('redirect_uri') || localStorage.getItem('spotifyRedirectUri');
+    let accessToken = urlParams.get('access_token') || localStorage.getItem('accessToken');
+    let refreshToken = urlParams.get('refresh_token') || localStorage.getItem('refreshToken');
+    
+    let isObsSource = !!urlParams.get('access_token'); // Flag for OBS use
 
 
-        // --- Event Listeners ---
-        setupButton.addEventListener('click', () => {
-            const newClientId = clientIdInput.value.trim();
-            const newRedirectUri = redirectUriInput.value.trim();
+    // --- Event Listeners (kept the same) ---
+    setupButton.addEventListener('click', () => {
+        const newClientId = clientIdInput.value.trim();
+        const newRedirectUri = redirectUriInput.value.trim();
 
-            if (newClientId && newRedirectUri) {
-                localStorage.setItem('spotifyClientId', newClientId);
-                localStorage.setItem('spotifyRedirectUri', newRedirectUri);
-                clientId = newClientId;
-                redirectUri = newRedirectUri;
-                showLogin();
-            } else {
-                alert("Both Client ID and Redirect URI are required.");
-            }
-        });
-
-        loginButton.addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (!clientId || !redirectUri) {
-                alert("Client details are missing. Please reconfigure.");
-                showSetup();
-                return;
-            }
-            
-            const verifier = generateRandomString(128);
-            const challenge = await generateCodeChallenge(verifier);
-
-            localStorage.setItem('code_verifier', verifier);
-
-            const params = new URLSearchParams({
-                client_id: clientId,
-                response_type: 'code',
-                redirect_uri: redirectUri,
-                scope: scope,
-                code_challenge_method: 'S256',
-                code_challenge: challenge,
-            });
-
-            window.location.href = `${authEndpoint}?${params.toString()}`;
-        });
-        
-        reconfigureButton.addEventListener('click', () => {
-            // Clear only the credentials and show setup
-            localStorage.removeItem('spotifyClientId');
-            localStorage.removeItem('spotifyRedirectUri');
-            clientIdInput.value = clientId || '';
-            redirectUriInput.value = redirectUri || '';
-            showSetup();
-        });
-        
-        clearDataButton.addEventListener('click', () => {
-            if (confirm("Are you sure you want to clear all stored Spotify data (tokens and credentials)? You will have to start over.")) {
-                localStorage.clear();
-                location.reload();
-            }
-        });
-
-        // --- Authorization and API Calls ---
-
-        async function getAccessToken(code) {
-            const verifier = localStorage.getItem('code_verifier');
-            const body = new URLSearchParams({
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: redirectUri,
-                client_id: clientId,
-                code_verifier: verifier,
-            });
-
-            try {
-                const response = await fetch(tokenEndpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: body,
-                });
-
-                if (!response.ok) {
-                    throw new Error('HTTP status ' + response.status);
-                }
-
-                const data = await response.json();
-                localStorage.setItem('accessToken', data.access_token);
-                localStorage.setItem('refreshToken', data.refresh_token);
-                window.history.replaceState({}, document.title, redirectUri); // Clean up the URL
-                location.reload(); 
-            } catch (error) {
-                console.error('Error fetching access token:', error);
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                showLogin();
-            }
-        }
-
-        async function getCurrentlyPlaying() {
-            let currentToken = localStorage.getItem('accessToken');
-            
-            if (!currentToken) {
-                showLogin();
-                return;
-            }
-
-            try {
-                const response = await fetch(currentlyPlayingEndpoint, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + currentToken
-                    }
-                });
-
-                if (response.status === 204 || response.status === 200 && (await response.clone().json()).is_playing === false) {
-                    // Nothing playing / Player is idle
-                    showNowPlaying(); // Maintain the playing UI structure
-                    trackTitle.innerText = "Nothing playing right now."; 
-                    artistName.innerText = "Start a song on Spotify.";
-                    albumArt.style.display = "none";
-                    return;
-                }
-
-                if (response.status === 401) {
-                    // Unauthorized (token expired)
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
-                    alert("Your session has expired. Please log in again.");
-                    showLogin();
-                    return;
-                }
-
-                const data = await response.json();
-                
-                if (data.item) {
-                    showNowPlaying(); 
-                    trackTitle.innerText = data.item.name;
-                    artistName.innerText = data.item.artists.map(artist => artist.name).join(', ');
-                    albumArt.src = data.item.album.images[0].url;
-                    albumArt.style.display = "block";
-                } 
-            } catch (error) {
-                console.error("Error fetching currently playing track:", error);
-                trackTitle.innerText = "Error fetching track."; 
-                artistName.innerText = "Please check console.";
-                albumArt.style.display = "none";
-            }
-        }
-
-        // --- Initial Load Logic ---
-        if (authCode) {
-            // 2: Handle redirect from Spotify with authorization code
-            if (clientId && redirectUri) {
-                getAccessToken(authCode);
-            } else {
-                alert("Authentication details lost. Please re-enter.");
-                showSetup();
-            }
-        } else if (accessToken) {
-            // 3: User is already logged in
-            showNowPlaying();
-            getCurrentlyPlaying();
-            setInterval(getCurrentlyPlaying, 5000); 
-        } else if (clientId && redirectUri) {
-            // 1b: Client details saved, ready for Spotify login
+        if (newClientId && newRedirectUri) {
+            localStorage.setItem('spotifyClientId', newClientId);
+            localStorage.setItem('spotifyRedirectUri', newRedirectUri);
+            clientId = newClientId;
+            redirectUri = newRedirectUri;
             showLogin();
         } else {
-            // 1a: No client details saved, show setup form
+            alert("Both Client ID and Redirect URI are required.");
+        }
+    });
+
+    loginButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (!clientId || !redirectUri) {
+            alert("Client details are missing. Please reconfigure.");
+            showSetup();
+            return;
+        }
+        
+        const verifier = generateRandomString(128);
+        const challenge = await generateCodeChallenge(verifier);
+
+        localStorage.setItem('code_verifier', verifier);
+
+        const params = new URLSearchParams({
+            client_id: clientId,
+            response_type: 'code',
+            redirect_uri: redirectUri,
+            scope: scope,
+            code_challenge_method: 'S256',
+            code_challenge: challenge,
+        });
+
+        window.location.href = `${authEndpoint}?${params.toString()}`;
+    });
+    
+    reconfigureButton.addEventListener('click', () => {
+        // Clear only the credentials and show setup
+        localStorage.removeItem('spotifyClientId');
+        localStorage.removeItem('spotifyRedirectUri');
+        clientIdInput.value = clientId || '';
+        redirectUriInput.value = redirectUri || '';
+        showSetup();
+    });
+    
+    clearDataButton.addEventListener('click', () => {
+        if (confirm("Are you sure you want to clear all stored Spotify data (tokens and credentials)? You will have to start over.")) {
+            localStorage.clear();
+            location.reload();
+        }
+    });
+
+    // --- Authorization and API Calls: UPDATED TO INCLUDE REFRESH TOKEN ---
+
+    async function getAccessToken(code) {
+        // ... (This function is for the initial code exchange and remains the same)
+        const verifier = localStorage.getItem('code_verifier');
+        const body = new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: redirectUri,
+            client_id: clientId,
+            code_verifier: verifier,
+        });
+
+        try {
+            const response = await fetch(tokenEndpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body,
+            });
+
+            if (!response.ok) throw new Error('HTTP status ' + response.status);
+
+            const data = await response.json();
+            localStorage.setItem('accessToken', data.access_token);
+            localStorage.setItem('refreshToken', data.refresh_token); // Store refresh token
+            window.history.replaceState({}, document.title, redirectUri);
+            location.reload(); 
+        } catch (error) {
+            console.error('Error fetching access token:', error);
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            showLogin();
+        }
+    }
+    
+    async function refreshAccessToken() {
+        const body = new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: clientId,
+        });
+
+        try {
+            const response = await fetch(tokenEndpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body,
+            });
+
+            if (!response.ok) throw new Error('HTTP status ' + response.status);
+
+            const data = await response.json();
+            
+            // Update the token globally and in storage (or memory if running in OBS)
+            accessToken = data.access_token;
+            if (!isObsSource) {
+                localStorage.setItem('accessToken', accessToken);
+                // Spotify may provide a new refresh token (optional)
+                if (data.refresh_token) {
+                    refreshToken = data.refresh_token;
+                    localStorage.setItem('refreshToken', refreshToken);
+                }
+            }
+            console.log("Token refreshed successfully.");
+            return true;
+
+        } catch (error) {
+            console.error('Error refreshing token:', error);
+            // On refresh failure, clear tokens and prompt re-login
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            showLogin();
+            return false;
+        }
+    }
+
+
+    async function getCurrentlyPlaying() {
+        let currentToken = accessToken; // Use the current token from state (Local Storage or URL)
+        
+        if (!currentToken) {
+            showLogin();
+            return;
+        }
+
+        try {
+            let response = await fetch(currentlyPlayingEndpoint, {
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + currentToken }
+            });
+
+            if (response.status === 401 && refreshToken) {
+                // Token expired/unauthorized. Attempt refresh.
+                const refreshed = await refreshAccessToken();
+                if (refreshed) {
+                    // If successful, try the API call again with the new token
+                    response = await fetch(currentlyPlayingEndpoint, {
+                        method: 'GET',
+                        headers: { 'Authorization': 'Bearer ' + accessToken } // Use the new token
+                    });
+                } else {
+                    // Refresh failed, exit function to show login
+                    return; 
+                }
+            }
+            
+            // Check status again after potential refresh
+            if (response.status === 401) { // Still 401 after refresh attempt
+                alert("Your session has expired. Please log in again.");
+                showLogin();
+                return;
+            }
+
+            if (response.status === 204 || (response.status === 200 && (await response.clone().json()).is_playing === false)) {
+                // Nothing playing / Player is idle
+                showNowPlaying(); 
+                trackTitle.innerText = "Nothing playing right now."; 
+                artistName.innerText = "Start a song on Spotify.";
+                albumArt.style.display = "none";
+                return;
+            }
+            
+            if (!response.ok) throw new Error('HTTP status ' + response.status);
+
+
+            const data = await response.json();
+            
+            if (data.item) {
+                showNowPlaying(); 
+                trackTitle.innerText = data.item.name;
+                artistName.innerText = data.item.artists.map(artist => artist.name).join(', ');
+                albumArt.src = data.item.album.images[0].url;
+                albumArt.style.display = "block";
+            } 
+        } catch (error) {
+            console.error("Error fetching currently playing track:", error);
+            trackTitle.innerText = "Error fetching track."; 
+            artistName.innerText = "Check console for details.";
+            albumArt.style.display = "none";
+        }
+    }
+
+
+    // --- Initial Load Logic ---
+    if (authCode) {
+        if (clientId && redirectUri) {
+            getAccessToken(authCode);
+        } else {
+            alert("Authentication details lost. Please re-enter.");
             showSetup();
         }
-    </script>
+    } else if (accessToken) {
+        // User is logged in (via Local Storage OR URL parameters)
+        showNowPlaying();
+        getCurrentlyPlaying();
+        setInterval(getCurrentlyPlaying, 5000); 
+    } else if (clientId && redirectUri) {
+        // Client details saved, ready for Spotify login
+        showLogin();
+    } else {
+        // No client details saved, show setup form
+        showSetup();
+    }
+</script>
 </body>
 </html>
