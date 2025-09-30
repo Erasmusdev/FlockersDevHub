@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Now Playing Widget</title>
     <style>
+        /* --- General Styling and Font --- */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
         body {
@@ -13,74 +14,131 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: transparent; /* Fully transparent background for OBS */
+            background-color: transparent; /* Fully transparent for OBS */
             color: #fff;
             margin: 0;
-            overflow: hidden; /* Prevent scrollbars */
+            overflow: hidden; 
         }
 
+        /* --- Widget Container - Mimicking the Card Design --- */
         .widget-container {
-            background: rgba(0, 0, 0, 0.4); /* Darker, semi-transparent background */
-            backdrop-filter: blur(10px) saturate(180%); /* Softer blur for a sleeker glass effect */
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border */
-            border-radius: 50px; /* Pill shape */
-            box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.2); /* Softer shadow */
-            padding: 10px 20px;
+            background: #111; /* Dark solid background for the card look */
+            border-radius: 12px; /* Smoother corners */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+            padding: 20px;
             text-align: left;
             display: flex;
-            align-items: center;
+            flex-direction: column; /* Stack content vertically */
             gap: 15px;
-            max-width: 450px; /* Slightly wider to accommodate more text */
-            min-width: 250px; /* Prevent it from becoming too small */
-            width: fit-content; /* Adjust width to content, up to max-width */
+            max-width: 350px; /* Max width for the card */
+            min-width: 300px;
+            width: 90%;
             transition: all 0.3s ease;
         }
         
-        /* Styling for the login-only state - slightly larger and centered */
+        /* --- Login/Setup State (Slightly modified to fit the card structure) --- */
         .widget-container.login-state {
-            text-align: center;
-            padding: 20px;
-            border-radius: 20px;
-            display: block;
-            width: 300px; /* Fixed width for login state */
-            max-width: none; /* Override max-width for login state */
-            min-width: unset;
+            padding: 30px;
+            gap: 20px;
         }
 
-        #login-button {
-            background-color: #1ed760;
-            color: white;
-            padding: 12px 25px;
+        /* --- Headers and Text --- */
+        .widget-header {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .widget-subheader {
+            font-size: 1em;
+            font-weight: 400;
+            color: #b0b0b0; /* Light gray for "by Colin Horn" style text */
+            margin-bottom: 15px;
+        }
+        
+        #setup-section p, #login-section p {
+            font-size: 0.95em;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* --- Button Styling (Yellow and Blue-Gray) --- */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-button {
+            padding: 14px 25px;
             border: none;
-            border-radius: 500px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
+            text-align: center;
             transition: background-color 0.2s ease, transform 0.2s ease;
+            font-size: 1em;
         }
 
-        #login-button:hover {
-            background-color: #1ab24e;
+        /* Yellow Button (Primary Action) */
+        #login-button, #setup-button {
+            background-color: #ffd44c; /* Spotify yellow/gold */
+            color: #111;
+        }
+        #login-button:hover, #setup-button:hover {
+            background-color: #ffc820; 
             transform: translateY(-1px);
         }
-        
-        #login-section p {
-            font-size: 0.95em;
-            color: #b0b0b0;
-            margin-bottom: 25px;
+
+        /* Blue-Gray Button (Secondary Action/Tutorial/Reconfigure) */
+        .secondary-button {
+            background-color: #4b6791; 
+            color: white;
+        }
+        .secondary-button:hover {
+            background-color: #5d78a1;
+            transform: translateY(-1px);
         }
 
+        /* --- Setup Form Inputs --- */
+        #setup-section input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background-color: #222;
+            color: white;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9em;
+        }
+        
+        .small-link {
+            font-size: 0.8em;
+            color: #999;
+            text-decoration: underline;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        /* --- Now Playing Display --- */
         #now-playing {
-            display: none; /* Managed by JS */
+            /* Initial state handled by JS */
             opacity: 0;
             transition: opacity 0.5s ease;
             display: flex;
             align-items: center;
-            flex-grow: 1; /* Allow it to grow within the widget-container */
             gap: 15px;
-            min-width: 0; /* Allow content inside flex to shrink beyond its intrinsic size */
+            min-width: 0; 
         }
 
         #now-playing.visible {
@@ -88,74 +146,141 @@
         }
         
         #album-art {
-            width: 48px;
-            height: 48px;
+            width: 60px; /* Slightly larger image */
+            height: 60px;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             object-fit: cover;
-            flex-shrink: 0; /* Prevent album art from shrinking */
+            flex-shrink: 0; 
         }
 
         .track-info {
             display: flex;
             flex-direction: column;
             text-align: left;
-            overflow: hidden; /* Crucial: hide any overflow */
-            flex-grow: 1; /* Allow this container to grow and take available space */
-            min-width: 0; /* Allow the content inside this flex item to be flexible */
+            overflow: hidden; 
+            flex-grow: 1; 
+            min-width: 0; 
         }
 
         #track-title, #artist-name {
-            white-space: nowrap; /* Keep text on a single line */
-            overflow: hidden; /* Hide anything that goes beyond the container */
-            text-overflow: ellipsis; /* Add "..." for truncated text */
-            margin: 0; /* Remove default paragraph margins */
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            margin: 0; 
         }
 
         #track-title {
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 600;
             color: #ffffff;
         }
 
         #artist-name {
-            font-size: 0.85em;
+            font-size: 0.9em;
             color: #b0b0b0;
+        }
+
+        /* Status Pills (Mimicking OBS/Twitch icons) */
+        .status-pills {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .pill {
+            background-color: #333;
+            color: #ccc;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .pill svg {
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
 
     <div class="widget-container login-state" id="main-widget-container">
-        <div id="login-section">
-            <p>To see what you're listening to, please log in to Spotify.</p>
-            <a href="#" id="login-button">Log in with Spotify</a>
+        
+        <div id="setup-section" style="display: none;">
+            <div class="status-pills">
+                <div class="pill">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M7 6a1 1 0 0 0-1 1v1h-2V7a1 1 0 0 0-1-1H.5L0 7v2.24L3.8 11h8.4L16 9.24V7l-.5-1H11a1 1 0 0 0-1-1H7zM3.5 13a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9z"/>
+                    </svg>
+                    OBS
+                </div>
+                <div class="pill">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M14.542 3.843l-4.57 1.341v-.953c0-.181-.137-.33-.31-.35l-2.033-.496c-.183-.042-.36.096-.38.28l-.05.45c-.05.45.28.84.73.84h2.24l.17.05v6.52l-.17.05h-2.24c-.45 0-.78.39-.73.84l.05.45c.02.184.197.322.38.28l2.033-.496c.173-.02.31-.169.31-.35v-.953l4.57 1.341c.21.062.43-.075.43-.28V4.123c0-.205-.22-.342-.43-.28z"/>
+                    </svg>
+                    Twitch
+                </div>
+            </div>
+            
+            <p class="widget-header" style="font-size: 1.5em; margin-bottom: 5px;">Spotify Player Setup</p>
+            <p class="widget-subheader" style="margin-bottom: 20px;">by Your Name</p>
+
+            <p>To connect to Spotify, please provide your app credentials (Client ID and Redirect URI) from your Spotify Developer Dashboard.</p>
+
+            <input type="text" id="client-id-input" placeholder="Your Spotify Client ID" required>
+            <input type="text" id="redirect-uri-input" placeholder="Your Redirect URI (e.g., your page URL)" required>
+            
+            <div class="button-group">
+                <button id="setup-button" class="action-button">Save & Continue to Login</button>
+                <a href="https://developer.spotify.com/dashboard/applications" target="_blank" class="action-button secondary-button">Developer Hub</a>
+            </div>
+            <p class="small-link" id="clear-data-button">Clear All Stored Data</p>
+        </div>
+
+        <div id="login-section" style="display: none;">
+            <p class="widget-header">Connect Spotify</p>
+            <p class="widget-subheader">One-time login required</p>
+            <p>You have saved your credentials. Now, click below to log in and grant permission to view your currently playing song.</p>
+            
+            <div class="button-group">
+                <a href="#" id="login-button" class="action-button">Log in with Spotify</a>
+                <span id="reconfigure-button" class="action-button secondary-button" style="cursor: pointer;">Re-enter Client Details</span>
+            </div>
         </div>
 
         <div id="now-playing">
-            <img id="album-art" src="" alt="Album Art">
+            <img id="album-art" src="https://via.placeholder.com/60" alt="Album Art">
             <div class="track-info">
-                <p id="track-title"></p>
-                <p id="artist-name"></p>
+                <p id="track-title" class="widget-header" style="font-size: 1.1em;"></p>
+                <p id="artist-name" class="widget-subheader" style="margin-bottom: 0;"></p>
             </div>
         </div>
     </div>
 
     <script>
-        const clientId = 'd6d3071a35dc4874af1dcf110017ec8d'; // YOUR CLIENT ID HERE
-        const redirectUri = 'https://erasmusdev.github.io/FlockersDevHub/Player.html'; // YOUR GITHUB PAGES URL HERE
+        // Constants
         const authEndpoint = 'https://accounts.spotify.com/authorize';
         const tokenEndpoint = 'https://accounts.spotify.com/api/token';
+        const currentlyPlayingEndpoint = 'https://api.spotify.com/v1/me/player/currently-playing';
         const scope = 'user-read-currently-playing';
-
+        
+        // DOM Elements
         const mainWidgetContainer = document.getElementById('main-widget-container');
+        const setupSection = document.getElementById('setup-section');
+        const clientIdInput = document.getElementById('client-id-input');
+        const redirectUriInput = document.getElementById('redirect-uri-input');
+        const setupButton = document.getElementById('setup-button');
         const loginSection = document.getElementById('login-section');
         const nowPlayingSection = document.getElementById('now-playing');
         const trackTitle = document.getElementById('track-title');
         const artistName = document.getElementById('artist-name');
         const albumArt = document.getElementById('album-art');
         const loginButton = document.getElementById('login-button');
+        const reconfigureButton = document.getElementById('reconfigure-button');
+        const clearDataButton = document.getElementById('clear-data-button');
 
+        // Helper functions
         const generateRandomString = (length) => {
             const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let text = '';
@@ -175,47 +300,108 @@
                 .replace(/=+$/, '');
         };
 
-        const urlParams = new URLSearchParams(window.location.search);
-        let code = urlParams.get('code');
+        // --- State Management and UI Logic ---
 
-        if (code) {
-            getAccessToken(code);
-        } else {
-            let accessToken = localStorage.getItem('accessToken');
-            
-            if (accessToken) {
-                mainWidgetContainer.classList.remove('login-state'); // Remove login-specific styling
-                loginSection.style.display = 'none';
-                nowPlayingSection.style.display = 'flex'; // Use flex for this layout
-                nowPlayingSection.classList.add('visible'); // Add visible class for fade-in
-                getCurrentlyPlaying();
-                setInterval(getCurrentlyPlaying, 5000); 
-            } else {
-                loginButton.addEventListener('click', async () => {
-                    const verifier = generateRandomString(128);
-                    const challenge = await generateCodeChallenge(verifier);
-
-                    localStorage.setItem('code_verifier', verifier);
-
-                    const params = new URLSearchParams({
-                        client_id: clientId,
-                        response_type: 'code',
-                        redirect_uri: redirectUri,
-                        scope: scope,
-                        code_challenge_method: 'S256',
-                        code_challenge: challenge,
-                    });
-
-                    window.location.href = `${authEndpoint}?${params.toString()}`;
-                });
-            }
+        function showSetup() {
+            mainWidgetContainer.classList.add('login-state');
+            setupSection.style.display = 'block';
+            loginSection.style.display = 'none';
+            nowPlayingSection.style.display = 'none';
         }
 
-        async function getAccessToken(authCode) {
+        function showLogin() {
+            mainWidgetContainer.classList.add('login-state');
+            setupSection.style.display = 'none';
+            loginSection.style.display = 'block';
+            nowPlayingSection.style.display = 'none';
+        }
+
+        function showNowPlaying() {
+            // Revert container to the sleek, horizontal playing look
+            mainWidgetContainer.classList.remove('login-state'); 
+            mainWidgetContainer.style.flexDirection = 'row';
+            mainWidgetContainer.style.padding = '10px 20px';
+            mainWidgetContainer.style.background = 'rgba(0, 0, 0, 0.4)'; /* Use glass effect for playing state */
+            mainWidgetContainer.style.backdropFilter = 'blur(10px) saturate(180%)'; 
+            
+            setupSection.style.display = 'none';
+            loginSection.style.display = 'none';
+            nowPlayingSection.style.display = 'flex';
+            nowPlayingSection.classList.add('visible');
+        }
+        
+        // Load stored credentials
+        let clientId = localStorage.getItem('spotifyClientId');
+        let redirectUri = localStorage.getItem('spotifyRedirectUri');
+        let accessToken = localStorage.getItem('accessToken');
+        const urlParams = new URLSearchParams(window.location.search);
+        let authCode = urlParams.get('code');
+
+
+        // --- Event Listeners ---
+        setupButton.addEventListener('click', () => {
+            const newClientId = clientIdInput.value.trim();
+            const newRedirectUri = redirectUriInput.value.trim();
+
+            if (newClientId && newRedirectUri) {
+                localStorage.setItem('spotifyClientId', newClientId);
+                localStorage.setItem('spotifyRedirectUri', newRedirectUri);
+                clientId = newClientId;
+                redirectUri = newRedirectUri;
+                showLogin();
+            } else {
+                alert("Both Client ID and Redirect URI are required.");
+            }
+        });
+
+        loginButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (!clientId || !redirectUri) {
+                alert("Client details are missing. Please reconfigure.");
+                showSetup();
+                return;
+            }
+            
+            const verifier = generateRandomString(128);
+            const challenge = await generateCodeChallenge(verifier);
+
+            localStorage.setItem('code_verifier', verifier);
+
+            const params = new URLSearchParams({
+                client_id: clientId,
+                response_type: 'code',
+                redirect_uri: redirectUri,
+                scope: scope,
+                code_challenge_method: 'S256',
+                code_challenge: challenge,
+            });
+
+            window.location.href = `${authEndpoint}?${params.toString()}`;
+        });
+        
+        reconfigureButton.addEventListener('click', () => {
+            // Clear only the credentials and show setup
+            localStorage.removeItem('spotifyClientId');
+            localStorage.removeItem('spotifyRedirectUri');
+            clientIdInput.value = clientId || '';
+            redirectUriInput.value = redirectUri || '';
+            showSetup();
+        });
+        
+        clearDataButton.addEventListener('click', () => {
+            if (confirm("Are you sure you want to clear all stored Spotify data (tokens and credentials)? You will have to start over.")) {
+                localStorage.clear();
+                location.reload();
+            }
+        });
+
+        // --- Authorization and API Calls ---
+
+        async function getAccessToken(code) {
             const verifier = localStorage.getItem('code_verifier');
             const body = new URLSearchParams({
                 grant_type: 'authorization_code',
-                code: authCode,
+                code: code,
                 redirect_uri: redirectUri,
                 client_id: clientId,
                 code_verifier: verifier,
@@ -241,64 +427,83 @@
                 location.reload(); 
             } catch (error) {
                 console.error('Error fetching access token:', error);
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                showLogin();
             }
         }
 
         async function getCurrentlyPlaying() {
-            let accessToken = localStorage.getItem('accessToken');
-            if (!accessToken) {
-                localStorage.clear();
-                location.reload();
+            let currentToken = localStorage.getItem('accessToken');
+            
+            if (!currentToken) {
+                showLogin();
                 return;
             }
 
             try {
-                const response = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+                const response = await fetch(currentlyPlayingEndpoint, {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'Bearer ' + accessToken
+                        'Authorization': 'Bearer ' + currentToken
                     }
                 });
 
-                if (response.status === 204) {
-                    // When nothing is playing, revert to login state appearance
-                    mainWidgetContainer.classList.add('login-state');
-                    loginSection.style.display = 'block';
-                    nowPlayingSection.style.display = 'none';
-                    trackTitle.innerText = "Nothing playing right now."; // Or some other message
-                    artistName.innerText = "";
+                if (response.status === 204 || response.status === 200 && (await response.clone().json()).is_playing === false) {
+                    // Nothing playing / Player is idle
+                    showNowPlaying(); // Maintain the playing UI structure
+                    trackTitle.innerText = "Nothing playing right now."; 
+                    artistName.innerText = "Start a song on Spotify.";
                     albumArt.style.display = "none";
                     return;
                 }
 
                 if (response.status === 401) {
-                    localStorage.clear();
-                    location.reload(); 
+                    // Unauthorized (token expired)
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    alert("Your session has expired. Please log in again.");
+                    showLogin();
                     return;
                 }
 
                 const data = await response.json();
+                
                 if (data.item) {
-                    mainWidgetContainer.classList.remove('login-state'); // Ensure correct styling when playing
-                    loginSection.style.display = 'none';
-                    nowPlayingSection.style.display = 'flex';
-                    nowPlayingSection.classList.add('visible');
+                    showNowPlaying(); 
                     trackTitle.innerText = data.item.name;
                     artistName.innerText = data.item.artists.map(artist => artist.name).join(', ');
                     albumArt.src = data.item.album.images[0].url;
                     albumArt.style.display = "block";
-                } else {
-                    // When Spotify returns an empty item (e.g., player is off, but token is valid)
-                    mainWidgetContainer.classList.add('login-state');
-                    loginSection.style.display = 'block';
-                    nowPlayingSection.style.display = 'none';
-                    trackTitle.innerText = "Nothing playing right now.";
-                    artistName.innerText = "";
-                    albumArt.style.display = "none";
-                }
+                } 
             } catch (error) {
                 console.error("Error fetching currently playing track:", error);
+                trackTitle.innerText = "Error fetching track."; 
+                artistName.innerText = "Please check console.";
+                albumArt.style.display = "none";
             }
+        }
+
+        // --- Initial Load Logic ---
+        if (authCode) {
+            // 2: Handle redirect from Spotify with authorization code
+            if (clientId && redirectUri) {
+                getAccessToken(authCode);
+            } else {
+                alert("Authentication details lost. Please re-enter.");
+                showSetup();
+            }
+        } else if (accessToken) {
+            // 3: User is already logged in
+            showNowPlaying();
+            getCurrentlyPlaying();
+            setInterval(getCurrentlyPlaying, 5000); 
+        } else if (clientId && redirectUri) {
+            // 1b: Client details saved, ready for Spotify login
+            showLogin();
+        } else {
+            // 1a: No client details saved, show setup form
+            showSetup();
         }
     </script>
 </body>
