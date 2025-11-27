@@ -1,148 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Easy Goal V2 | Unreal Dev Hub</title>
-  <link rel="icon" href="./assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[FD] SB HoldNRelease | Unreal Dev Hub</title>
+            <link rel="stylesheet" href="./CSS/Info.css">
+    <link rel="icon" href="./assets/favicon.png" type="image/png">
+    
+    <style>
+        /* Paste the CSS provided in the previous turn here, 
+           or link to your style.css file 
+        */
+        
+        /* -- EXTRA STYLES FOR THE TABLE & CODE (Inline additions) -- */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: var(--gray-text);
+        }
+        .tech-table th {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--accent-color);
+            padding: 15px;
+            text-align: left;
+            border: 1px solid var(--card-border-color);
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
+        .tech-table td {
+            padding: 12px;
+            border: 1px solid var(--card-border-color);
+            background-color: rgba(0,0,0,0.3);
+        }
+        .tech-table tr:hover td {
+            background-color: rgba(0, 255, 136, 0.05);
+            color: var(--secondary-accent);
+        }
+        .code-display-box {
+            background: #000;
+            border: 1px solid var(--gray-text);
+            color: var(--accent-color);
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 150px;
+            overflow-y: scroll;
+            margin-top: 10px;
+        }
+        /* Custom FAQ Styling to match theme */
+        details {
+            background: var(--card-bg);
+            margin-bottom: 10px;
+            border: 1px solid var(--card-border-color);
+            padding: 15px;
+            cursor: pointer;
+        }
+        details summary {
+            color: var(--secondary-accent);
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
+        details p {
+            margin-top: 10px;
+            color: var(--gray-text);
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>Easy Goal For Ko-fi V2.8</h1>
-      <nav>
-        <a href="./index.html">Home</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');kofiwidget2.draw();</script> 
-      </nav>
+
+    <canvas id="particle-canvas"></canvas>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="#" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">CONTACT</a></li>
+
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
     </div>
-  </header>
 
-  <main class="container product-page">
-    <!-- Hero -->
-    <section class="hero">
-      <h1>🎆 NOW ALSO SUPPORTED FOR KICK!</h1>
-      <h3>🎯 Stylish & Animated Ko-fi Goal Widget</h3>
-      <p>Perfect for spooky streams, charity events, and fun audience engagement.</p>
-      <a href="https://discord.me/unreald" class="btn" target="_blank">🎁 Join Discord</a>
-    </section>
-
-    <!-- Description -->
-    <section class="card-section">
-      <p><strong>Easy Goal For Ko-fi V2</strong> is a customizable and animated donation tracker built for creators using <strong>Ko-fi</strong>. Integrates with <strong>Streamer.bot</strong> or browser triggers for rich interactions.</p>
-      <p>Features a unique blood-bag animation that fills with each donation. Perfect for horror streamers or themed campaigns.</p>
-    </section>
-
-    <!-- Features -->
-    <section class="card-section">
-      <h3>✨ Key Features</h3>
-      <ul class="icon-list">
-        <li>🎨 Fully customizable color palette</li>
-        <li>💉 Fluid blood-bag animation on goal progress</li>
-        <li>⚙️ Easy to configure with Streamer.bot</li>
-        <li>📊 Live progress animation</li>
-        <li>🧰 Lightweight and modern visual style</li>
-        <li>🖼️ <strong>(NEW)</strong> Lightweight Dynamic Flower/Bits donation Alerts</li>
-      </ul>
-    </section>
-
-
-<section class="Vido-section">
-  <h3>🖼️ Example Previews</h3>
-      <div class="vide-embed">
-      <iframe width="650" height="400" 
-        src="https://www.youtube.com/embed/yR0ZsyRgBnQ?si=Lu-6APdo6UzfrU5f" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen>
-      </iframe>
+    <div class="navbar-right">
+        <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+        <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
     </div>
-  <div class="gallery">
-    <img  class="modal-target" src="./assets/Easygoalexample.png" alt="" />
-  </div>
-</section>
+</header>
 
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <img id="bg-video" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" style="opacity: 0.4;" alt="Tech Background">
 
- 
-
-
-    <section class="card-section">
-      <h3>❓ Frequently Asked Questions</h3>
-      <details>
-        <summary>🛡️ Is this paid?</summary>
-        <p>No, this tool is free! Donations are welcome on Ko-fi to help support development.</p>
-      </details>
+        <div class="hero-content">
+            <h1 class="large-brand-name">EASYGOAL<span style="color:var(--accent-color)">F</span>ORKOFI</h1>
+            <p class="tagline">Stylish & Animated Ko-fi Goal Widget</p>
+            <p style="color: var(--gray-text); margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Perfect for spooky streams, charity events, and fun audience engagement.
+            </p>
+        </div>
     </section>
 
-      <section class="card-section">
-      <div class="code-block">
-        <h3>ℹ️ Version Info</h3>
-      <ul class="icon-list">
-        <li> Filename | Easy Goal For KoFi V2</li>
-        <li> Category | Full Release</li>
-        <li> Version | V2.8</li>
-        <li> Author | Flockers Design</li>
-        <li> Updated | April 29th, 2025</li>
-        <li> Size | 1KB</li>
-      </ul>
-        <a href="https://ko-fi.com/s/a1b0d0af82" target="_blank">
-        <img src="./assets/BUY.png" width="300" height="70" />
-      </a>
-     </div>
-    </section>
-
-
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    <div class="full-width-banner">
+        <div class="banner-content">
+            <p>/// STATUS: DEPLOYED /// C# SCRIPT INTEGRATION /// V2.8 AVAILABLE ///</p>
+        </div>
     </div>
-  </footer>
 
-  <!-- Lightbox Modal -->
-  <div id="imgModal" class="img-modal">
-    <span class="img-modal-close">&times;</span>
-    <img class="img-modal-content" id="imgModalContent">
-  </div>
+    <div class="core-provisions-grid">
 
-  <!-- JS -->
-  <script>
-    const modal = document.getElementById('imgModal');
-    const modalImg = document.getElementById('imgModalContent');
-    const modalClose = document.querySelector('.img-modal-close');
-    const images = document.querySelectorAll('.modal-target');
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1587829741301-dc798b91add1?q=80&w=2065&auto=format&fit=crop" alt="Keyboard" class="protocol-card-image">
+                <div class="image-detail-overlay">FEATURES</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3> Key Features</h3>
+                </div>
+                <div class="card-tagline">lighweight and easy to use</div>
+                
+                <div class="data-block">
+                    <h4>MECHANIC</h4>
+                    <p class="card-description">
+                      - Fully customizable color palette<br>
+                      -  Fluid blood-bag animation on goal progress<br>
+                      -  Easy to configure with Streamer.bot<br>
+                      -  Live progress animation<br>
+                      -  Lightweight and modern visual style<br>
+                      -  (NEW) Lightweight Dynamic Flower/Bits donation Alerts.
+                    </p>
+                </div>
+                <div class="data-block">
+                </div>
+            </div>
+        </a>
 
-    images.forEach(img => {
-      img.addEventListener('click', () => {
-        modal.style.display = 'block';
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
-      });
-    });
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop" alt="Code" class="protocol-card-image">
+                <div class="image-detail-overlay">FLASHY DESIGN</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>What is easygoal</h3>
+                </div>
+                <div class="card-tagline">flashy allert</div>
+                
+                <div class="data-block">
+                    <p class="card-description">
+                        • Easy Goal For Ko-fi V2 is a customizable and animated donation tracker built for creators using Ko-fi. Integrates with Streamer.bot or browser triggers for rich interactions.
 
-    modalClose.addEventListener('click', () => {
-      modal.style.display = 'none';
-      modalImg.src = '';
-    });
+                        Features a unique blood-bag animation that fills with each donation. Perfect for horror streamers or themed campaigns.
+                    </p>
+                </div>
+            </div>
+        </a>
 
-    window.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-        modalImg.src = '';
-      }
-    });
+        <div class="protocol-card">
+            <div class="protocol-card-content" style="flex: 1 1 100%;">
+                <div class="card-header-icon-small">
+                    <h3>DEPLOYMENT</h3>
+                </div>
+                <div class="card-tagline">IMPORT STRING</div>
+                
+                <div class="data-block">
+                    <h4>HOW IT WORKS</h4>
+                    <p class="card-description small-text">
+                        Easy Goal For Ko-fi V2 works by integrating with Streamer.bot or browser sources to track Ko-fi donations in real-time. As donations come in, the blood-bag graphic fills up, providing a visually engaging way to display progress toward your goal. The widget is fully customizable, allowing you to adjust colors, sizes, and animation speeds to fit your stream's aesthetic.
+                    </p>
+                </div>
 
-    window.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        modal.style.display = 'none';
-        modalImg.src = '';
-      }
-    });
-  </script>
+                <div class="data-block">
+                    <h4>IMPORT CODE</h4>
+                    <div class="code-display-box" id="import-code">COMMING SOON!</div>
+                    <button class="read-more-styled" style="background:none; border:1px solid var(--accent-color); cursor:pointer; margin-top:10px;" onclick="copyCode()">COPY TO CLIPBOARD</button>
+                </div>
+            </div>
+            <div class="animated-border-left"></div>
+        </div>
+
+        <a href="https://ko-fi.com/s/a1b0d0af82" target="_blank" class="protocol-card">
+            <div class="card-image-container">
+                 <img src="./assets/BUY.png" alt="Buy Now" style="width:100%; height:100%; object-fit:contain; padding:20px;">
+                 <div class="image-detail-overlay">KO-FI STORE</div>
+                 <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>GET ACCESS</h3>
+                </div>
+                <div class="card-tagline">VERSION 1.0</div>
+                
+                <div class="card-description small-text">
+                    <strong>Filename:</strong> Easy Goal For KoFi V2<br>
+                    <strong>Category:</strong> Full Release
+                    <strong>VERSION:</strong> V2.8<br>
+                    <strong>AUTHOR:</strong> FlockersDesign<br>
+                    <strong>Updated:</strong> April 29th, 2025<br>
+                    <strong>Size:</strong> 1KB<br>
+
+                </div>
+                <br>
+                <span class="read-more-styled">PURCHASE ON KO-FI &rarr;</span>
+            </div>
+        </a>
+
+    </div>
+    
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 40px;">
+        <div class="section-protocol-title">OPERATIONAL FAQ</div>
+        <details>
+            <summary>Is this paid?</summary>
+            <p>Yes, this tool is PAID! to help support development..</p>
+        </details>
+    </div>
+
+
+
+    <div class="section-footer-cta">
+        <p style="color:var(--gray-text);">© 2025 FlockersDesign. All rights reserved.</p>
+        <div class="footer-links">
+             <div id="kofi-placeholder"></div>
+        </div>
+    </div>
+
+    <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+    <script>
+        kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+        kofiwidget2.draw();
+    </script>
+
+    <script>
+        // Copy Code Functionality
+        function copyCode() {
+            const codeBox = document.getElementById('import-code');
+            const codeText = codeBox.innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert("Code copied to clipboard!");
+            });
+        }
+
+        // Mobile Menu Logic
+        const hamburger = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.navbar-left nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            navMenu.classList.toggle('active');
+        });
+
+        // Particle Animation (Visual Filler)
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        for(let i=0; i<30; i++){
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speedY: Math.random() * 0.5
+            });
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 255, 136, 0.2)";
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>

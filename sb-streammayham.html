@@ -1,258 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>[FD] StreamMayham | Unreal Dev Hub</title>
-  <link rel="icon" href="./assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[FD] StreamMayhem | Unreal Dev Hub</title>
+    <link rel="icon" href="./assets/favicon.png" type="image/png">
+    
+    <style>
+        /* --- PASTE CORE CSS HERE (From previous steps) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --dark-bg: #0d0f11;
+            --text-color: #f0f0f0;
+            --accent-color: #00aeff; 
+            --secondary-accent: #ffffff;
+            --gray-text: #8e9498;
+            --navbar-bg: rgba(0,0,0,0.9);
+            --card-border-color: rgba(255,255,255,0.2);
+            --classy-border: rgba(0, 255, 136, 0.6); 
+            --hazard-yellow: #ffcc00; 
+            --card-bg: #101010; 
+            --danger-red: #ff3333;
+        }
+
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background-color: var(--dark-bg);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Navbar & Hero --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: var(--navbar-bg);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            color: var(--secondary-accent);
+            text-decoration: none;
+            margin-right: 30px;
+            letter-spacing: 2px;
+        }
+
+        .navbar-left nav ul { list-style: none; display: flex; gap: 25px; }
+        .navbar-left nav ul li a { color: var(--gray-text); text-decoration: none; transition: color 0.3s ease; }
+        .navbar-left nav ul li a:hover { color: var(--accent-color); }
+
+        .navbar-right, .mobile-socials { display: flex; align-items: center; gap: 25px; }
+        .icon-link { display: flex; align-items: center; color: var(--gray-text); text-decoration: none; font-size: 0.85em; letter-spacing: 1px; transition: color 0.3s ease, transform 0.3s ease; }
+        .icon-link img { width: 28px; height: 28px; margin-right: 8px; filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.6)); transition: transform 0.3s ease, filter 0.3s ease; }
+        .icon-link:hover { color: var(--accent-color); transform: translateY(-2px); }
+
+        /* Hamburger */
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 28px; height: 20px; background: none; border: none; cursor: pointer; z-index: 1100; }
+        .hamburger span { display: block; width: 100%; height: 3px; background-color: var(--secondary-accent); border-radius: 2px; transition: all 0.3s ease; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        .navbar-left nav { display: flex; }
+        .mobile-socials { display: none; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .navbar-left nav { position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--navbar-bg); max-height: 0; overflow: hidden; transition: max-height 0.3s ease; flex-direction: column; }
+            .navbar-left nav.active { max-height: 500px; }
+            .navbar-left nav ul { flex-direction: column; gap: 15px; padding: 15px; }
+            .mobile-socials { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+            .navbar-right { display: none; }
+        }
+
+        .hero-section { position:relative; width:100%; height:80vh; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+        #bg-video { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+        .hero-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(13,15,17,0.9) 0%, rgba(13,15,17,0.4) 50%, rgba(13,15,17,0.1) 100%); z-index:1; }
+        .hero-content { position:relative; z-index:2; }
+        .large-brand-name { font-family: 'Oswald', sans-serif; font-size: 7em; font-weight: 700; color: var(--secondary-accent); text-shadow: 0 0 15px rgba(0, 255, 136, 0.5); transform: perspective(800px) rotateX(10deg) scale(1.05); letter-spacing: 5px; opacity: 0.95; transition: all 0.5s ease; }
+        .tagline { font-size:1.5em; color:var(--gray-text); margin-top:20px; }
+        
+        .full-width-banner { width: 100%; background-color: var(--accent-color); color: var(--dark-bg); padding: 18px 40px; border-top: 2px solid var(--secondary-accent); border-bottom: 2px solid var(--secondary-accent); text-align: center; position: relative; overflow: hidden; }
+        .banner-content p { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 4px; font-size: 1.1em; animation: pulse-shadow 4s infinite ease-in-out; }
+        @keyframes pulse-shadow { 0% { text-shadow: none; } 50% { text-shadow: 0 0 8px rgba(13, 15, 17, 0.8); } 100% { text-shadow: none; } }
+
+        .section-protocol-title { text-align: center; font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--secondary-accent); margin: 50px 0 30px 0; letter-spacing: 2px; position: relative; padding: 0 20px; text-transform: uppercase; }
+        .section-protocol-title::before, .section-protocol-title::after { content: ''; position: absolute; top: 50%; width: 150px; height: 2px; background-color: var(--hazard-yellow); transform: translateY(-50%); }
+        .section-protocol-title::before { left: calc(50% - 20px - 150px); }
+        .section-protocol-title::after { right: calc(50% - 20px - 150px); }
+
+        /* Grid & Cards */
+        .core-provisions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 80px 40px; max-width: 1400px; margin: 50px auto 100px auto; padding: 0 40px; }
+        .protocol-card { background-color: var(--card-bg); border: 1px solid rgba(0, 255, 136, 0.1); border-radius: 8px; overflow: hidden; position: relative; text-decoration: none; color: var(--text-color); box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; display: flex; flex-direction: row; min-height: 400px; }
+        .protocol-card:hover { transform: translateY(-8px); box-shadow: 0 0 5px var(--accent-color), 0 15px 35px rgba(0,255,136,0.4); border-color: var(--classy-border); }
+        .protocol-card-content { flex: 1 1 50%; padding: 30px; display: flex; flex-direction: column; position: relative; z-index: 2; }
+        .card-image-container { flex: 1 1 50%; overflow: hidden; position: relative; background-color: #000; }
+        .protocol-card-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease, filter 0.4s ease; filter: brightness(0.8); object-position: center; }
+        .protocol-card:hover .protocol-card-image { transform: scale(1.1); filter: brightness(1); }
+        .card-header-icon-small { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .card-header-icon-small h3 { font-family: 'Oswald', sans-serif; font-size: 1.8em; color: var(--secondary-accent); text-transform: uppercase; letter-spacing: 2px; margin: 0; }
+        .protocol-card .card-tagline { font-family: 'Roboto', sans-serif; color: var(--hazard-yellow); text-transform: uppercase; font-size: 0.9em; margin-bottom: 20px; letter-spacing: 1px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); }
+        .data-block { margin-bottom: 25px; }
+        .data-block h4 { font-family: 'Oswald', sans-serif; font-size: 0.9em; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .protocol-card .card-description { font-size: 0.95em; line-height: 1.6; color: var(--gray-text); margin-bottom: 0; }
+        .protocol-card .card-description.small-text { font-size: 0.85em; }
+        .read-more-styled { display: inline-block; color: var(--accent-color); font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px; border: 1px solid var(--accent-color); padding: 8px 15px; transition: all 0.3s ease; margin-top: auto; cursor: pointer; }
+        .protocol-card:hover .read-more-styled { background-color: var(--accent-color); color: var(--dark-bg); border-color: var(--dark-bg); }
+        .image-detail-overlay { position: absolute; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.7); color: var(--secondary-accent); padding: 8px 15px; font-family: 'Oswald', sans-serif; font-size: 0.9em; letter-spacing: 1px; border-top-left-radius: 8px; z-index: 10; }
+        @keyframes slide-stripes { 0% { background-position: 0 0; } 100% { background-position: 0 64px; } }
+        .animated-border-left { position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: repeating-linear-gradient( 45deg, var(--classy-border), var(--classy-border) 16px, rgba(0,0,0,0.1) 16px, rgba(0,0,0,0.1) 32px ); background-size: 64px 64px; animation: slide-stripes 4s linear infinite; opacity: 0.4; transition: opacity 0.4s ease; z-index: 3; }
+        .protocol-card:hover .animated-border-left { opacity: 1; box-shadow: 0 0 10px var(--accent-color); }
+        
+        #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; mix-blend-mode: screen; opacity: 0.7; }
+        
+        .section-footer-cta { text-align:center; max-width:900px; margin:60px auto; border-top:2px solid var(--accent-color); padding-top:40px; }
+        .footer-links { display:flex; justify-content:center; gap:25px; }
+
+        @media(max-width:1100px){ .core-provisions-grid { grid-template-columns: 1fr; max-width: 700px; padding: 0 20px; } }
+        @media(max-width:650px){ .protocol-card { flex-direction: column; min-height: auto; } .protocol-card-content { order: 2; } .card-image-container { order: 1; height: 250px; } .image-detail-overlay { top: 0; bottom: auto; border-top-left-radius: 0; border-bottom-right-radius: 8px; } }
+
+        /* --- TABLE & LIST SPECIFIC STYLES --- */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 20px;
+            font-size: 0.95em;
+            color: var(--gray-text);
+            margin-bottom: 40px;
+        }
+        .tech-table th {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--accent-color);
+            padding: 15px;
+            text-align: left;
+            border: 1px solid var(--card-border-color);
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .tech-table td {
+            padding: 12px;
+            border: 1px solid var(--card-border-color);
+            background-color: rgba(0,0,0,0.3);
+            vertical-align: top;
+        }
+        .tech-table tr:hover td {
+            background-color: rgba(0, 255, 136, 0.05);
+            color: var(--secondary-accent);
+        }
+        .status-green { color: var(--accent-color); font-weight: bold; }
+        .status-red { color: var(--danger-red); font-weight: bold; }
+
+        /* Setup Steps Style */
+        .setup-steps ol { padding-left: 20px; }
+        .setup-steps li { margin-bottom: 10px; color: var(--gray-text); }
+        .setup-steps li::marker { color: var(--accent-color); font-weight: bold; }
+
+        /* FAQ Details */
+        details { background: var(--card-bg); margin-bottom: 10px; border: 1px solid var(--card-border-color); padding: 15px; cursor: pointer; }
+        details summary { color: var(--secondary-accent); font-family: 'Oswald', sans-serif; letter-spacing: 1px; }
+        details p { margin-top: 10px; color: var(--gray-text); line-height: 1.6; }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>StreamMayham</h1>
-      <nav>
-        <a href="./index.html">Home</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');kofiwidget2.draw();</script> 
-      </nav>
+
+    <canvas id="particle-canvas"></canvas>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="#" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">CONTACT</a></li>
+
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
     </div>
-  </header>
 
-    <main class="container product-page">
-    <!-- Hero -->
-    <section class="hero">
-      <h2>🎯 StreamMayham</h2>
-      <p>Enhance your Twitch streaming experience with our comprehensive OBS stream overlay widget.</p>
-      <a href="https://discord.me/unreald" class="btn" target="_blank">🎁 Join Discord</a>   
-    </section>
-
-<main class="container product-page">
-  <section class="card-section">
-    <h2>Fun Chaos Effects for Your Stream</h2>
-    <p>
-      <strong>[FD] StreamMayham</strong> is a powerful toolkit that allows your Twitch viewers to trigger wild, chaotic effects on your PC using 
-      <strong>Streamer.bot</strong> or browser-based commands.
-    </p>
-    <p>
-      From mouse spins and fake crashes to input blocking and more, StreamMayham delivers interactive fun and boosts viewer engagement — all safely, externally, and without interfering with your games or anti-cheat systems.
-    </p>
-  </section>
-</main>
-
-
-    <section class="card-section">
-      <h3>NEW Features V1.0.04</h3>
-      <ul>
-        <li>On screen effects like images and gifs</li>
-        <h3>included</h3>
-        <li>[Jumpscare] Animated (gif) Scream </li>
-        <li>[Jumpscare] DeamonClown </li>
-        <li>[Jumpscare] HorrorNun</li>
-        <li>[Reminder] Timer Warning what will add a image to the right corner of the screen <br> What can be used as a visual indecator for a timed even you have on the stream for example dont curse for 5 minutes so you see when its active and over</li>
-      </ul>
-    </section>
-
-    <section class="card-section">
-      <h3>Key Features</h3>
-      <ul>
-        <li>Various chaos effects including mouse spins, fake crashes, input blocking</li>
-        <li>Triggered by Streamer.bot actions or web browser</li>
-        <li>Safe for use with popular anti-cheat systems</li>
-        <li>External applications, no game memory or code injection</li>
-        <li>Easy to configure and extend</li>
-      </ul>
-    </section>
-
-    <section class="card-section">
-      <h3>How It Works</h3>
-      <p>This toolkit uses separate C# applications that:</p>
-      <ul>
-        <li>Simulate input (mouse movements, clicks)</li>
-        <li>Modify cursor behavior for effects</li>
-        <li>Trigger visual and audio chaos effects like fake crashes and jumpscares</li>
-        <li>Run externally, never modifying game processes or memory</li>
-      </ul>
-    </section>
-
-<section>
-  <h3>Safe Use Guide</h3>
-  <p>Designed with streamer safety in mind to avoid anti-cheat flags.</p>
-
-  <div class="mayhem-table-wrapper">
-    <table class="mayhem-table">
-      <thead>
-        <tr>
-          <th>Safe Practices ✅</th>
-          <th>Avoid ❌</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Run effects as separate <code>.exe</code> files</td>
-          <td>Injecting code into game processes</td>
-        </tr>
-        <tr>
-          <td>Use Streamer.bot or web triggers to activate</td>
-          <td>Writing memory of game process</td>
-        </tr>
-        <tr>
-          <td>Keep durations short and clearly triggered</td>
-          <td>Emulating precise aim or timing macros</td>
-        </tr>
-        <tr>
-          <td>Visible/audible effects to show intent</td>
-          <td>Masking actions to look like cheating</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <p><strong>Compatible with popular anti-cheats including:</strong> EasyAntiCheat (Rust, Apex Legends), BattlEye (PUBG), and safe with games without anti-cheat like Paranormal Cleanup.</p>
-</section>
-
-
-<section>
-  <h3>Tested Games</h3>
-  <p>The following games have been tested with Anti-Cheat systems. Details are in the table below:</p>
-
-  <div class="mayhem-table-wrapper">
-    <table class="mayhem-table">
-      <thead>
-        <tr>
-          <th>Game Title</th>
-          <th>Anti-Cheat</th>
-          <th>Tested Date</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Rust</td>
-          <td>EasyAntiCheat</td>
-          <td>2025-06-17</td>
-          <td>Works perfectly!</td>
-        </tr>
-        <tr>
-          <td>Paranormal Cleanup</td>
-          <td>No AnitiCheat</td>
-          <td>2025-06-18</td>
-          <td>Works perfectly!</td>
-        </tr>
-        <tr>
-          <td>Rocket league</td>
-          <td>EasyAntiCheat</td>
-          <td>2025-06-18</td>
-          <td>Not Working!</td>
-        </tr>
-        <tr>
-          <td>Hunt: Showdown</td>
-          <td>EasyAntiCheat</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-        <tr>
-          <td>Fortnite</td>
-          <td>EasyAntiCheat</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-        <tr>
-          <td>ARK: Survival Evolved</td>
-          <td>EasyAntiCheat</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-        <tr>
-          <td>DayZ</td>
-          <td>BattleEye</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-        <tr>
-          <td>Rainbow Six Siege</td>
-          <td>BattleEye</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-        <tr>
-          <td>Arma 3</td>
-          <td>BattleEye</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-        <tr>
-          <td>Squad</td>
-          <td>BattleEye</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-        <tr>
-          <td>Day of Infamy</td>
-          <td>BattleEye</td>
-          <td>NaN</td>
-          <td>Not Tested yet</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-
-
-      <p><em>This list will expand over time as more games are tested.</em></p>
-    </section>
-
-        <section class="card-section">
-      <div class="code-block">
-        <h3>ℹ️ Version Info</h3>
-      <ul class="icon-list">
-        <li> Filename | [FD] StreamMayham</li>
-        <li> Category | Early Access</li>
-        <li> Version | V1.0.04</li>
-        <li> Author | Flockers Design</li>
-        <li> Updated | July 6th, 2025</li>
-        <li> Size | 3KB</li>
-      </ul>
-        <a href="https://ko-fi.com/s/b38925f84f" target="_blank">
-        <img src="./assets/BUY.png" width="300" height="70" />
-      </a>
-     </div>
-    </section>
-
-
-    <section class="card-section">
-      <h3>Setup Overview</h3>
-      <ol>
-        <li>Set your effects `.exe` files to run as administrator.</li>
-        <li>Create new Streamer.bot actions to trigger the desired effects.</li>
-        <li>Use channel points, bits, or commands as triggers.</li>
-        <li>In subactions, add <em>Core &gt; System &gt; Run program</em> and select the effect executable.</li>
-      </ol>
-    </section>
-
-    <section class="card-section">
-      <h3>FAQ</h3>
-      <details>
-        <summary>Is this safe to use with anti-cheat systems?</summary>
-        <p>Yes! StreamMayham effects run externally and do not modify game memory or inject code, making them safe with popular anti-cheats like EasyAntiCheat and BattlEye.</p>
-      </details>
-      <details>
-        <summary>Can viewers trigger effects via browser?</summary>
-        <p>Yes, you can trigger effects using a web browser-based trigger system alongside Streamer.bot.</p>
-      </details>
-      <details>
-        <summary>Do effects require admin rights?</summary>
-        <p>Some effects like input blocking or audio mute may require you to run executables as administrator.</p>
-      </details>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    <div class="navbar-right">
+        <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+        <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
     </div>
-  </footer>
+</header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <img id="bg-video" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" style="opacity: 0.3;" alt="Gaming Chaos">
+
+        <div class="hero-content">
+            <h1 class="large-brand-name">STREAM <span style="color:var(--accent-color)">MAYHEM</span></h1>
+            <p class="tagline">INTERACTIVE CHAOS ENGINE</p>
+            <p style="color: var(--gray-text); margin-top: 15px;">TRIGGER EXTERNAL CHAOS SAFELY</p>
+        </div>
+    </section>
+
+    <div class="full-width-banner">
+        <div class="banner-content">
+            <p>/// UPDATE V1.0.04 DEPLOYED /// JUMPSCARE MODULE ACTIVE /// TIMER ADDED ///</p>
+        </div>
+    </div>
+
+    <div class="core-provisions-grid">
+
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop" alt="Controller Chaos" class="protocol-card-image">
+                <div class="image-detail-overlay">VIEWER ENGAGEMENT</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>TOTAL CHAOS</h3>
+                </div>
+                <div class="card-tagline">STREAMER.BOT TOOLKIT</div>
+                
+                <div class="data-block">
+                    <h4>MECHANIC</h4>
+                    <p class="card-description">
+                        StreamMayhem is a powerful toolkit that allows viewers to trigger wild, chaotic effects on your PC using Streamer.bot.
+                    </p>
+                </div>
+                <div class="data-block">
+                    <h4>EFFECTS</h4>
+                    <p class="card-description small-text">
+                        Mouse spins, fake crashes, input blocking, and more. Boost engagement safely without interfering with game code.
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=2037&auto=format&fit=crop" alt="Horror" class="protocol-card-image">
+                <div class="image-detail-overlay">PATCH V1.0.04</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>NEW FEATURES</h3>
+                </div>
+                <div class="card-tagline">MODULE EXPANSION</div>
+                
+                <div class="data-block">
+                    <h4>JUMPSCARES INCLUDED</h4>
+                    <p class="card-description small-text">
+                        • [Jumpscare] Animated Scream<br>
+                        • [Jumpscare] Demon Clown<br>
+                        • [Jumpscare] Horror Nun
+                    </p>
+                </div>
+                <div class="data-block">
+                    <h4>UTILITIES</h4>
+                    <p class="card-description small-text">
+                        • <strong>Timer Warning:</strong> On-screen visual indicator for timed events (e.g., "Don't Curse" challenges).
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <div class="protocol-card">
+            <div class="protocol-card-content" style="flex: 1 1 100%;">
+                <div class="card-header-icon-small">
+                    <h3>SYSTEM SPECS</h3>
+                </div>
+                <div class="card-tagline">ANTI-CHEAT COMPLIANT</div>
+                
+                <div class="data-block">
+                    <h4>ARCHITECTURE</h4>
+                    <p class="card-description small-text">
+                        • External Applications (No Injection)<br>
+                        • Streamer.bot or Browser Triggers<br>
+                        • No Game Memory Modification
+                    </p>
+                </div>
+
+                <div class="data-block">
+                    <h4>COMPATIBILITY</h4>
+                    <p class="card-description small-text">
+                        Tested with EasyAntiCheat (Rust, Apex) and BattlEye. See full table below.
+                    </p>
+                </div>
+            </div>
+            <div class="animated-border-left"></div>
+        </div>
+
+        <a href="https://ko-fi.com/s/b38925f84f" target="_blank" class="protocol-card">
+            <div class="card-image-container">
+                <img src="./assets/BUY.png" alt="Buy Now" style="width:100%; height:100%; object-fit:contain; background:#000; padding:20px;">
+                <div class="image-detail-overlay">EARLY ACCESS</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>ACQUIRE</h3>
+                </div>
+                <div class="card-tagline">VERSION 1.0.04</div>
+                
+                <div class="card-description small-text">
+                    <strong>Filename:</strong> [FD] StreamMayhem<br>
+                    <strong>Updated:</strong> July 6th, 2025<br>
+                    <strong>Size:</strong> 3KB<br>
+                    <strong>Status:</strong> Early Access
+                </div>
+                <br>
+                <span class="read-more-styled" style="text-align:center;">PURCHASE ON KO-FI</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 40px;">
+        
+        <div class="section-protocol-title">SAFE USE PROTOCOLS</div>
+        
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th>SAFE PRACTICES ✅</th>
+                    <th>AVOID ❌</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Run effects as separate <code>.exe</code> files</td>
+                    <td>Injecting code into game processes</td>
+                </tr>
+                <tr>
+                    <td>Use Streamer.bot or web triggers to activate</td>
+                    <td>Writing memory of game process</td>
+                </tr>
+                <tr>
+                    <td>Keep durations short and clearly triggered</td>
+                    <td>Emulating precise aim or timing macros</td>
+                </tr>
+                <tr>
+                    <td>Visible/audible effects to show intent</td>
+                    <td>Masking actions to look like cheating</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-protocol-title">COMPATIBILITY MATRIX</div>
+        <p style="text-align:center; color:var(--gray-text); margin-bottom:20px;">Live test results against major Anti-Cheat providers.</p>
+
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th>GAME TITLE</th>
+                    <th>ANTI-CHEAT</th>
+                    <th>TEST DATE</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rust</td>
+                    <td>EasyAntiCheat</td>
+                    <td>2025-06-17</td>
+                    <td class="status-green">WORKS PERFECTLY</td>
+                </tr>
+                <tr>
+                    <td>Paranormal Cleanup</td>
+                    <td>None</td>
+                    <td>2025-06-18</td>
+                    <td class="status-green">WORKS PERFECTLY</td>
+                </tr>
+                <tr>
+                    <td>Rocket League</td>
+                    <td>EasyAntiCheat</td>
+                    <td>2025-06-18</td>
+                    <td class="status-red">NOT WORKING</td>
+                </tr>
+                <tr>
+                    <td>Hunt: Showdown</td>
+                    <td>EasyAntiCheat</td>
+                    <td>-</td>
+                    <td>PENDING TEST</td>
+                </tr>
+                <tr>
+                    <td>Fortnite</td>
+                    <td>EasyAntiCheat</td>
+                    <td>-</td>
+                    <td>PENDING TEST</td>
+                </tr>
+                <tr>
+                    <td>ARK: Survival Evolved</td>
+                    <td>EasyAntiCheat</td>
+                    <td>-</td>
+                    <td>PENDING TEST</td>
+                </tr>
+                <tr>
+                    <td>DayZ</td>
+                    <td>BattleEye</td>
+                    <td>-</td>
+                    <td>PENDING TEST</td>
+                </tr>
+                <tr>
+                    <td>Rainbow Six Siege</td>
+                    <td>BattleEye</td>
+                    <td>-</td>
+                    <td>PENDING TEST</td>
+                </tr>
+                <tr>
+                    <td>Arma 3</td>
+                    <td>BattleEye</td>
+                    <td>-</td>
+                    <td>PENDING TEST</td>
+                </tr>
+                <tr>
+                    <td>Squad</td>
+                    <td>BattleEye</td>
+                    <td>-</td>
+                    <td>PENDING TEST</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="max-width: 900px; margin: 0 auto 100px auto; padding: 0 20px;">
+        <div class="section-protocol-title">DEPLOYMENT INSTRUCTIONS</div>
+        <div class="protocol-card setup-steps" style="padding: 30px; display:block;">
+            <ol>
+                <li>Set your effects <code>.exe</code> files to run as administrator.</li>
+                <li>Create new Streamer.bot actions to trigger the desired effects.</li>
+                <li>Use channel points, bits, or commands as triggers.</li>
+                <li>In subactions, add <strong>Core > System > Run program</strong> and select the effect executable.</li>
+            </ol>
+        </div>
+
+        <div class="section-protocol-title" style="margin-top: 50px;">FAQ</div>
+        <details>
+            <summary>IS THIS SAFE TO USE WITH ANTI-CHEAT SYSTEMS?</summary>
+            <p>Yes! StreamMayhem effects run externally and do not modify game memory or inject code, making them safe with popular anti-cheats like EasyAntiCheat and BattlEye.</p>
+        </details>
+        <details>
+            <summary>CAN VIEWERS TRIGGER EFFECTS VIA BROWSER?</summary>
+            <p>Yes, you can trigger effects using a web browser-based trigger system alongside Streamer.bot.</p>
+        </details>
+        <details>
+            <summary>DO EFFECTS REQUIRE ADMIN RIGHTS?</summary>
+            <p>Some effects like input blocking or audio mute may require you to run executables as administrator.</p>
+        </details>
+    </div>
+
+    <div class="section-footer-cta">
+        <p style="color:var(--gray-text);">© 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+
+    <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+    <script>
+        kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+        kofiwidget2.draw();
+    </script>
+
+    <script>
+        // Mobile Menu Logic
+        const hamburger = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.navbar-left nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            navMenu.classList.toggle('active');
+        });
+
+        // Particle Animation
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        for(let i=0; i<30; i++){
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speedY: Math.random() * 0.5
+            });
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 255, 136, 0.2)";
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>

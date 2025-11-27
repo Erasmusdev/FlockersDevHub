@@ -1,169 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>[FD] SB HoldNRelease | Unreal Dev Hub</title>
-  <link rel="icon" href="./assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[FD] SB HoldNRelease | Unreal Dev Hub</title>
+            <link rel="stylesheet" href="./CSS/Info.css">
+    <link rel="icon" href="./assets/favicon.png" type="image/png">
+    
+    <style>
+        /* Paste the CSS provided in the previous turn here, 
+           or link to your style.css file 
+        */
+        
+        /* -- EXTRA STYLES FOR THE TABLE & CODE (Inline additions) -- */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: var(--gray-text);
+        }
+        .tech-table th {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--accent-color);
+            padding: 15px;
+            text-align: left;
+            border: 1px solid var(--card-border-color);
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
+        .tech-table td {
+            padding: 12px;
+            border: 1px solid var(--card-border-color);
+            background-color: rgba(0,0,0,0.3);
+        }
+        .tech-table tr:hover td {
+            background-color: rgba(0, 255, 136, 0.05);
+            color: var(--secondary-accent);
+        }
+        .code-display-box {
+            background: #000;
+            border: 1px solid var(--gray-text);
+            color: var(--accent-color);
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 150px;
+            overflow-y: scroll;
+            margin-top: 10px;
+        }
+        /* Custom FAQ Styling to match theme */
+        details {
+            background: var(--card-bg);
+            margin-bottom: 10px;
+            border: 1px solid var(--card-border-color);
+            padding: 15px;
+            cursor: pointer;
+        }
+        details summary {
+            color: var(--secondary-accent);
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
+        details p {
+            margin-top: 10px;
+            color: var(--gray-text);
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>[FD] SB HoldNRelease</h1>
-      <nav>
-        <a href="./index.html">Home</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');kofiwidget2.draw();</script> 
-      </nav>
+
+    <canvas id="particle-canvas"></canvas>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="#" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">CONTACT</a></li>
+
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
     </div>
-  </header>
 
-    <main class="container product-page">
-    <!-- Hero -->
-    <section class="hero">
-      <h2>🎯 SB HoldNRelease</h2>
-      <p>Enhance your Twitch streaming experience with our comprehensive OBS stream overlay widget.</p>
-      <a href="https://discord.me/unreald" class="btn" target="_blank">🎁 Join Discord</a>   
-    </section>
-
-  <main class="container product-page" style="max-width: 900px;">
-    <!-- Product Summary -->
-     
-    <section>
-      <h2>Advanced Key Control for Streamer.bot</h2>
-      <p>
-        <strong>[FD] SB HoldNRelease</strong> is a custom C# script that allows you to simulate holding and releasing any keyboard key using a simple toggle action in <strong>Streamer.bot</strong>.
-        Unlike default keybinds that require you to physically hold a key, this tool lets you virtually hold a key — then release it — through automation.
-      </p>
-      <p>
-        You can assign any key using its <em>virtual key code</em> and control it entirely through Streamer.bot triggers or actions. It’s ideal for scenarios like holding sprint, crouch, or push-to-talk, where built-in toggles fall short. Easy to customize, lightweight, and fully integrated with Streamer.bot.
-      </p>
-    </section>
-
-    <!-- Features -->
-    <section>
-      <h3>Key Features</h3>
-      <ul>
-        <li> Toggle ON: Simulates a key being held down</li>
-        <li> Toggle OFF: Instantly releases the key</li>
-        <li> Assign any key via virtual key code</li>
-        <li> Seamless Streamer.bot integration</li>
-        <li> Lightweight & clean C# script</li>
-        <li> Fully customizable for advanced setups</li>
-      </ul>
-    </section>
-
-    <!-- How it Works -->
-    <section>
-      <h3>How It Works</h3>
-      <p>
-        The script listens for a toggle variable inside Streamer.bot. When triggered:
-      </p>
-      <ul>
-        <li>✔️ If <code>true</code> → the key is “pressed and held”</li>
-        <li>✔️ If <code>false</code> → the key is “released”</li>
-      </ul>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        <pre><code>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</code></pre>
-      </div>
-    </section>
-
-
-        <section class="card-section">
-      <div class="code-block">
-        <h3>ℹ️ Version Info</h3>
-      <ul class="icon-list">
-        <li> Filename | HoldNRelease</li>
-        <li> Category | Full Release</li>
-        <li> Version | V1.0</li>
-        <li> Author | Flockers Design</li>
-        <li> Updated | may 20th, 2025</li>
-        <li> Size | 4.23KB</li>
-      </ul>
-        <a href="https://ko-fi.com/s/bd7730ff4f" target="_blank">
-        <img src="./assets/BUY.png" width="300" height="70" />
-      </a>
-     </div>
-    </section>
-
-
-    <!-- FAQ -->
-    <section>
-      <h3>FAQ</h3>
-      <details>
-        <summary>Can I hold mouse buttons too?</summary>
-        <p>At the moment, only keyboard keys are supported. Mouse support may come in a future update.</p>
-      </details>
-      <details>
-        <summary>Is it compatible with all games?</summary>
-        <p>Yes, most games recognize the simulated input. However, always check your game’s rules regarding input simulation.</p>
-      </details>
-    </section>
-
-    <!-- Virtual Key Codes -->
-<section>
-  <h3>Virtual Key Codes Reference</h3>
-  <p>You can use the following table to find the Virtual Key Code (VK) for any key. Use the decimal or hex value when assigning keys in Streamer.bot.</p>
-
-  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-    <thead>
-      <tr style="background-color: #333232;">
-        <th style="padding: 8px; border: 1px solid #ccc;">Key Name</th>
-        <th style="padding: 8px; border: 1px solid #ccc;">VK Code (Hex)</th>
-        <th style="padding: 8px; border: 1px solid #ccc;">VK Code (Decimal)</th>
-        <th style="padding: 8px; border: 1px solid #ccc;">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">A</td><td>0x41</td><td>65</td><td>Letter A</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">B</td><td>0x42</td><td>66</td><td>Letter B</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">C</td><td>0x43</td><td>67</td><td>Letter C</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">D</td><td>0x44</td><td>68</td><td>Letter D</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">E</td><td>0x45</td><td>69</td><td>Letter E</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">F</td><td>0x46</td><td>70</td><td>Letter F</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">G</td><td>0x47</td><td>71</td><td>Letter G</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">H</td><td>0x48</td><td>72</td><td>Letter H</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">I</td><td>0x49</td><td>73</td><td>Letter I</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">J</td><td>0x4A</td><td>74</td><td>Letter J</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">K</td><td>0x4B</td><td>75</td><td>Letter K</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">L</td><td>0x4C</td><td>76</td><td>Letter L</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">M</td><td>0x4D</td><td>77</td><td>Letter M</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">N</td><td>0x4E</td><td>78</td><td>Letter N</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">O</td><td>0x4F</td><td>79</td><td>Letter O</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">P</td><td>0x50</td><td>80</td><td>Letter P</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Q</td><td>0x51</td><td>81</td><td>Letter Q</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">R</td><td>0x52</td><td>82</td><td>Letter R</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">S</td><td>0x53</td><td>83</td><td>Letter S</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">T</td><td>0x54</td><td>84</td><td>Letter T</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">U</td><td>0x55</td><td>85</td><td>Letter U</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">V</td><td>0x56</td><td>86</td><td>Letter V</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">W</td><td>0x57</td><td>87</td><td>Letter W</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">X</td><td>0x58</td><td>88</td><td>Letter X</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Y</td><td>0x59</td><td>89</td><td>Letter Y</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Z</td><td>0x5A</td><td>90</td><td>Letter Z</td></tr>
-    </tbody>
-  </table>
-</section>
-
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
+    <div class="navbar-right">
+        <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+        <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
     </div>
-  </footer>
+</header>
 
-  <script>
-    function copyCode(button) {
-      const code = button.nextElementSibling.innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        button.innerText = "Copied!";
-        setTimeout(() => (button.innerText = "Copy"), 2000);
-      });
-    }
-  </script>
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <img id="bg-video" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" style="opacity: 0.4;" alt="Tech Background">
+
+        <div class="hero-content">
+            <h1 class="large-brand-name">HOLD<span style="color:var(--accent-color)">N</span>RELEASE</h1>
+            <p class="tagline">STREAMER.BOT INPUT AUTOMATION</p>
+            <p style="color: var(--gray-text); margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Enhance your Twitch streaming experience with comprehensive virtual key simulation.
+            </p>
+        </div>
+    </section>
+
+    <div class="full-width-banner">
+        <div class="banner-content">
+            <p>/// STATUS: DEPLOYED /// C# SCRIPT INTEGRATION /// V1.0 AVAILABLE ///</p>
+        </div>
+    </div>
+
+    <div class="core-provisions-grid">
+
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1587829741301-dc798b91add1?q=80&w=2065&auto=format&fit=crop" alt="Keyboard" class="protocol-card-image">
+                <div class="image-detail-overlay">INPUT SIMULATION</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>VIRTUAL HOLD</h3>
+                </div>
+                <div class="card-tagline">ADVANCED KEY CONTROL</div>
+                
+                <div class="data-block">
+                    <h4>MECHANIC</h4>
+                    <p class="card-description">
+                        Simulate holding and releasing any keyboard key using a simple toggle action. Unlike default keybinds, this tool lets you virtually hold a key—then release it—through automation.
+                    </p>
+                </div>
+                <div class="data-block">
+                    <h4>USE CASES</h4>
+                    <p class="card-description small-text">
+                        Ideal for tactical sprinting, crouch-holding, or push-to-talk scenarios where built-in toggles fall short.
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop" alt="Code" class="protocol-card-image">
+                <div class="image-detail-overlay">C# NATIVE</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>SYSTEM FEATURES</h3>
+                </div>
+                <div class="card-tagline">LIGHTWEIGHT ARCHITECTURE</div>
+                
+                <div class="data-block">
+                    <p class="card-description">
+                        • <strong>Toggle ON:</strong> Simulates key held down<br>
+                        • <strong>Toggle OFF:</strong> Instantly releases key<br>
+                        • <strong>Any Key:</strong> Assign via Virtual Key Code<br>
+                        • <strong>Seamless:</strong> Native Streamer.bot integration
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <div class="protocol-card">
+            <div class="protocol-card-content" style="flex: 1 1 100%;">
+                <div class="card-header-icon-small">
+                    <h3>DEPLOYMENT</h3>
+                </div>
+                <div class="card-tagline">IMPORT STRING</div>
+                
+                <div class="data-block">
+                    <h4>HOW IT WORKS</h4>
+                    <p class="card-description small-text">
+                        The script listens for a variable. <strong>True</strong> = Pressed/Held. <strong>False</strong> = Released.
+                    </p>
+                </div>
+
+                <div class="data-block">
+                    <h4>IMPORT CODE</h4>
+                    <div class="code-display-box" id="import-code">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</div>
+                    <button class="read-more-styled" style="background:none; border:1px solid var(--accent-color); cursor:pointer; margin-top:10px;" onclick="copyCode()">COPY TO CLIPBOARD</button>
+                </div>
+            </div>
+            <div class="animated-border-left"></div>
+        </div>
+
+        <a href="https://ko-fi.com/s/bd7730ff4f" target="_blank" class="protocol-card">
+            <div class="card-image-container">
+                 <img src="./assets/BUY.png" alt="Buy Now" style="width:100%; height:100%; object-fit:contain; padding:20px;">
+                 <div class="image-detail-overlay">KO-FI STORE</div>
+                 <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>GET ACCESS</h3>
+                </div>
+                <div class="card-tagline">VERSION 1.0</div>
+                
+                <div class="card-description small-text">
+                    <strong>Filename:</strong> HoldNRelease<br>
+                    <strong>Updated:</strong> May 20th, 2025<br>
+                    <strong>Size:</strong> 4.23KB<br>
+                    <strong>Category:</strong> Full Release
+                </div>
+                <br>
+                <span class="read-more-styled">PURCHASE ON KO-FI &rarr;</span>
+            </div>
+        </a>
+
+    </div>
+    
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 40px;">
+        <div class="section-protocol-title">OPERATIONAL FAQ</div>
+        <details>
+            <summary>CAN I HOLD MOUSE BUTTONS?</summary>
+            <p>At the moment, only keyboard keys are supported. Mouse support may come in a future update.</p>
+        </details>
+        <details>
+            <summary>IS IT COMPATIBLE WITH ALL GAMES?</summary>
+            <p>Yes, most games recognize the simulated input. However, always check your game’s rules regarding input simulation.</p>
+        </details>
+    </div>
+
+    <div style="max-width: 1400px; margin: 50px auto; padding: 0 40px 100px 40px;">
+        <div class="section-protocol-title">VIRTUAL KEY DATABASE</div>
+        
+        <p style="text-align:center; color:var(--gray-text); margin-bottom:20px;">
+            Use Decimal or Hex values for assigning keys in Streamer.bot
+        </p>
+
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th>KEY NAME</th>
+                    <th>VK CODE (HEX)</th>
+                    <th>VK CODE (DEC)</th>
+                    <th>DESCRIPTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>A</td><td>0x41</td><td>65</td><td>Letter A</td></tr>
+                <tr><td>B</td><td>0x42</td><td>66</td><td>Letter B</td></tr>
+                <tr><td>C</td><td>0x43</td><td>67</td><td>Letter C</td></tr>
+                <tr><td>D</td><td>0x44</td><td>68</td><td>Letter D</td></tr>
+                <tr><td>E</td><td>0x45</td><td>69</td><td>Letter E</td></tr>
+                <tr><td>F</td><td>0x46</td><td>70</td><td>Letter F</td></tr>
+                <tr><td>G</td><td>0x47</td><td>71</td><td>Letter G</td></tr>
+                <tr><td>H</td><td>0x48</td><td>72</td><td>Letter H</td></tr>
+                <tr><td>I</td><td>0x49</td><td>73</td><td>Letter I</td></tr>
+                <tr><td>J</td><td>0x4A</td><td>74</td><td>Letter J</td></tr>
+                <tr><td>K</td><td>0x4B</td><td>75</td><td>Letter K</td></tr>
+                <tr><td>L</td><td>0x4C</td><td>76</td><td>Letter L</td></tr>
+                <tr><td>M</td><td>0x4D</td><td>77</td><td>Letter M</td></tr>
+                <tr><td>N</td><td>0x4E</td><td>78</td><td>Letter N</td></tr>
+                <tr><td>O</td><td>0x4F</td><td>79</td><td>Letter O</td></tr>
+                <tr><td>P</td><td>0x50</td><td>80</td><td>Letter P</td></tr>
+                <tr><td>Q</td><td>0x51</td><td>81</td><td>Letter Q</td></tr>
+                <tr><td>R</td><td>0x52</td><td>82</td><td>Letter R</td></tr>
+                <tr><td>S</td><td>0x53</td><td>83</td><td>Letter S</td></tr>
+                <tr><td>T</td><td>0x54</td><td>84</td><td>Letter T</td></tr>
+                <tr><td>U</td><td>0x55</td><td>85</td><td>Letter U</td></tr>
+                <tr><td>V</td><td>0x56</td><td>86</td><td>Letter V</td></tr>
+                <tr><td>W</td><td>0x57</td><td>87</td><td>Letter W</td></tr>
+                <tr><td>X</td><td>0x58</td><td>88</td><td>Letter X</td></tr>
+                <tr><td>Y</td><td>0x59</td><td>89</td><td>Letter Y</td></tr>
+                <tr><td>Z</td><td>0x5A</td><td>90</td><td>Letter Z</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-footer-cta">
+        <p style="color:var(--gray-text);">© 2025 FlockersDesign. All rights reserved.</p>
+        <div class="footer-links">
+             <div id="kofi-placeholder"></div>
+        </div>
+    </div>
+
+    <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+    <script>
+        kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+        kofiwidget2.draw();
+    </script>
+
+    <script>
+        // Copy Code Functionality
+        function copyCode() {
+            const codeBox = document.getElementById('import-code');
+            const codeText = codeBox.innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert("Code copied to clipboard!");
+            });
+        }
+
+        // Mobile Menu Logic
+        const hamburger = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.navbar-left nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            navMenu.classList.toggle('active');
+        });
+
+        // Particle Animation (Visual Filler)
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        for(let i=0; i<30; i++){
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speedY: Math.random() * 0.5
+            });
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 255, 136, 0.2)";
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>

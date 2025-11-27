@@ -1,0 +1,567 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    /* Defined Colors based on HTML 2 aesthetic */
+    --dark-bg: #0d0f11;
+    --text-color: #f0f0f0;
+    --accent-color: #00aeff; /* Blue used for links/navbar glow (Original HTML 2) */
+    --accent-color2: #cb22ff; /* Blue used for links/navbar glow (Original HTML 2) */
+    --primary-color: #00ff88; /* Green used for Card Glows and Button Highlight */
+    --secondary-accent: #ffffff;
+    --gray-text: #8e9498;
+    --navbar-bg: rgba(0, 0, 0, 0.9);
+    --card-border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Reset & Base */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    background-color: var(--dark-bg);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--secondary-accent);
+}
+
+/* Button Styling (For More Info button on the new card) */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary-color); /* Green background */
+    color: var(--dark-bg);
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 700;
+    margin-top: 20px; /* Adjusted margin for consistent spacing within cards */
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.5); /* Green glow shadow */
+    text-transform: uppercase;
+    font-size: 0.9em; /* Slightly smaller font for buttons in cards */
+}
+
+.btn:hover {
+    background-color: var(--secondary-accent);
+    box-shadow: 0 0 20px var(--primary-color); /* Stronger green glow on hover */
+    transform: translateY(-2px);
+    color: var(--dark-bg);
+}
+
+
+/* --- Navbar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: var(--navbar-bg);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--secondary-accent);
+    text-decoration: none;
+    margin-right: 30px;
+    letter-spacing: 2px;
+}
+
+.navbar-left nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.navbar-left nav ul li a {
+    color: var(--gray-text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.navbar-left nav ul li a:hover {
+    color: var(--accent-color);
+}
+
+/* Social icons */
+.navbar-right, .mobile-socials {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.icon-link {
+    display: flex;
+    align-items: center;
+    color: var(--gray-text);
+    text-decoration: none;
+    font-size: 0.85em;
+    letter-spacing: 1px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.icon-link img {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+    /* Using Blue Accent for Social Icons as per original HTML 2 CSS */
+    filter: drop-shadow(0 0 4px var(--accent-color)); 
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.icon-link:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.icon-link:hover img {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px var(--accent-color));
+}
+
+/* --- Hamburger Menu & Responsiveness --- */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--secondary-accent);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+.navbar-left nav { display: flex; }
+.mobile-socials { display: none; }
+
+@media (max-width: 768px) {
+    .hamburger { display: flex; }
+    .navbar-left nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--navbar-bg);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        flex-direction: column;
+    }
+    .navbar-left nav.active { max-height: 500px; }
+    .navbar-left nav ul { flex-direction: column; gap: 15px; padding: 15px; }
+    .navbar-left nav ul li { margin: 0; }
+    .mobile-socials { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .navbar-right { display: none; }
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#bg-video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(13,15,17,0.9) 0%, rgba(13,15,17,0.4) 50%, rgba(13,15,17,0.1) 100%);
+    z-index: 1;
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.large-brand-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 7em;
+    font-weight: 700;
+    color: var(--secondary-accent);
+    /* Using Blue Accent from original HTML 2 CSS for the brand name glow */
+    text-shadow: 0 0 15px rgba(0, 174, 255, 0.5); 
+    animation: glowPulse 4s ease-in-out infinite;
+}
+
+/* === PARTICLE CANVAS === */
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.7;
+}
+
+@keyframes glowPulse {
+    /* Using Blue Accent for the brand name glow */
+    0%, 100% { text-shadow: 0 0 15px var(--accent-color); } 
+    50% { text-shadow: 0 0 30px var(--accent-color); }
+}
+
+.tagline {
+    font-size: 1.5em;
+    color: var(--gray-text);
+    margin-top: 20px;
+    text-transform: uppercase;
+}
+
+.promo-text-box {
+    margin-top: 40px;
+    padding: 10px 20px;
+    border: 2px solid var(--accent-color);
+    /* Using Green Primary Color for the Box Background */
+    background-color: rgba(0, 255, 136, 0.1); 
+    backdrop-filter: blur(6px);
+    animation: fadeUp 1.5s ease-out;
+}
+
+.promo-text-box p {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2em;
+    color: var(--accent-color2);
+}
+
+/* --- OUR FLEET Section (Main Content) --- */
+.fleet-section {
+    padding: 100px 5vw;
+    background: radial-gradient(circle at center, #101214 0%, #0a0b0d 100%);
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.fleet-section::before {
+    content: "";
+    position: absolute;
+    top: -25%;
+    left: -25%;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at center,
+        /* Using Green Primary Color for the section pulse */
+        rgba(0, 255, 136, 0.15) 0%, 
+        rgba(0, 255, 136, 0.05) 35%,
+        transparent 70%);
+    animation: energyPulse 8s ease-in-out infinite;
+    filter: blur(60px);
+    z-index: 0;
+    opacity: 0.6;
+}
+
+@keyframes energyPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.fleet-section h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3em;
+    color: var(--secondary-accent);
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 2;
+    /* Using Blue Accent for H2 glow as per original HTML 2 CSS */
+    text-shadow: 0 0 20px #006999; 
+}
+
+.fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.fleet-card {
+    /* Main card styling */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border-color);
+    border-radius: 15px;
+    padding: 30px 20px;
+    transition: all 0.4s ease;
+    /* Using Green Primary Color for initial shadow */
+    box-shadow: 0 0 20px rgba(0,255,136,0.1); 
+    backdrop-filter: blur(4px);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    text-align: left; /* Aligns card content */
+    display: flex; /* Use flexbox for vertical alignment */
+    flex-direction: column;
+    justify-content: space-between; /* Pushes button to the bottom */
+}
+
+.fleet-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center,
+        /* Using Green Primary Color for hover highlight */
+        rgba(0, 255, 136, 0.08), 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.fleet-card:hover::before { opacity: 1; }
+
+.fleet-card img {
+    width: 100%;
+    height: 200px; /* Fixed height for consistent image size */
+    object-fit: cover; /* Ensures images cover the area without distortion */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: transform 0.5s ease;
+}
+
+.fleet-card:hover img { transform: scale(1.05); }
+
+.fleet-card h3 {
+    font-family: 'Oswald', sans-serif;
+    /* Using Green Primary Color for card titles as per Image 2 */
+    color: var(--primary-color); 
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.fleet-card p {
+    color: var(--gray-text);
+    font-size: 0.95em;
+    line-height: 1.4em;
+    flex-grow: 1; /* Allows paragraph to take available space */
+}
+
+.fleet-card:hover {
+    /* Using Green Primary Color for hover glow and border as per Image 2 */
+    box-shadow: 0 0 25px var(--primary-color); 
+    border-color: var(--primary-color);
+    transform: scale(1.03);
+}
+
+/* --- Divisions Section --- */
+.divisions-section {
+    padding: 100px 5vw;
+    background-color: var(--dark-bg);
+    text-align: center;
+}
+
+.section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3em;
+    color: var(--secondary-accent);
+    margin-bottom: 60px;
+    text-transform: uppercase;
+}
+
+.divisions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    padding: 0 2vw;
+}
+
+.division-card {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
+    border: 1px solid var(--card-border-color);
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.6s ease;
+    color: var(--text-color);
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    border-radius: 10px;
+    background: linear-gradient(135deg,#0d0f11 0%,#1a1e22 100%);
+}
+
+.division-card:hover {
+    /* Using Green Primary Color for hover glow and border */
+    border-color: var(--primary-color); 
+    box-shadow: 0 0 25px rgba(0,255,136,0.5); 
+}
+
+.division-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Using Green Primary Color for division card inner hover effect */
+    background: radial-gradient(circle at center, rgba(0,255,136,0.05) 0%, rgba(13,15,17,0) 60%); 
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.division-card:hover::after { opacity: 1; }
+
+.card-default-content {
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.division-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.0em;
+    color: var(--secondary-accent);
+    text-transform: uppercase;
+}
+
+.hover-content {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 0;
+    z-index: 2;
+    max-width: 80%;
+    color: var(--gray-text);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.division-card:hover .card-default-content { opacity: 0; transform: translateY(-50px); }
+.division-card:hover .hover-content { opacity: 1; transform: translate(-50%, -50%); }
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+    animation: fadeLoop 10s infinite alternate ease-in-out;
+}
+
+.card-icon {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    opacity: 0.8;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.card-icon:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+@keyframes fadeLoop {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* --- MOBILE PATCH ANIMATION --- */
+@media (max-width: 768px) {
+    .card-header {
+        position: relative;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-header .card-icon {
+        position: absolute;
+        opacity: 0;
+        width: 65%;
+        max-width: 160px;
+        animation: mobilePatchCycle 28s infinite ease-in-out;
+    }
+
+
+    .card-header .card-icon:nth-child(1) { animation-delay: 0s; }
+    .card-header .card-icon:nth-child(2) { animation-delay: 4s; }
+    .card-header .card-icon:nth-child(3) { animation-delay: 8s; }
+    .card-header .card-icon:nth-child(4) { animation-delay: 12s; }
+    .card-header .card-icon:nth-child(5) { animation-delay: 16s; }
+    .card-header .card-icon:nth-child(6) { animation-delay: 20s; }
+    .card-header .card-icon:nth-child(7) { animation-delay: 24s; }
+
+    @keyframes mobilePatchCycle {
+        0% { opacity: 0; transform: scale(0.95); }
+        5% { opacity: 1; transform: scale(1); }
+        25% { opacity: 1; transform: scale(1.05); }
+        30% { opacity: 0; transform: scale(0.95); }
+        100% { opacity: 0; }
+    }
+}
+
+/* --- Animations --- */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive --- */
+@media (max-width: 992px) { .large-brand-name { font-size: 6em; } }
+@media (max-width: 768px) {
+    .large-brand-name { font-size: 5em; }
+    .fleet-grid { gap: 25px; }
+    .hover-content { font-size: 0.9em; }
+}
+@media (max-width: 576px) {
+    .large-brand-name { font-size: 3.5em; }
+    .tagline { font-size: 1em; }
+    .fleet-section h2 { font-size: 2.2em; }
+    .hover-content { font-size: 0.85em; }
+}
+
+/* --- Footer --- */
+.section-footer-cta { text-align:center; max-width:900px; margin:60px auto; 
+    /* Using Blue Accent for footer border */
+    border-top:2px solid var(--accent-color); 
+    padding-top:40px; 
+}
+.section-footer-cta p { color: var(--gray-text); margin-bottom: 25px; }
+.footer-links { display:flex; justify-content:center; gap:25px; }
+.footer-links .social-icon img { width:48px; height:48px; 
+    /* Using Blue Accent for footer social glow */
+    filter: drop-shadow(0 0 8px var(--accent-color)); 
+    transition: transform 0.3s ease, filter 0.3s ease; 
+}
+.footer-links .social-icon:hover img { transform:scale(1.15); 
+    /* Using Blue Accent for footer social glow */
+    filter: drop-shadow(0 0 15px var(--accent-color)); 
+}

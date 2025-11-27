@@ -3,364 +3,216 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Elite Dangerous Local Market | Live Tracker</title>
+    <title>ELDLM | Elite Dangerous Live Tracker</title>
+        <link rel="stylesheet" href="./CSS/Info.css">
     <link rel="icon" href="./assets/favicon.png" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #38ebff;
-            --secondary-color: #2cc2d6;
-            --background-light: #11131c;
-            --card-background: #1a1d29;
-            --text-dark: #ffffff;
-            --text-light: #b0b0b0;
-            --border-color: #444754;
-            --button-color: #004952;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px;
-        }
-
-        header {
-            width: 100%;
-            background-color: var(--card-background);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            padding: 15px 0;
-        }
-
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h1 {
-            font-family: 'Exo 2', sans-serif;
-            font-size: 1.8rem;
-            color: var(--text-dark);
-        }
-
-        nav a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1rem;
-            padding: 8px 15px;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--primary-color);
-        }
-
-        nav a:hover::after {
-            width: 80%;
-        }
-
-        main {
-            flex-grow: 1;
-            padding: 40px 0;
-        }
-
-        .card {
-            background-color: var(--card-background);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        section h2, section h3 {
-            font-family: 'Exo 2', sans-serif;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-
-        .hero {
-            text-align: center;
-            background: linear-gradient(135deg, #1a1d29, #232836);
-        }
-
-        .hero h2 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-        }
-
-        .hero p {
-            color: var(--text-light);
-            font-size: 1.2rem;
-        }
-
-        .btn, .download-btn {
-            display: inline-block;
-            max-width: 250px;
-            padding: 14px 30px;
-            background-color: var(--button-color);
-            color: var(--card-background);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .btn:hover, .download-btn:hover {
-            background-color: var(--button-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(56, 235, 255, 0.3);
-        }
-        
-        .download-btn {
-            font-family: 'Exo 2', sans-serif;
-            font-size: 1.2rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 24px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .card h3 {
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .card pre {
-            background: #151820;
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            color: var(--text-dark);
-            font-family: 'Roboto Mono', monospace;
-        }
-
-        .card pre code {
-            font-family: inherit;
-        }
-
-        .card ul,
-        .card ol {
-            list-style-position: inside;
-            margin-left: 20px;
-            color: var(--text-light);
-        }
-        
-        .card a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .card a:hover {
-            text-decoration: underline;
-        }
-
-        .card li {
-            margin-bottom: 8px;
-            line-height: 1.6;
-            color: var(--text-light);
-        }
-
-        .card strong {
-            color: var(--primary-color);
-        }
-
-        .gallery img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .download-section {
-            text-align: center;
-        }
-
-        footer {
-            width: 100%;
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-            margin-top: 40px;
-            color: var(--text-light);
-        }
-
-        @media (max-width: 768px) {
-            header .container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            header h1 {
-                font-size: 1.5rem;
-            }
-
-            nav {
-                margin-top: 10px;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        /* Paste your CSS here or link to your stylesheet */
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Elite Dangerous Local Market | Live Tracker</h1>
-            <nav>
-                <a href="./index.html">Home</a>
-                <a href="./projects.html">Projects</a>
-                <a href="./contact.html">Contact</a>
-            </nav>
+
+    <canvas id="particle-canvas"></canvas>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="#" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">CONTACT</a></li>
+
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="navbar-right">
+        <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+        <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+    </div>
+</header>
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <img id="bg-video" src="./assets/ELMD.png" style="opacity: 0.3;" alt="Background">
+
+        <div class="hero-content">
+            <h1 class="large-brand-name">ELDLM</h1>
+            <p class="tagline">ELITE DANGEROUS LOCAL MARKET</p>
+            <p style="color: var(--accent-color); letter-spacing: 2px; margin-top: 10px;">LIVE TRADING DATA FEED</p>
         </div>
-    </header>
+    </section>
 
-    <main class="container">
-        <section class="hero card">
-            <h2>ELDLM - Elite Dangerous Local Market</h2>
-            <p>A simple, lightweight application to track live commodity prices in your local star system, right on your screen.</p>
-            <a href="https://discord.me/unreald" class="btn" target="_blank">Join Discord for Support</a>
-        </section>
-
-        <div class="info-grid">
-            <section class="card">
-                <h3>What Does the App Do?</h3>
-                <ul>
-                    <li>It tracks <strong>live commodity market prices</strong> from the EDDN data feed.</li>
-                    <li>The data is displayed on a local web page that can be viewed in your browser or with a VR overlay.</li>
-                    <li>The market data <strong>updates automatically</strong> every 15 seconds.</li>
-                </ul>
-                <div class="gallery">
-                    <a href="./assets/ELMD.png" target="_blank">
-                        <img class="modal-target" src="./assets/ELMD.png" alt="Local Market Tracker" />
-                    </a>
-                </div>
-            </section>
-
-            <section class="card">
-                <h3>Features</h3>
-                <ul>
-                    <li><strong>Local Market Price Tracker</strong> for Elite Dangerous.</li>
-                    <li><strong>Live Updates</strong> every 15 seconds.</li>
-                    <li>Runs on your <strong>own local Python server</strong>.</li>
-                    <li>Simple, <strong>lightweight</strong>, and easy to use.</li>
-                </ul>
-            </section>
-
-            <section class="card">
-                <h3>Prerequisites</h3>
-                <ul>
-                    <li><strong>Windows 10</strong> or newer.</li>
-                    <li><strong>Python 3.7</strong> or newer installed. You can download it from <a href="https://www.python.org/downloads" target="_blank">python.org</a>.</li>
-                    <li><strong>Internet access</strong> to receive data from the EDDN feed.</li>
-                    <li><strong>Recommended browser</strong> Chrome to be sure the link works as intended <pre><code>http://localhost:5000/market_data</code></pre></li>
-                </ul>
-            </section>
-
-            <section class="card">
-                <h3>Installation Steps</h3>
-                <ol>
-                    <li>Download the latest version of the application using the button below.</li>
-                    <li>Extract the <code>.zip</code> file to a folder on your computer.</li>
-                    <li>Double-click the <code>start_server.bat</code> file.</li>
-                    <li>A command window will open and install all necessary Python libraries.</li>
-                    <li>Once complete, a new browser tab will automatically open, showing your VR kneeboard.</li>
-                </ol>
-            </section>
+    <div class="full-width-banner">
+        <div class="banner-content">
+            <p>/// SYSTEM STATUS: ONLINE /// MARKET DATA UPDATING EVERY 15 SECONDS ///</p>
         </div>
+    </div>
 
-        <div class="info-grid">
-            <section class="card">
-                <h3>Manual Installation (Alternative)</h3>
-                <p>If you prefer to install the dependencies manually, navigate to the extracted application folder in your command prompt and use the following command to install all required libraries from the <code>requirements.txt</code> file:</p>
-                <pre><code>pip install -r requirements.txt</code></pre>
-            </section>
-
-            <section class="card">
-                <h3>Troubleshooting</h3>
-                <ul>
-                    <li><strong>If the page doesn't load:</strong> Ensure your Python server is running and check your firewall settings.</li>
-                    <li><strong>No market data is showing:</strong> Make sure you are in a star system with a station that has a market and that the EDDN data is flowing.</li>
-                    <li>For further assistance, join our Discord server.</li>
-                </ul>
-            </section>
-        </div>
-
-        <section class="download-section">
-            <div class="card">
-                <h3>ℹ️ Version Info</h3>
-                <ul class="icon-list">
-                    <li>Filename | EDLM Live Market Tracker</li>
-                    <li>Category | Beta Release</li>
-                    <li>Version | V0.0.6</li>
-                    <li>Author | FlockersDesign</li>
-                    <li>Updated | August 22nd, 2025</li>
-                    <li>Size | 3.23 KB</li>
-                </ul>
-                <a href="/assets/ELDLM - Elite Dangerous.zip" class="btn download-btn">
-                    Download
-                </a>
+    <div class="core-provisions-grid">
+        
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="./assets/ELMD.png" alt="App Screenshot" class="protocol-card-image">
+                <div class="image-detail-overlay">LIVE PREVIEW</div>
+                <div class="animated-border-left"></div>
             </div>
-        </section>
-    </main>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>MARKET TRACKER</h3>
+                </div>
+                <div class="card-tagline">REAL-TIME EDDN FEED</div>
+                
+                <div class="data-block">
+                    <h4>FUNCTIONALITY</h4>
+                    <p class="card-description">
+                        Tracks live commodity market prices in your local star system. Data is displayed on a local web page compatible with browser viewing or VR overlays.
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <a href="#" class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop" alt="Features" class="protocol-card-image">
+                <div class="image-detail-overlay">VERSION 0.0.6</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>CORE SYSTEMS</h3>
+                </div>
+                <div class="card-tagline">PYTHON ARCHITECTURE</div>
+                
+                <div class="data-block">
+                    <p class="card-description">
+                        • Local Python Server Architecture<br>
+                        • Automatic 15-second Refresh Rate<br>
+                        • Lightweight & Low Latency<br>
+                        • VR-Ready Output
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <div class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop" alt="Tech" class="protocol-card-image">
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>REQUIREMENTS</h3>
+                </div>
+                <div class="card-tagline">SYSTEM PRE-CHECKS</div>
+                
+                <div class="card-description small-text">
+                    <strong>OS:</strong> Windows 10 or Newer<br>
+                    <strong>Runtime:</strong> Python 3.7+<br>
+                    <strong>Network:</strong> Active Internet Connection (EDDN)<br>
+                    <strong>Browser:</strong> Chrome Recommended
+                </div>
+                <br>
+                <div class="data-block">
+                     <h4>MANUAL INSTALL</h4>
+                     <code style="color:var(--accent-color); background:rgba(0,0,0,0.5); padding:5px;">pip install -r requirements.txt</code>
+                </div>
+            </div>
+        </div>
+
+        <a href="/assets/ELDLM - Elite Dangerous.zip" class="protocol-card">
+            <div class="card-image-container">
+                <img src="./assets/Download.png" alt="Download" class="protocol-card-image">
+                <div class="image-detail-overlay">SIZE: 3.23 KB</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>download</h3>
+                </div>
+                <div class="card-tagline">DOWNLOAD & DEPLOY</div>
+                
+                <div class="card-description">
+                    1. Download the .zip package.<br>
+                    2. Extract to local directory.<br>
+                    3. Run <strong>start_server.bat</strong>.<br>
+                    4. Wait for VR kneeboard launch.
+                </div>
+                <br>
+                <span class="read-more-styled" style="text-align:center;">DOWNLOAD V0.0.6</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="section-protocol-title">SUPPORT LINKS</div>
+    
+    <div class="section-footer-cta">
+        <p style="color:var(--gray-text); margin-bottom: 20px;">Created by FlockersDesign | Updated August 22nd, 2025</p>
+        <div class="footer-links">
+             <div id="kofi-placeholder"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="text-align:center; color: var(--gray-text); padding: 20px;">&copy; 2025 Flockers Design</p>
+    </footer>
 
     <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
     <script>
-        kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+        kofiwidget2.init('Support me on Ko-fi', '#00ff88', 'S6S6QZ7AE');
         kofiwidget2.draw();
     </script>
 
-    <footer>
-        <p>&copy; 2025 Flockers Design</p>
-    </footer>
+    <script>
+        const hamburger = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.navbar-left nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            navMenu.classList.toggle('active');
+        });
+
+        // Optional: Simple Particle Placeholder script 
+        // (Since your CSS references a particle canvas, this makes it not look broken)
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        for(let i=0; i<50; i++){
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speedY: Math.random() * 0.5
+            });
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 255, 136, 0.3)";
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+
 </body>
 </html>

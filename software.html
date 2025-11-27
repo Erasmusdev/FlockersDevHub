@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software - HUB</title>
+        <link rel="icon" href="./assets/favicon.png" type="image/x-icon">
+    <!-- Load Tailwind CSS via CDN -->
+    <link rel="stylesheet" href="./CSS/Info.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Load Icons (lucide) for the missing icon placeholders -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="#" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">CONTACT</a></li>
+
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="navbar-right">
+        <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+        <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+    </div>
+</header>
+
+<section class="hero-section relative h-[50vh] flex items-center justify-center pt-20">
+    <canvas id="particle-canvas"></canvas>
+    <video autoplay muted loop playsinline id="bg-video">
+        <!-- Placeholder for original video. Replace with your actual path. -->
+        <source src="./movies/HeaderVideo.mp4" type="video/mp4" onerror="this.onerror=null;this.parentElement.style.backgroundColor='#1a202c'">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content relative z-10 text-center">
+        <div class="main-logo-container">
+            <p class="large-brand-name text-5xl sm:text-7xl lg:text-8xl font-black uppercase text-accent-color tracking-widest drop-shadow-lg mb-2">SOFTWARE</p>
+            <p class="text-lg sm:text-xl font-light tracking-widest text-white/80">PERFORMANCE. PRO-GRADE.</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="content-feed-container py-16 px-6 lg:px-12">
+
+    <div class="full-width-banner bg-gray-800/50 py-4 mb-12 border-y-2 border-accent-color/50">
+        <div class="banner-content text-center">
+            <p class="text-xl sm:text-2xl font-bold tracking-[0.3em] uppercase text-accent-color/90">CUSTOM CRAFTED FOR EVERYONE'S NEEDS.</p>
+        </div>
+    </div>
+
+    <h2 class="section-protocol-title text-3xl font-extrabold uppercase mb-10 text-center text-white border-b-2 border-gray-700 pb-2 mx-auto max-w-5xl">WINDOWS SOFTWARE</h2>
+
+   <!-- CARD GRID - Now adapted for 5 cards -->
+        <!-- lg:grid-cols-3 will naturally place 3 in the first row and 2 in the second, which is a good layout for 5 items. -->
+    <div class="core-provisions-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    
+            <!-- CARD 1: -->
+<a href="./EDLM.html" class="protocol-card large-card rounded-xl shadow-xl hover:shadow-accent-color/20 transition-all duration-300">
+    <div class="protocol-card-content p-6">
+        <div class="card-header-icon-small flex items-center mb-3">
+            <img src="./assets/favicon.png" alt="Mining Icon" class="card-small-icon w-8 h-8 mr-3 rounded-full">
+            <h3 class="text-xl font-bold uppercase text-accent-color/90">EDLM Live Market Tracker</h3>
+        </div>
+        <p class="card-tagline text-sm text-gray-400 mb-4 italic">ALWAYS MINE — HIGH-RISK, HIGH-YIELD.</p>
+        <div class="data-block mb-4">
+            <h4 class="text-base font-semibold uppercase text-white mb-1">SUMMARY:</h4>
+            <p class="card-description text-gray-300 text-sm leading-relaxed">
+                A simple, lightweight application to track live commodity prices in your local star system, right on your screen.
+            </p>
+        </div>
+        <div class="data-block">
+            <h4 class="text-base font-semibold uppercase text-white mb-1">REQUIREMENTS:</h4>
+            <p class="card-description small-text text-gray-400 text-xs">
+                - Windows 10 or newer.<br><br>
+                - Python 3.7 or newer installed. <br><br>
+                - You can download it from python.org.<br><br>
+                - Internet access to receive data from the EDDN feed. <br><br>
+                - Recommended browser Chrome to be sure the link works as intended
+            </p>
+        </div>
+        <span class="read-more-styled block mt-4 text-accent-color/90 font-semibold text-sm hover:underline">MORE INFO &rarr;</span>
+    </div>
+    <div class="card-image-container relative mt-4">
+        <img src="./assets/EDLM-Tracker.png" alt="Prospector Mining Ship" class="protocol-card-image w-full h-auto object-cover">
+        <div class="image-detail-overlay">EDLM Live Market</div>
+    </div>
+    <div class="animated-border-left"></div> 
+</a>
+    
+            <!-- CARD 2:-->
+            <a href="./spotifycrack.html" class="protocol-card large-card rounded-xl shadow-xl hover:shadow-accent-color/20 transition-all duration-300">
+                <div class="protocol-card-content p-6">
+                    <div class="card-header-icon-small flex items-center mb-3">
+                        <img src="./assets/favicon.png" alt="Salvage Icon" class="card-small-icon w-8 h-8 mr-3 rounded-full">
+                        <h3 class="text-xl font-bold uppercase text-accent-color/90">SALVAGE OPERATIONS</h3>
+                    </div>
+                    <p class="card-tagline text-sm text-gray-400 mb-4 italic">FREE AND ADD FREE MUSIC.</p>
+                    <div class="data-block mb-4">
+                        <h4 class="text-base font-semibold uppercase text-white mb-1">SUMMARY:</h4>
+                        <p class="card-description text-gray-300 text-sm leading-relaxed">
+                            A simple, lightweight BAT application to install a cracked Version of Spotify to enoy ad free music.
+                        </p>
+                    </div>
+                    <div class="data-block">
+                        <h4 class="text-base font-semibold uppercase text-white mb-1">REQUIREMENTS:</h4>
+                        <p class="card-description small-text text-gray-400 text-xs">
+                           - Internet connection
+                        </p>
+                    </div>
+                    <span class="read-more-styled block mt-4 text-accent-color/90 font-semibold text-sm hover:underline">MORE INFO &rarr;</span>
+                </div>
+                <div class="card-image-container relative mt-4">
+                    <!-- Image remains Vulture, which is correct for salvage -->
+                    <img src="./assets/Spotify.jpg" alt="Drake Vulture Salvage Ship" class="protocol-card-image w-full h-auto object-cover">
+                    <div class="image-detail-overlay">SPOTIFY</div>
+                </div>
+                <div class="animated-border-left"></div> 
+            </a>
+    </div>
+
+
+        </div>
+    </div>
+                <h2 class="section-protocol-title text-3xl font-extrabold uppercase mb-10 text-center text-white border-b-2 border-gray-700 pb-2 mx-auto max-w-5xl">STREAMERBOT SOFTWARE</h2>
+
+   <!-- CARD GRID - Now adapted for 5 cards -->
+        <!-- lg:grid-cols-3 will naturally place 3 in the first row and 2 in the second, which is a good layout for 5 items. -->
+    <div class="core-provisions-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    
+            <!-- CARD 1: -->
+<a href="./sb-holdnrelease.html" class="protocol-card large-card rounded-xl shadow-xl hover:shadow-accent-color/20 transition-all duration-300">
+    <div class="protocol-card-content p-6">
+        <div class="card-header-icon-small flex items-center mb-3">
+            <img src="./assets/favicon.png" alt="Mining Icon" class="card-small-icon w-8 h-8 mr-3 rounded-full">
+            <h3 class="text-xl font-bold uppercase text-accent-color/90">HoldNRelease</h3>
+        </div>
+        <p class="card-tagline text-sm text-gray-400 mb-4 italic">the best option - for voice commands.</p>
+        <div class="data-block mb-4">
+            <h4 class="text-base font-semibold uppercase text-white mb-1">PRODUCT INFO:</h4>
+            <p class="card-description text-gray-300 text-sm leading-relaxed">
+                A simple, lightweight application to track live commodity prices in your local star system, right on your screen.
+            </p>
+            </div>
+                <div class="data-block">
+                    <h4 class="text-base font-semibold uppercase text-white mb-1">REQUIREMENTS:</h4>
+                    <p class="card-description small-text text-gray-400 text-xs">
+                        - Internet Connection.<br><br>
+                        - Streamer.bot.
+                    </p>
+                </div>
+        <span class="read-more-styled block mt-4 text-accent-color/90 font-semibold text-sm hover:underline">MORE INFO &rarr;</span>
+    </div>
+    <div class="card-image-container relative mt-4">
+        <img src="./assets/SB-HoldNRelease.png" alt="Prospector Mining Ship" class="protocol-card-image w-full h-auto object-cover">
+        <div class="image-detail-overlay">HoldNRelease</div>
+    </div>
+    <div class="animated-border-left"></div> 
+</a>
+    
+            <!-- CARD 2 -->
+            <a href="./sb-streammayham.html" class="protocol-card large-card rounded-xl shadow-xl hover:shadow-accent-color/20 transition-all duration-300">
+                <div class="protocol-card-content p-6">
+                    <div class="card-header-icon-small flex items-center mb-3">
+                        <img src="./assets/favicon.png" alt="Salvage Icon" class="card-small-icon w-8 h-8 mr-3 rounded-full">
+                        <h3 class="text-xl font-bold uppercase text-accent-color/90">StreamMayham</h3>
+                    </div>
+                    <p class="card-tagline text-sm text-gray-400 mb-4 italic">your viewers take control.</p>
+                    <div class="data-block mb-4">
+                        <h4 class="text-base font-semibold uppercase text-white mb-1">PRODUCT INFO:</h4>
+                        <p class="card-description text-gray-300 text-sm leading-relaxed">
+                            powerful toolkit that allows your Twitch viewers to trigger wild, chaotic effects on your stream with just a few clicks.
+                        </p>
+                    </div>
+                <div class="data-block">
+                    <h4 class="text-base font-semibold uppercase text-white mb-1">REQUIREMENTS:</h4>
+                    <p class="card-description small-text text-gray-400 text-xs">
+                        - Internet Connection.<br><br>
+                        - Streamer.bot.
+                    </p>
+                </div>
+                    <span class="read-more-styled block mt-4 text-accent-color/90 font-semibold text-sm hover:underline">MORE INFO &rarr;</span>
+                </div>
+                <div class="card-image-container relative mt-4">
+                    <!-- Image remains Vulture, which is correct for salvage -->
+                    <img src="./assets/StreamMayhamBeta.png" alt="Drake Vulture Salvage Ship" class="protocol-card-image w-full h-auto object-cover">
+                    <div class="image-detail-overlay">StreamMayham</div>
+                </div>
+                <div class="animated-border-left"></div> 
+            </a>
+
+            <!-- CARD 3 -->
+            <a href="./easygoal.html" class="protocol-card large-card rounded-xl shadow-xl hover:shadow-accent-color/20 transition-all duration-300">
+                <div class="protocol-card-content p-6">
+                    <div class="card-header-icon-small flex items-center mb-3">
+                        <img src="./assets/favicon.png" alt="Salvage Icon" class="card-small-icon w-8 h-8 mr-3 rounded-full">
+                        <h3 class="text-xl font-bold uppercase text-accent-color/90">EasyGoal For Ko-fi</h3>
+                    </div>
+                    <p class="card-tagline text-sm text-gray-400 mb-4 italic">Easy Goal For Kofi is a visually engaging goal widget designed for streamers.</p>
+                    <div class="data-block mb-4">
+                        <h4 class="text-base font-semibold uppercase text-white mb-1">PRODUCT INFO:</h4>
+                        <p class="card-description text-gray-300 text-sm leading-relaxed">
+                            powerful toolkit that allows your Twitch viewers to trigger wild, chaotic effects on your stream with just a few clicks.
+                        </p>
+                    </div>
+                <div class="data-block">
+                    <h4 class="text-base font-semibold uppercase text-white mb-1">REQUIREMENTS:</h4>
+                    <p class="card-description small-text text-gray-400 text-xs">
+                        - Internet Connection.<br>
+                        - Streamer.bot.<br>
+                        - Ko-fi Account.
+                    </p>
+                </div>
+                    <span class="read-more-styled block mt-4 text-accent-color/90 font-semibold text-sm hover:underline">MORE INFO &rarr;</span>
+                </div>
+                <div class="card-image-container relative mt-4">
+                    <!-- Image remains Vulture, which is correct for salvage -->
+                    <img src="./assets/EasyGoal.png" alt="Drake Vulture Salvage Ship" class="protocol-card-image w-full h-auto object-cover">
+                    <div class="image-detail-overlay">StreamMayham</div>
+                </div>
+                <div class="animated-border-left"></div> 
+            </a>
+    
+    </div>
+        </div>
+    </div>
+
+    <div class="section-footer-cta mt-16 pt-8 border-t border-gray-700 max-w-7xl mx-auto text-center">
+        <p class="text-xl text-white mb-4 font-light">Ready to forge the industrial core of VORTEX PROTOCOL?</p>
+        <div class="footer-links flex justify-center space-x-4">
+            <a href="#" class="social-icon p-3 bg-gray-700/50 hover:bg-accent-color/70 rounded-full transition duration-300">
+                <img src="./assets/Youtube.png" alt="YouTube" class="w-6 h-6">
+            </a>
+            <a href="#" class="social-icon p-3 bg-gray-700/50 hover:bg-accent-color/70 rounded-full transition duration-300">
+                <img src="./assets/Discord.png" alt="Discord" class="w-6 h-6">
+            </a>
+            <a href="#" class="social-icon p-3 bg-gray-700/50 hover:bg-accent-color/70 rounded-full transition duration-300">
+                <img src="./assets/Twitch.png" alt="Twitch" class="w-6 h-6">
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+       
+  // === PARTICLE BACKGROUND ===
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.querySelector('.hero-section').offsetHeight;
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const numParticles = window.innerWidth < 768 ? 40 : 80;
+
+  for (let i = 0; i < numParticles; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 1,
+      dx: (Math.random() - 0.5) * 0.4,
+      dy: (Math.random() - 0.5) * 0.4,
+      glow: Math.random() * 20 + 10
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glow);
+      gradient.addColorStop(0, 'rgba(0,255,136,0.9)');
+      gradient.addColorStop(1, 'rgba(0,255,255,0)');
+      ctx.fillStyle = gradient;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      p.x += p.dx;
+      p.y += p.dy;
+
+      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    });
+
+    requestAnimationFrame(drawParticles);
+  }
+
+  drawParticles();
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize lucide icons
+        lucide.createIcons();
+
+        // Hamburger menu toggle logic
+        const hamburger = document.querySelector('.hamburger');
+        const nav = document.querySelector('.navbar-left nav');
+
+        hamburger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('open');
+        });
+
+        // Close menu when a link is clicked (mobile only)
+        const navLinks = nav.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    nav.classList.remove('active');
+                    hamburger.classList.remove('open');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

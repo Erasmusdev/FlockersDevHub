@@ -2,160 +2,189 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>FlockersDesign Dev Hub</title>
-    <link rel="icon" href="./assets/favicon.png" type="image/png">
-    <link rel="stylesheet" href="./index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flockers Dev Hub</title>
+    <link rel="icon" href="./assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./CSS/Style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-<header>
-    <h1>Flockers Dev Hub</h1>
-    <div class="header-right">
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
         <nav>
-            <a href="./index.html">Home</a>
-            <a href="./projects.html">Projects</a>
-            <a href="./ServerFiles.html">ServerFiles</a>
-            <a href="./partners.html">Partners</a>
-            <a href="./contact.html">Contact</a>
+            <ul>
+                <li><a href="index.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="#" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">CONTACT</a></li>
+
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
         </nav>
-        </div>
-    <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-    <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');kofiwidget2.draw();</script> 
+    </div>
+
+    <div class="navbar-right">
+        <a href="https://discord.gg/DuWnazV4" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+        <a href="#" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+    </div>
 </header>
 
-<main class="container">
+<main>
+    <section class="hero-section">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="./movies/HeaderVideo.mp4" type="video/mp4" />
+            Your browser does not support HTML5 video.
+        </video>
 
-    <section class="hero-new">
+        <canvas id="particle-canvas"></canvas>
+
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h2 class="hero-heading">Welcome, Commander.</h2>
-            <p class="hero-subheading">Your journey to custom tools, mods, and Unreal Engine tutorials begins here.</p>
-            <a href="https://discord.me/unreald" class="btn" target="_blank">🎁 Join the Command Channel</a>
+            <p class="large-brand-name">FLOCKERS DEV HUB</p>
+            <p class="tagline">THE PLACE TO ENHANCE YOUR STREAM AND STAND OUT</p>
+            <div class="promo-text-box">
+                <p>CHECK ME OUT LIKE ON STREAM.<br />https://twitch.tv/flockersdesign</p>
+            </div>
         </div>
     </section>
 
-    <div class="main-grid">
-        
-        <div class="main-column-left">
-            <section class="project-section">
-                <h1>Latest Updated Projects</h1>
-                <div class="project-grid">
-                    <article class="project-card">
-                        <img src="./assets/EDLM-Tracker.png" alt="EDLM Live Market Tracker" />
-                        <h2>EDLM Live Market Tracker</h2>
-                        <p>The first tool of its kind for Elite Dangerous Odyssey. Track prices in real-time and trade more efficiently.</p>
-                        <a href="./EDLM.html" class="btn">Download Now For Free</a>
-                    </article>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <h1>Recent Projects</h1>
-                <div class="project-grid">
-                    <article class="project-card">
-                        <img src="./assets/PlayerBounty.png" alt="Player Bounty System" />
-                        <h2>Player Bounty System</h2>
-                        <p>A dynamic Rust server plugin that introduces a bounty economy, allowing players to hunt or place bounties on others.</p>
-                        <a href="./Rust-Bounty.html" class="btn">More Info</a>
-                    </article>
-                    <article class="project-card">
-                        <img src="./assets/Spotify.jpg" alt="Spotify Crack" />
-                        <h2>Spotify Crack</h2>
-                        <p>A simple workaround that lets you enjoy premium Spotify features without the monthly subscription fee.</p>
-                        <a href="./spotifycrack.html" class="btn">More Info</a>
-                    </article>
-                    <article class="project-card">
-                        <img src="./assets/StreamMayhamBeta.png" alt="[FD] StreamMayham Beta Preview" />
-                        <h2>[FD] StreamMayham Beta</h2>
-                        <p>A toolkit that lets your Twitch viewers trigger fun chaos effects in games, creating an interactive and engaging stream.</p>
-                        <a href="./sb-streammayham.html" class="btn">More Info</a>
-                    </article>
-                </div>
-            </section>
-        </div>
-
-        <div class="main-column-right">
+    <section class="fleet-section">
+        <h2>Latest Updated Projects</h2>
+        <div class="fleet-grid">
             
-            <section class="meet-the-team">
-                <h1>Meet the Team</h1>
-                <div class="team-grid">
-                    <article class="team-card">
-                        <img src="./assets/Developer.jpg" alt="Erasmus, Kranenburg-Groeneveld" class="team-photo" />
-                        <div class="team-info">
-                            <h3 class="team-name">Erasmus, Kranenburg-Groeneveld</h3>
-                            <p class="team-role">Lead Developer</p>
-                            <p class="team-bio">I’m a seasoned Unreal Engine developer with a passion for building custom tools and tutorials.</p>
-                        </div>
-                    </article>
-                </div>
-            </section>
+            <div class="fleet-card">
+                <img src="./assets/PlayerBounty.png" alt="Player Bounty System" />
+                <h3>PLAYER BOUNTY SYSTEM</h3>
+                <p>A dynamic Rust server plugin that introduces a bounty economy, allowing players to hunt or place bounties on others.</p>
+            </div>
 
-            <section class="project-section">
-                <h1>What Others Say</h1>
-                <div class="project-grid">
-                    <article class="glass-card">
-                        <h3 style="text-align: center;">Desxri</h3>
-                        <p style="color: var(--text-color); font-style: italic;">"I use it for rust and love it."</p>
-                        <p style="text-align: right; color: var(--primary-color);">[FD] StreamMayham Beta</p>
-                    </article>
-                    <article class="glass-card">
-                        <h3 style="text-align: center;">KEPLER</h3>
-                        <p style="color: var(--text-color); font-style: italic;">"This product works great and did exactly what I needed."</p>
-                        <p style="text-align: right; color: var(--primary-color);">– [FD] HoldNRelease</p>
-                    </article>
-                    <article class="glass-card">
-                        <h3 style="text-align: center;">Perilous_Outlaw</h3>
-                        <p style="color: var(--text-color); font-style: italic;">"The default look fits perfectly with my stream."</p>
-                        <p style="text-align: right; color: var(--primary-color);">– EasyGoal For Kofi</p>
-                    </article>
-                </div>
-            </section>
+            <div class="fleet-card">
+                <img src="./assets/EDLM-Tracker.png" alt="EDLM Live Market Tracker" />
+                <h3>EDLM LIVE MARKET TRACKER</h3>
+                <p>The first tool of its kind for Elite Dangerous Odyssey. Track prices in real-time and trade more efficiently.</p>
+            </div>
+
+            <div class="fleet-card">
+                <img src="./assets/Spotify.jpg" alt="Spotify Crack" />
+                <h3>SPOTIFY CRACK</h3>
+                <p>A simple workaround that lets you enjoy premium Spotify features without the monthly subscription fee.</p>
+            </div>
+
+            <div class="fleet-card">
+                <img src="./assets/StreamMayhamBeta.png" alt="FD Stream Mayhem" />
+                <h3>FD STREAMMAYHEM</h3>
+                <p>Let your viewers control the chaos! A toolkit that lets your Twitch viewers trigger fun chaotic effects in games, creating an interactive and engaging stream.</p>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="divisions-section">
+        <h2 class="section-title">WHAT OTHERS SAY</h2>
+        <div class="divisions-grid">
+            <a href="#" class="division-card industrial-card">
+                <div class="card-default-content"><h3>Desxri | [FD] StreamMayham Beta</h3></div>
+                <div class="hover-content"><p>I use it for rust and love it.</p></div>
+            </a>
+            <a href="#" class="division-card logistics-card">
+                <div class="card-default-content"><h3>Perilous_Outlaw | EasyGoal For Kofi</h3></div>
+                <div class="hover-content"><p>The default look fits perfectly with my stream.</p></div>
+            </a>
+            <a href="#" class="division-card science-card">
+                <div class="card-default-content"><h3>KEPLER | FD] HoldNRelease</h3></div>
+                <div class="hover-content"><p>This product works great and did exactly what I needed.</p></div>
+            </a>
+        </div>
+
 </main>
 
-<div id="konami-sidebar">
-    <h4>Are you a real God?</h4>
-    <div id="konami-counter">
-        Konami Code triggered: 0
+<div class="section-footer-cta">
+    <p>The one stop shop for all your streaming needs!</p>
+    <div class="footer-links">
+        <a href="#" class="social-icon"><img src="./assets/Youtube.png" alt="YouTube"></a>
+        <a href="#" class="social-icon"><img src="./assets/Twitch.png" alt="Discord"></a>
+        <a href="#" class="social-icon"><img src="./assets/Twitch.png" alt="Twitch"></a>
     </div>
 </div>
 
-<footer>
-    <div class="container">
-        <p>&copy; 2025 FlockersDesign. All rights reserved.</p>
-    </div>
-</footer>
-
 <script>
-    const konamiCode = ['w','w','s','s','a','d','a','d','b','a'];
-    let konamiPosition = 0;
-
-    let konamiCounter = localStorage.getItem('konamiCounter');
-    konamiCounter = konamiCounter ? parseInt(konamiCounter) : 0;
-    const counterDisplay = document.getElementById('konami-counter');
-    counterDisplay.textContent = `Konami Code triggered: ${konamiCounter}`;
-
-    window.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === konamiCode[konamiPosition]) {
-            konamiPosition++;
-            if (konamiPosition === konamiCode.length) {
-                konamiCounter++;
-                
-                // Reset if exceeds 1 million
-                if (konamiCounter > 1000000) {
-                    konamiCounter = 0;
-                }
-
-                localStorage.setItem('konamiCounter', konamiCounter);
-                counterDisplay.textContent = `Konami Code triggered: ${konamiCounter}`;
-                alert('🎉 Konami Code Activated! Developer mode unlocked!');
-                konamiPosition = 0;
-            }
-        } else {
-            konamiPosition = 0;
-        }
+    // Hamburger
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.navbar-left nav');
+    hamburger.addEventListener('click', () => {
+        nav.classList.toggle('active');
+        hamburger.classList.toggle('open');
     });
 
+    // Parallax tilt for fleet cards
+    document.querySelectorAll('.fleet-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            card.style.transform = `rotateY(${x / 25}deg) rotateX(${-y / 25}deg) scale(1.02)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateY(0) rotateX(0) scale(1)';
+        });
+    });
+
+    // === PARTICLE BACKGROUND ===
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = document.querySelector('.hero-section').offsetHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const numParticles = window.innerWidth < 768 ? 40 : 80;
+
+    for (let i = 0; i < numParticles; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 2 + 1,
+            dx: (Math.random() - 0.5) * 0.4,
+            dy: (Math.random() - 0.5) * 0.4,
+            glow: Math.random() * 20 + 10
+        });
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            ctx.beginPath();
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glow);
+            gradient.addColorStop(0, 'rgba(0,255,136,0.9)');
+            gradient.addColorStop(1, 'rgba(0,255,255,0)');
+            ctx.fillStyle = gradient;
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+
+            p.x += p.dx;
+            p.y += p.dy;
+
+            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        });
+
+        requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
 </script>
 </body>
 </html>
