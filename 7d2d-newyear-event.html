@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7 Days to Die - Christmas Chaos Event</title>
+    <link rel="icon" href="./assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./CSS/Style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Christmas Styling */
+        :root {
+            --xmas-red: #C41E3A;
+            --xmas-green: #165B33;
+            --xmas-gold: #FFD700;
+            --xmas-white: #FFFFFF;
+            --xmas-dark-red: #8B0000;
+        }
+
+        .event-hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--xmas-dark-red) 0%, var(--xmas-red) 50%, var(--xmas-green) 100%);
+            padding: 60px 20px;
+            border: 8px solid var(--xmas-gold);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--xmas-gold);
+        }
+
+        .event-hero-section::before {
+            content: "🎄 ❄️ 🎅 ❄️ 🎄";
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            letter-spacing: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .event-hero-section::after {
+            content: "🎄 ❄️ 🎅 ❄️ 🎄";
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            letter-spacing: 20px;
+            animation: float 3s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* Snowflake animation */
+        @keyframes snowfall {
+            to {
+                transform: translateY(100vh) rotateZ(360deg);
+                opacity: 0;
+            }
+        }
+
+        .snowflake {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            font-size: 1.5em;
+        }
+
+        .snowflake::before {
+            content: '❄';
+            animation: snowfall linear infinite;
+        }
+
+        .event-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13,15,17,0.95) 0%, rgba(26,15,46,0.6) 50%, rgba(26,15,46,0.1) 100%);
+            z-index: 1;
+        }
+
+        .event-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeUp 1.5s ease-out;
+        }
+
+        .event-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 8em;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white), var(--xmas-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+            margin-bottom: 20px;
+            animation: glowPulse 3s ease-in-out infinite;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            filter: drop-shadow(3px 3px 0 var(--xmas-red)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+        }
+
+        .event-subtitle {
+            font-size: 3.5em;
+            color: var(--xmas-gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 3px 3px 0 var(--xmas-red), 0 0 15px var(--xmas-red);
+        }
+
+        .event-tagline {
+            font-size: 2.2em;
+            color: var(--xmas-white);
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.3);
+            letter-spacing: 3px;
+        }
+
+        .event-date-box {
+            margin-top: 30px;
+            padding: 25px 50px;
+            border: 4px solid var(--xmas-gold);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(196, 30, 58, 0.1));
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            animation: fadeUp 1.5s ease-out;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            border-style: double;
+        }
+
+        .event-date-box p {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8em;
+            color: var(--xmas-white);
+            margin: 10px 0;
+            font-weight: 700;
+            text-shadow: 3px 3px 0 var(--xmas-red);
+        }
+
+        .event-cta-button {
+            display: inline-block;
+            padding: 22px 60px;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white));
+            color: var(--xmas-red);
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 900;
+            font-family: 'Oswald', sans-serif;
+            margin-top: 40px;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            font-size: 1.5em;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 10px 0 var(--xmas-red);
+            cursor: pointer;
+            border: 4px solid var(--xmas-red);
+            letter-spacing: 3px;
+            transform: translateY(-5px);
+        }
+
+        .event-cta-button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 12px 0 var(--xmas-red);
+        }
+
+        .event-cta-button:active {
+            transform: translateY(0);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 3px 0 var(--xmas-red);
+        }
+
+        /* Event Details Section */
+        .event-details-section {
+            padding: 100px 5vw;
+            background: linear-gradient(to bottom, var(--xmas-green), var(--xmas-dark-red));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px dashed var(--xmas-gold);
+            border-bottom: 5px dashed var(--xmas-gold);
+        }
+
+        .event-details-section::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center,
+                rgba(255, 215, 0, 0.08) 0%, 
+                rgba(196, 30, 58, 0.03) 35%,
+                transparent 70%);
+            animation: energyPulse 8s ease-in-out infinite;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        .event-details-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3em;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 var(--xmas-red);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .detail-card {
+            background: rgba(255, 215, 0, 0.03);
+            border: 2px solid var(--xmas-gold);
+            border-radius: 15px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(4px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center,
+                rgba(255, 215, 0, 0.08), 
+                transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .detail-card:hover::before { opacity: 1; }
+
+        .detail-card:hover {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            border-color: var(--xmas-red);
+            transform: translateY(-5px);
+            background: rgba(196, 30, 58, 0.1);
+        }
+
+        .detail-icon {
+            font-size: 5em;
+            margin-bottom: 25px;
+            animation: fadeLoop 3s infinite ease-in-out;
+        }
+
+        .detail-card h3 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--xmas-gold);
+            font-size: 1.9em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 var(--xmas-red);
+            letter-spacing: 1px;
+        }
+
+        .detail-card p {
+            color: var(--xmas-white);
+            font-size: 1.25em;
+            line-height: 1.8em;
+            font-weight: 500;
+        }
+
+        /* Streamers Section */
+        .streamers-section {
+            padding: 100px 5vw;
+            background: linear-gradient(135deg, var(--xmas-red) 0%, var(--xmas-dark-red) 100%);
+            text-align: center;
+            border-top: 5px dashed var(--xmas-gold);
+            border-bottom: 5px dashed var(--xmas-gold);
+        }
+
+        .streamers-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3em;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .streamers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .streamer-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 255, 255, 0.05));
+            border: 3px solid var(--xmas-gold);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .streamer-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center,
+                rgba(255, 215, 0, 0.1), 
+                transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .streamer-card:hover::before { opacity: 1; }
+
+        .streamer-card:hover {
+            transform: scale(1.08) translateY(-8px);
+            border-color: var(--xmas-white);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 20px var(--xmas-red);
+        }
+
+        .streamer-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--xmas-gold), var(--xmas-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            border: 3px solid var(--xmas-white);
+        }
+
+        .streamer-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6em;
+            color: var(--xmas-gold);
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .streamer-platform {
+            color: var(--xmas-white);
+            font-size: 1.25em;
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+        }
+
+        /* Schedule Section */
+        .schedule-section {
+            padding: 100px 5vw;
+            background: linear-gradient(135deg, var(--xmas-green) 0%, var(--xmas-dark-red) 100%);
+            text-align: center;
+            border-top: 5px dashed var(--xmas-gold);
+            border-bottom: 5px dashed var(--xmas-gold);
+        }
+
+        .schedule-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3em;
+            color: var(--xmas-gold);
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .schedule-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: rgba(255, 215, 0, 0.08);
+            border-left: 5px solid var(--xmas-gold);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            transition: all 0.4s ease;
+            position: relative;
+            text-align: left;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -14px;
+            top: 30px;
+            width: 24px;
+            height: 24px;
+            background: var(--xmas-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            border: 3px solid var(--xmas-red);
+        }
+
+        .timeline-item:hover {
+            background: rgba(255, 215, 0, 0.12);
+            border-left-color: var(--xmas-white);
+            transform: translateX(10px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-time {
+            font-family: 'Oswald', sans-serif;
+            color: var(--xmas-gold);
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .timeline-event {
+            color: var(--xmas-white);
+            font-size: 1.7em;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .timeline-description {
+            color: var(--xmas-white);
+            font-size: 1.25em;
+            line-height: 1.8em;
+        }
+
+        /* Prizes Section */
+        .prizes-section {
+            padding: 100px 5vw;
+            background: linear-gradient(135deg, var(--xmas-dark-red) 0%, var(--xmas-red) 100%);
+            text-align: center;
+            border-top: 5px dashed var(--xmas-gold);
+            border-bottom: 5px dashed var(--xmas-gold);
+            position: relative;
+        }
+
+        .prizes-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4em;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 80px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+            letter-spacing: 2px;
+        }
+
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .prize-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 255, 255, 0.08));
+            border: 4px solid var(--xmas-gold);
+            border-radius: 20px;
+            padding: 50px 35px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+
+        .prize-badge {
+            font-family: 'Oswald', sans-serif;
+            display: inline-block;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white));
+            color: var(--xmas-red);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+            box-shadow: 0 5px 0 var(--xmas-red);
+            letter-spacing: 1px;
+        }
+
+        .prize-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3em;
+            color: var(--xmas-gold);
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 3px 3px 0 var(--xmas-red);
+            letter-spacing: 1px;
+        }
+
+        .prize-description {
+            color: var(--xmas-white);
+            font-size: 1.1em;
+            line-height: 1.7em;
+            font-weight: 500;
+        }
+
+        .prize-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6), 0 0 30px var(--xmas-red), inset 0 0 20px rgba(255, 215, 0, 0.1);
+            border-color: var(--xmas-white);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 255, 255, 0.15));
+        }
+
+        /* Footer CTA */
+        .event-footer-cta {
+            text-align: center;
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 50px 40px;
+            border: 4px dashed var(--xmas-gold);
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.1), rgba(255, 215, 0, 0.05));
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .event-footer-cta h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .event-footer-cta p {
+            color: var(--xmas-white);
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            line-height: 1.8em;
+            font-weight: 500;
+        }
+
+        .event-footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .event-footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 35px;
+            background: linear-gradient(45deg, var(--xmas-gold), var(--xmas-white));
+            color: var(--xmas-red);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 900;
+            font-family: 'Oswald', sans-serif;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 1.2em;
+            border: 3px solid var(--xmas-red);
+            box-shadow: 0 5px 0 var(--xmas-red);
+            letter-spacing: 2px;
+        }
+
+        .event-footer-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 var(--xmas-red), 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .event-title {
+                font-size: 3.5em;
+            }
+
+            .event-subtitle {
+                font-size: 1.5em;
+            }
+
+            .event-details-section h2,
+            .schedule-section h2,
+            .prizes-section h2,
+            .streamers-section h2 {
+                font-size: 2.2em;
+            }
+
+            .details-grid {
+                gap: 20px;
+            }
+
+            .timeline-item {
+                padding: 20px;
+            }
+
+            .event-footer-cta {
+                margin: 40px 20px;
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .event-title {
+                font-size: 2.5em;
+            }
+
+            .event-subtitle {
+                font-size: 1.2em;
+            }
+
+            .event-tagline {
+                font-size: 1.1em;
+            }
+
+            .event-date-box {
+                padding: 15px 25px;
+            }
+
+            .event-date-box p {
+                font-size: 1em;
+            }
+
+            .event-footer-links {
+                flex-direction: column;
+            }
+
+            .event-footer-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="https://erasmusdev.github.io/FlockersDevHub" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">SOFTWARE</a></li>
+                <li><a href="7d2d-newyear-event.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">7D2D EVENT</a></li>
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="navbar-right">
+        <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+        <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section class="event-hero-section">
+        <div class="event-overlay"></div>
+        <div class="event-content">
+            <h1 class="event-title">🧟 7 DAYS TO DIE 🧟</h1>
+            <p class="event-subtitle">CHRISTMAS CHAOS EVENT</p>
+            <p class="event-tagline">Viewers Control The Mayhem! 🎮</p>
+            <div class="event-date-box">
+                <p>📅 December 21-22, 2025</p>
+                <p>🎮 4-5 Streamers vs Zombie Horde</p>
+                <p>🎁 Viewers Troll & Kill with Twitch Extension!</p>
+            </div>
+            <button class="event-cta-button" onclick="document.getElementById('details').scrollIntoView({behavior: 'smooth'});">🎄 LEARN MORE 🎄</button>
+        </div>
+    </section>
+
+    <!-- Event Details Section -->
+    <section class="event-details-section" id="details">
+        <h2>🎄 What's the Event About? 🎄</h2>
+        <div class="details-grid">
+            <div class="detail-card">
+                <div class="detail-icon">🕹️</div>
+                <h3>Viewer Control</h3>
+                <p>Viewers use FREE Twitch points (or Bits) to interact with streamers! Trigger zombie spawns, debuffs & buffs, unique events like homerun derby and bucket heads - help or hurt your streamer!</p>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">💥</div>
+                <h3>Total Chaos</h3>
+                <p>4-5 top streamers team up in a 2-day survival gauntlet. Your chat controls the difficulty! Watch them panic as viewers unleash havoc!</p>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">👑</div>
+                <h3>Team Gameplay</h3>
+                <p>Watch coordinated team play breakdown as viewers troll both allies and enemies. Mayhem meets strategy in this hilarious Christmas chaos!</p>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">🎁</div>
+                <h3>The Pimp Pot</h3>
+                <p>Every viewer command grows The Pimp Pot! One lucky viewer wins the pot when the streamer falls. Progressive action stages unlock new commands with automatic cooldowns!</p>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">⚡</div>
+                <h3>Progressive Actions</h3>
+                <p>Action stages unlock new commands as gameplay progresses. Automatic cooldowns and streamer-adjustable difficulty keep the chaos balanced and strategic!</p>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">🎮</div>
+                <h3>Fully Customizable</h3>
+                <p>Streamer-controlled settings! Adjust command triggers, cooldowns, and mayhem level to your preference. You have full freedom to integrate on your terms!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Streamers Section -->
+    <section class="streamers-section">
+        <h2>🎬 Featured Streamers 🎬</h2>
+        <div class="streamers-grid">
+            <div class="streamer-card">
+                <div class="streamer-avatar">🎬</div>
+                <div class="streamer-name">Flockers Design</div>
+                <div class="streamer-platform">Twitch / YouTube</div>
+            </div>
+
+            <div class="streamer-card">
+                <div class="streamer-avatar">🎮</div>
+                <div class="streamer-name">Streamer Alpha</div>
+                <div class="streamer-platform">Twitch</div>
+            </div>
+
+            <div class="streamer-card">
+                <div class="streamer-avatar">⚔️</div>
+                <div class="streamer-name">Streamer Beta</div>
+                <div class="streamer-platform">YouTube Gaming</div>
+            </div>
+
+            <div class="streamer-card">
+                <div class="streamer-avatar">🧟</div>
+                <div class="streamer-name">Streamer Gamma</div>
+                <div class="streamer-platform">Twitch</div>
+            </div>
+
+            <div class="streamer-card">
+                <div class="streamer-avatar">💪</div>
+                <div class="streamer-name">Streamer Delta</div>
+                <div class="streamer-platform">YouTube Gaming</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="schedule-section">
+        <h2>⏰ Event Schedule ⏰</h2>
+        <div class="schedule-timeline">
+            <div class="timeline-item">
+                <div class="timeline-time">December 21 - Day 1</div>
+                <div class="timeline-event">🎉 CHRISTMAS CHAOS BEGINS!</div>
+                <div class="timeline-description">All 4-5 streamers start their 2-day survival challenge on the same map. Grand opening ceremony at 6 PM UTC. Viewers get their first taste of the chaos with the Twitch extension!</div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-time">December 21 Evening</div>
+                <div class="timeline-event">🎁 Halfway Point Mayhem</div>
+                <div class="timeline-description">Day 1 night arrives! Extended horde night with viewer-triggered chaos events. Chat votes on the most brutal extensions to activate!</div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-time">December 22 - Day 2</div>
+                <div class="timeline-event">🔥 THE FINAL SHOWDOWN</div>
+                <div class="timeline-description">Last day of survival! Teams battle it out. Viewers rain down chaos. Will any team survive? Final horde night powered by community trolling!</div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-time">December 22 Evening</div>
+                <div class="timeline-event">🏆 Awards & Celebration</div>
+                <div class="timeline-description">Grand finale ceremony! Winners announced, prize distribution, community highlights reel, and celebration stream. Thanks for the chaos!</div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer CTA -->
+    <section class="event-footer-cta">
+        <h3>🎄 Join the Christmas Chaos! 🎄</h3>
+        <p>Be part of the most hilarious 7 Days to Die Christmas event ever! Download our Twitch extension and control the mayhem! Troll streamers, trigger zombie hordes, and compete for prizes. Watch 4-5 top streamers struggle to survive YOUR chaos for 2 epic days!</p>
+        <div class="event-footer-links">
+            <a href="https://discord.gg/vXhUaJNYum" class="event-footer-link">🎮 JOIN DISCORD</a>
+            <a href="https://www.twitch.tv/flockersdesign" class="event-footer-link">📡 WATCH LIVE</a>
+            <a href="https://www.youtube.com/@FlockersDesign" class="event-footer-link">📺 YOUTUBE</a>
+        </div>
+    </section>
+</main>
+
+<script>
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.navbar-left nav');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        nav.classList.toggle('active');
+    });
+
+    // Optional: Generate festive snowflakes
+    function createSnowflakes() {
+        const snowflakeCount = 40;
+        for (let i = 0; i < snowflakeCount; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDelay = Math.random() * 2 + 's';
+            snowflake.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            document.body.appendChild(snowflake);
+        }
+    }
+
+    // Create snowflakes on page load
+    window.addEventListener('load', () => {
+        createSnowflakes();
+    });
+</script>
+</body>
+</html>

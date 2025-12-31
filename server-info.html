@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rusthaven - Rust Server</title>
+    <link rel="icon" href="./assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./CSS/Info.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        footer {
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid var(--card-border-color);
+            padding: 40px 30px;
+            text-align: center;
+            margin-top: 80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            color: var(--gray-text);
+            margin-bottom: 10px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        footer a {
+            color: var(--classy-border);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            color: var(--secondary-accent);
+        }
+    </style>
+
+</head>
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <header class="navbar">
+        <div class="navbar-left">
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="https://erasmusdev.github.io/FlockersDevHub" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                    <li><a href="software.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">SOFTWARE</a></li>
+                    <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                    <li><a href="server-info.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">SERVER INFO</a></li>
+
+                    <li class="mobile-socials">
+                        <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                        <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="navbar-right">
+            <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>DISCORD</span></a>
+            <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>YOUTUBE</span></a>
+            <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>TWITCH</span></a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <img id="bg-video" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" alt="Rust Background">
+
+        <div class="hero-content">
+            <h1 class="large-brand-name">RUST<span style="color:var(--classy-border)">HAVEN</span></h1>
+            <p class="tagline">WHITELISTED SURVIVAL SERVER</p>
+            <p style="color: var(--gray-text); margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                An exclusive whitelisted community for serious Rust players. Apply for whitelist access to join.
+            </p>
+        </div>
+    </section>
+
+    <div class="full-width-banner">
+        <div class="banner-content">
+            <p>/// SERVER ONLINE /// ACTIVE ADMINS /// WEEKLY WIPES ///</p>
+        </div>
+    </div>
+
+    <div class="core-provisions-grid">
+        <div class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1614680376408-81e91ffe3db7?q=80&w=2070&auto=format&fit=crop" alt="Whitelist" class="protocol-card-image">
+                <div class="image-detail-overlay">WHITELIST</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div style="background: rgba(255, 200, 0, 0.1); border-left: 4px solid #ffcc00; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.5rem;">⚠️</span>
+                        <strong style="color: #ffcc00; font-family: 'Oswald', sans-serif; letter-spacing: 2px; font-size: 1rem;">WHITELISTED SERVER</strong>
+                    </div>
+                </div>
+                <div class="card-header-icon-small">
+                    <h3>GET WHITELISTED</h3>
+                </div>
+                <div class="card-tagline">APPLICATION REQUIRED</div>
+                
+                <div class="data-block">
+                    <p class="card-description">
+                        This server requires whitelist approval before you can join. Follow these steps:<br><br>
+                        <strong>1. Join Discord:</strong> Click the Discord link below<br>
+                        <strong>2. Apply:</strong> Submit a whitelist application<br>
+                        <strong>3. Wait:</strong> Staff will review your application<br>
+                        <strong>4. Connect:</strong> Once approved, use the connect command above<br><br>
+                        <em style="color: var(--classy-border);">Applications are typically reviewed within 24 hours.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=2070&auto=format&fit=crop" alt="Server Info" class="protocol-card-image">
+                <div class="image-detail-overlay">SERVER INFO</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>SERVER DETAILS</h3>
+                </div>
+                <div class="card-tagline">CONFIGURATION</div>
+                
+                <div class="data-block">
+                    <ul class="info-list">
+                        <li><strong>Server Name:</strong> RustHaven</li>
+                        <li><strong>Map Size:</strong> 5000</li>
+                        <li><strong>Max Players:</strong> 100</li>
+                        <li><strong>Wipe Schedule:</strong> Weekly Thursdays</li>
+                        <li><strong>Gather Rate:</strong> 2x</li>
+                        <li><strong>PvP:</strong> Enabled</li>
+                        <li><strong>Decay:</strong> Standard</li>
+                        <li><strong>Upkeep:</strong> Normal</li>
+                        <li><strong>Team Limit:</strong> 4 Players</li>
+                        <li><strong>Raid Hours:</strong> 24/7</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=2074&auto=format&fit=crop" alt="Features" class="protocol-card-image">
+                <div class="image-detail-overlay">FEATURES</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>SERVER FEATURES</h3>
+                </div>
+                <div class="card-tagline">ENHANCEMENTS</div>
+                
+                <div class="data-block">
+                    <p class="card-description">
+                        • <strong>Active Admins:</strong> Fair moderation<br>
+                        • <strong>Anti-Cheat:</strong> Protection enabled<br>
+                        • <strong>Custom Build Plugins:</strong> Enhanced gameplay<br>
+                        • <strong>Custom Bounty System:</strong> Hunt or be hunted<br>
+                        • <strong>Discord Integration:</strong> Real-time updates<br>
+                        • <strong>Starter Kits:</strong> Available for new players
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2072&auto=format&fit=crop" alt="Community" class="protocol-card-image">
+                <div class="image-detail-overlay">COMMUNITY</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>COMMUNITY LINKS</h3>
+                </div>
+                <div class="card-tagline">JOIN US</div>
+                
+                <div class="data-block">
+                    <ul class="info-list">
+                        <li><strong>Discord:</strong> <a href="https://discord.gg/wPXvpe7mbB" style="color: #5865F2;">Join Server</a></li>
+                        <li><strong>Website:</strong> https://erasmusdev.github.io/FlockersDevHub</li>
+                        <li><strong>Region:</strong> North America</li>
+                        <li><strong>Active Admins:</strong> Yes</li>
+                        <li><strong>Support:</strong> 24/7</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="protocol-card" style="grid-column: 1 / -1;">
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>SERVER RULES</h3>
+                </div>
+                <div class="card-tagline">CODE OF CONDUCT</div>
+                
+                <div class="data-block">
+                    <h4>RULES</h4>
+                    <p class="card-description">
+                        <strong>1. No Cheating/Hacking:</strong> Zero tolerance policy. Permanent ban on first offense.<br><br>
+                        <strong>2. No Racism/Harassment:</strong> Treat all players with respect. Toxic behavior will result in immediate action.<br><br>
+                        <strong>3. No Blocking/Griefing:</strong> Don't block monuments, resources, or spawn points. PVP is encouraged, griefing is not.<br><br>
+                        <strong>4. No Exploiting:</strong> Report bugs, don't abuse them. This includes roof/foundation camping exploits.<br><br>
+                        <strong>5. Team Limit:</strong> Maximum of 4 players per team. No alliances or teaming beyond limit.<br><br>
+                        <strong>6. Raiding Rules:</strong> Raid anyone, anytime. Counter-raiding is allowed. No raid rules except no exploiting.<br><br>
+                        <strong>7. KOS Allowed:</strong> Kill on sight is permitted. This is a PVP server - expect combat anywhere.<br><br>
+                        <strong>8. English Only:</strong> Primary language in global chat is English.<br><br>
+                        <strong>9. Admin Respect:</strong> Listen to admin instructions. Admins do not participate in PVP.
+                    </p>
+                </div>
+            </div>
+            <div class="animated-border-left"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 RustHaven. All rights reserved.</p>
+        <p>Join our <a href="https://discord.gg/perilousnation" target="_blank">Discord</a> for whitelist applications and support!</p>
+    </footer>
+
+
+    <script>
+        // Particle background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 80;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(0, 255, 136, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 255, 136, ${0.2 - distance / 500})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Copy to clipboard function
+        function copyToClipboard() {
+            const command = 'client.connect panel.perilousnation.com:28017';
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = command;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                showNotification();
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        function showNotification() {
+            const notif = document.getElementById('copiedNotif');
+            notif.style.display = 'block';
+            
+            setTimeout(() => {
+                notif.style.display = 'none';
+            }, 2000);
+        }
+
+        document.getElementById('connectCommand').addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
