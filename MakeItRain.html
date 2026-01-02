@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[FD] MakeItRain | Rust Plugin Hub</title>
+    <link rel="icon" href="./assets/favicon.png" type="image/png">
+    
+    <style>
+        /* --- Rust-Themed Core CSS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&family=Roboto+Mono:wght@300;400;700&display=swap');
+
+        :root {
+            --dark-bg: #1a1410;
+            --rust-orange: #cd853f;
+            --rust-red: #8b3a2b;
+            --text-color: #e8dcc9;
+            --accent-color: #ff6b35; 
+            --secondary-accent: #f5f5dc;
+            --gray-text: #b8a593;
+            --navbar-bg: rgba(26, 20, 16, 0.95);
+            --card-border-color: rgba(205, 133, 63, 0.3);
+            --rust-border: rgba(255, 107, 53, 0.6); 
+            --warning-yellow: #ffa500; 
+            --card-bg: #241c16; 
+            --danger-red: #8b0000;
+            --metal-gray: #4a4a4a;
+        }
+
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-color);
+            background-color: var(--dark-bg);
+            background-image: 
+                repeating-linear-gradient(90deg, rgba(205, 133, 63, 0.03) 0px, transparent 1px, transparent 20px, rgba(205, 133, 63, 0.03) 21px),
+                repeating-linear-gradient(0deg, rgba(205, 133, 63, 0.03) 0px, transparent 1px, transparent 20px, rgba(205, 133, 63, 0.03) 21px);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Navbar & Hero --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: var(--navbar-bg);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            border-bottom: 2px solid var(--rust-orange);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            color: var(--rust-orange);
+            text-decoration: none;
+            margin-right: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .navbar-left nav ul { list-style: none; display: flex; gap: 25px; }
+        .navbar-left nav ul li a { color: var(--gray-text); text-decoration: none; transition: color 0.3s ease; }
+        .navbar-left nav ul li a:hover { color: var(--accent-color); }
+
+        .navbar-right, .mobile-socials { display: flex; align-items: center; gap: 25px; }
+        .icon-link { display: flex; align-items: center; color: var(--gray-text); text-decoration: none; font-size: 0.85em; letter-spacing: 1px; transition: color 0.3s ease, transform 0.3s ease; }
+        .icon-link img { width: 28px; height: 28px; margin-right: 8px; filter: drop-shadow(0 0 4px rgba(205, 133, 63, 0.6)); transition: transform 0.3s ease, filter 0.3s ease; }
+        .icon-link:hover { color: var(--rust-orange); transform: translateY(-2px); }
+
+        /* Hamburger */
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 28px; height: 20px; background: none; border: none; cursor: pointer; z-index: 1100; }
+        .hamburger span { display: block; width: 100%; height: 3px; background-color: var(--secondary-accent); border-radius: 2px; transition: all 0.3s ease; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        .navbar-left nav { display: flex; }
+        .mobile-socials { display: none; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .navbar-left nav { position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--navbar-bg); max-height: 0; overflow: hidden; transition: max-height 0.3s ease; flex-direction: column; }
+            .navbar-left nav.active { max-height: 500px; }
+            .navbar-left nav ul { flex-direction: column; gap: 15px; padding: 15px; }
+            .mobile-socials { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+            .navbar-right { display: none; }
+        }
+
+        .hero-section { position:relative; width:100%; height:80vh; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+        #bg-video { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+        .hero-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(26,20,16,0.95) 0%, rgba(26,20,16,0.6) 50%, rgba(26,20,16,0.2) 100%); z-index:1; }
+        .hero-content { position:relative; z-index:2; }
+        .large-brand-name { font-family: 'Rajdhani', sans-serif; font-size: 7em; font-weight: 700; color: var(--rust-orange); text-shadow: 0 0 20px rgba(255, 107, 53, 0.6), 0 0 40px rgba(205, 133, 63, 0.3); letter-spacing: 8px; opacity: 0.95; transition: all 0.5s ease; text-transform: uppercase; }
+        .tagline { font-size:1.5em; color:var(--gray-text); margin-top:20px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .full-width-banner { width: 100%; background: linear-gradient(135deg, var(--rust-red) 0%, var(--rust-orange) 100%); color: var(--text-color); padding: 18px 40px; border-top: 3px solid var(--warning-yellow); border-bottom: 3px solid var(--warning-yellow); text-align: center; position: relative; overflow: hidden; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
+        .banner-content p { font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 4px; font-size: 1.1em; animation: pulse-shadow 4s infinite ease-in-out; text-transform: uppercase; }
+        @keyframes pulse-shadow { 0% { text-shadow: none; } 50% { text-shadow: 0 0 8px rgba(0, 0, 0, 0.8); } 100% { text-shadow: none; } }
+
+        .section-protocol-title { text-align: center; font-family: 'Rajdhani', sans-serif; font-size: 2.5em; color: var(--rust-orange); margin: 50px 0 30px 0; letter-spacing: 3px; position: relative; padding: 0 20px; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+        .section-protocol-title::before, .section-protocol-title::after { content: ''; position: absolute; top: 50%; width: 150px; height: 3px; background: linear-gradient(90deg, transparent, var(--rust-orange), transparent); transform: translateY(-50%); }
+        .section-protocol-title::before { left: calc(50% - 20px - 150px); }
+        .section-protocol-title::after { right: calc(50% - 20px - 150px); }
+
+        /* Grid & Cards */
+        .core-provisions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 80px 40px; max-width: 1400px; margin: 50px auto 100px auto; padding: 0 40px; }
+        .protocol-card { background: linear-gradient(135deg, var(--card-bg) 0%, #2a2018 100%); border: 2px solid var(--rust-orange); border-radius: 0; overflow: hidden; position: relative; text-decoration: none; color: var(--text-color); box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(205,133,63,0.1); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; display: flex; flex-direction: row; min-height: 400px; }
+        .protocol-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 0 15px var(--rust-orange), 0 15px 35px rgba(255,107,53,0.4), inset 0 1px 0 rgba(205,133,63,0.3); border-color: var(--accent-color); }
+        .protocol-card-content { flex: 1 1 50%; padding: 30px; display: flex; flex-direction: column; position: relative; z-index: 2; }
+        .card-image-container { flex: 1 1 50%; overflow: hidden; position: relative; background-color: #000; }
+        .protocol-card-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease, filter 0.4s ease; filter: brightness(0.8); object-position: center; }
+        .protocol-card:hover .protocol-card-image { transform: scale(1.1); filter: brightness(1); }
+        .card-header-icon-small { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .card-header-icon-small h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.8em; color: var(--rust-orange); text-transform: uppercase; letter-spacing: 3px; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .protocol-card .card-tagline { font-family: 'Roboto Mono', monospace; color: var(--warning-yellow); text-transform: uppercase; font-size: 0.85em; margin-bottom: 20px; letter-spacing: 2px; padding-bottom: 10px; border-bottom: 2px solid rgba(205, 133, 63, 0.3); }
+        .data-block { margin-bottom: 25px; }
+        .data-block h4 { font-family: 'Rajdhani', sans-serif; font-size: 0.95em; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; font-weight: 700; }
+        .protocol-card .card-description { font-size: 0.95em; line-height: 1.6; color: var(--gray-text); margin-bottom: 0; }
+        .protocol-card .card-description.small-text { font-size: 0.85em; }
+        .read-more-styled { display: inline-block; color: var(--rust-orange); font-family: 'Rajdhani', sans-serif; text-transform: uppercase; font-size: 0.95em; letter-spacing: 2px; border: 2px solid var(--rust-orange); padding: 10px 20px; transition: all 0.3s ease; margin-top: auto; cursor: pointer; background: rgba(205, 133, 63, 0.1); font-weight: 700; }
+        .protocol-card:hover .read-more-styled { background-color: var(--rust-orange); color: var(--dark-bg); border-color: var(--warning-yellow); box-shadow: 0 0 10px var(--rust-orange); }
+        .image-detail-overlay { position: absolute; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.7); color: var(--secondary-accent); padding: 8px 15px; font-family: 'Oswald', sans-serif; font-size: 0.9em; letter-spacing: 1px; border-top-left-radius: 8px; z-index: 10; }
+        @keyframes slide-stripes { 0% { background-position: 0 0; } 100% { background-position: 0 64px; } }
+        .animated-border-left { position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: repeating-linear-gradient( 45deg, var(--rust-orange), var(--rust-orange) 16px, var(--rust-red) 16px, var(--rust-red) 32px ); background-size: 64px 64px; animation: slide-stripes 4s linear infinite; opacity: 0.6; transition: opacity 0.4s ease; z-index: 3; }
+        .protocol-card:hover .animated-border-left { opacity: 1; box-shadow: 0 0 15px var(--rust-orange); }
+        
+        #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; mix-blend-mode: screen; opacity: 0.7; }
+        
+        .section-footer-cta { text-align:center; max-width:900px; margin:60px auto; border-top:2px solid var(--accent-color); padding-top:40px; }
+        .footer-links { display:flex; justify-content:center; gap:25px; }
+
+        @media(max-width:1100px){ .core-provisions-grid { grid-template-columns: 1fr; max-width: 700px; padding: 0 20px; } }
+        @media(max-width:650px){ .protocol-card { flex-direction: column; min-height: auto; } .protocol-card-content { order: 2; } .card-image-container { order: 1; height: 250px; } .image-detail-overlay { top: 0; bottom: auto; border-top-left-radius: 0; border-bottom-right-radius: 8px; } }
+
+        /* --- TABLE & LIST SPECIFIC STYLES --- */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 20px;
+            font-size: 0.95em;
+            color: var(--gray-text);
+            margin-bottom: 40px;
+        }
+        .tech-table th {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--accent-color);
+            padding: 15px;
+            text-align: left;
+            border: 1px solid var(--card-border-color);
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .tech-table td {
+            padding: 12px;
+            border: 1px solid var(--card-border-color);
+            background-color: rgba(0,0,0,0.3);
+            vertical-align: top;
+        }
+        .tech-table tr:hover td {
+            background-color: rgba(0, 255, 136, 0.05);
+            color: var(--secondary-accent);
+        }
+        .status-green { color: var(--accent-color); font-weight: bold; }
+        .status-red { color: var(--danger-red); font-weight: bold; }
+
+        /* Setup Steps Style */
+        .setup-steps ol { padding-left: 20px; }
+        .setup-steps li { margin-bottom: 10px; color: var(--gray-text); }
+        .setup-steps li::marker { color: var(--accent-color); font-weight: bold; }
+
+        /* FAQ Details */
+        details { background: var(--card-bg); margin-bottom: 10px; border: 1px solid var(--card-border-color); padding: 15px; cursor: pointer; }
+        details summary { color: var(--secondary-accent); font-family: 'Oswald', sans-serif; letter-spacing: 1px; }
+        details p { margin-top: 10px; color: var(--gray-text); line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="https://erasmusdev.github.io/FlockersDevHub" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="rust-plugins.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">RUST PLUGINS</a></li>
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="navbar-right">
+        <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>DISCORD</span></a>
+        <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>TWITCH</span></a>
+    </div>
+</header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <img id="bg-video" src="https://images.unsplash.com/photo-1580428180098-24b353d7e9d9?q=80&w=2070&auto=format&fit=crop" style="opacity: 0.4;" alt="Rust Resources">
+
+        <div class="hero-content">
+            <h1 class="large-brand-name">MAKE<span style="color:var(--accent-color)">IT</span>RAIN</h1>
+            <p class="tagline">UNIVERSAL GATHERING MULTIPLIER</p>
+            <p style="color: var(--gray-text); margin-top: 15px; font-family: 'Roboto Mono', monospace;">/// OXIDE PLUGIN FOR RUST ///</p>
+        </div>
+    </section>
+
+    <div class="full-width-banner">
+        <div class="banner-content">
+            <p>/// VERSION 1.0.0 DEPLOYED /// CATEGORY SYSTEM ACTIVE /// EVENT MULTIPLIERS ENABLED ///</p>
+        </div>
+    </div>
+
+    <div class="core-provisions-grid">
+
+        <div class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?q=80&w=2070&auto=format&fit=crop" alt="Mining Resources" class="protocol-card-image">
+                <div class="image-detail-overlay">CATEGORY SYSTEM</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>SIMPLE CONTROL</h3>
+                </div>
+                <div class="card-tagline">ONE COMMAND. ALL RESOURCES.</div>
+                
+                <div class="data-block">
+                    <h4>CORE CONCEPT</h4>
+                    <p class="card-description">
+                        Change gathering rates by category instead of editing individual items. Want 2x ore? Just type <code>/ore 2</code>.
+                    </p>
+                </div>
+                <div class="data-block">
+                    <h4>CATEGORIES</h4>
+                    <p class="card-description small-text">
+                        Ore, Stone, Wood, Cloth, Food, Meat, Scrap, Components, Bone, Leather, and more.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="protocol-card">
+            <div class="card-image-container">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop" alt="Event" class="protocol-card-image">
+                <div class="image-detail-overlay">PRE-WIPE READY</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>EVENT SYSTEM</h3>
+                </div>
+                <div class="card-tagline">TEMPORARY MULTIPLIERS</div>
+                
+                <div class="data-block">
+                    <h4>PRE-WIPE BOOST</h4>
+                    <p class="card-description small-text">
+                        Set temporary multipliers that expire automatically. Perfect for pre-wipe events.
+                    </p>
+                </div>
+                <div class="data-block">
+                    <h4>EXAMPLE</h4>
+                    <p class="card-description small-text">
+                        <code>/event 10 48</code> - Activates 10x rates for 48 hours. Auto-expires and broadcasts to server.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="protocol-card">
+            <div class="protocol-card-content" style="flex: 1 1 100%;">
+                <div class="card-header-icon-small">
+                    <h3>FEATURES</h3>
+                </div>
+                <div class="card-tagline">COMPLETE PACKAGE</div>
+                
+                <div class="data-block">
+                    <h4>INCLUDED</h4>
+                    <p class="card-description small-text">
+                        • Category-based multipliers<br>
+                        • Event multiplier system<br>
+                        • Min/Max limits (0.1x - 100x)<br>
+                        • Broadcast notifications<br>
+                        • Persistent config storage<br>
+                        • Works with all gathering hooks
+                    </p>
+                </div>
+
+                <div class="data-block">
+                    <h4>PERMISSIONS</h4>
+                    <p class="card-description small-text">
+                        <code>makeitrain.admin</code> - Required for all commands
+                    </p>
+                </div>
+            </div>
+            <div class="animated-border-left"></div>
+        </div>
+
+        <a href="https://ko-fi.com/s/d645bc6444" class="protocol-card" target="_blank">
+            <div class="card-image-container">
+                <img src="./assets/MakeItRain.png" alt="Purchase" style="width:100%; height:100%; object-fit:cover;">
+                <div class="image-detail-overlay">PREMIUM PLUGIN</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>BUY NOW</h3>
+                </div>
+                <div class="card-tagline">VERSION 1.0.0</div>
+                
+                <div class="card-description small-text">
+                    <strong>Plugin:</strong> MakeItRain.cs<br>
+                    <strong>Type:</strong> Oxide/uMod Plugin<br>
+                    <strong>Updated:</strong> January 2026<br>
+                    <strong>Status:</strong> Production Ready<br>
+                    <strong>License:</strong> Commercial
+                </div>
+                <br>
+                <span class="read-more-styled" style="text-align:center;">BUY NOW</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 40px;">
+        
+        <div class="section-protocol-title">COMMAND REFERENCE</div>
+        
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th>COMMAND</th>
+                    <th>DESCRIPTION</th>
+                    <th>EXAMPLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>/ore &lt;multiplier&gt;</code></td>
+                    <td>Set metal ore, sulfur ore, and HQ metal gathering rates</td>
+                    <td><code>/ore 2</code> or <code>/ore x5</code></td>
+                </tr>
+                <tr>
+                    <td><code>/stone &lt;multiplier&gt;</code></td>
+                    <td>Set stone gathering rates</td>
+                    <td><code>/stone 3</code></td>
+                </tr>
+                <tr>
+                    <td><code>/wood &lt;multiplier&gt;</code></td>
+                    <td>Set wood gathering rates</td>
+                    <td><code>/wood 2.5</code></td>
+                </tr>
+                <tr>
+                    <td><code>/scrap &lt;multiplier&gt;</code></td>
+                    <td>Set scrap from barrels and crates</td>
+                    <td><code>/scrap 5</code></td>
+                </tr>
+                <tr>
+                    <td><code>/components &lt;multiplier&gt;</code></td>
+                    <td>Set component drop rates (gears, springs, pipes, etc.)</td>
+                    <td><code>/components 3</code></td>
+                </tr>
+                <tr>
+                    <td><code>/all &lt;multiplier&gt;</code></td>
+                    <td>Set ALL categories to the same multiplier</td>
+                    <td><code>/all 5</code></td>
+                </tr>
+                <tr>
+                    <td><code>/event &lt;mult&gt; &lt;hours&gt;</code></td>
+                    <td>Temporary multiplier that auto-expires (stacks with base rates)</td>
+                    <td><code>/event 10 24</code></td>
+                </tr>
+                <tr>
+                    <td><code>/rates</code></td>
+                    <td>Display all current gathering rates</td>
+                    <td><code>/rates</code></td>
+                </tr>
+                <tr>
+                    <td><code>/resetrates</code></td>
+                    <td>Reset all gathering rates to 1x</td>
+                    <td><code>/resetrates</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-protocol-title">RESOURCE CATEGORIES</div>
+        <p style="text-align:center; color:var(--gray-text); margin-bottom:20px;">Complete breakdown of what items are affected by each category</p>
+
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th>CATEGORY</th>
+                    <th>ITEMS INCLUDED</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Ore</strong></td>
+                    <td>Metal Ore, Sulfur Ore, High Quality Metal Ore</td>
+                </tr>
+                <tr>
+                    <td><strong>Stone</strong></td>
+                    <td>Stones</td>
+                </tr>
+                <tr>
+                    <td><strong>Wood</strong></td>
+                    <td>Wood</td>
+                </tr>
+                <tr>
+                    <td><strong>Cloth</strong></td>
+                    <td>Cloth / Hemp Fiber</td>
+                </tr>
+                <tr>
+                    <td><strong>Scrap</strong></td>
+                    <td>Scrap (from barrels, crates, loot containers)</td>
+                </tr>
+                <tr>
+                    <td><strong>Components</strong></td>
+                    <td>Gears, Metal Pipe, Metal Spring, Rifle Body, Road Signs, Rope, Sewing Kit, Sheet Metal, SMG Body, Tarp, Tech Parts</td>
+                </tr>
+                <tr>
+                    <td><strong>Food</strong></td>
+                    <td>Corn, Pumpkin, Potato, Mushroom, Seeds</td>
+                </tr>
+                <tr>
+                    <td><strong>Meat</strong></td>
+                    <td>All raw meats (pork, boar, bear, wolf, deer, chicken, human, fish)</td>
+                </tr>
+                <tr>
+                    <td><strong>Bone</strong></td>
+                    <td>Bone Fragments</td>
+                </tr>
+                <tr>
+                    <td><strong>Leather</strong></td>
+                    <td>Leather</td>
+                </tr>
+                <tr>
+                    <td><strong>Skull</strong></td>
+                    <td>Human Skull, Wolf Skull</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="max-width: 900px; margin: 0 auto 100px auto; padding: 0 20px;">
+        <div class="section-protocol-title">INSTALLATION</div>
+        <div class="protocol-card setup-steps" style="padding: 30px; display:block;">
+            <ol>
+                <li>Download and install Oxide/uMod for your Rust server</li>
+                <li>Place <code>MakeItRain.cs</code> in your <code>oxide/plugins</code> folder</li>
+                <li>The plugin will auto-compile and generate <code>oxide/config/MakeItRain.json</code></li>
+                <li>Grant admin permission: <code>oxide.grant user &lt;name&gt; makeitrain.admin</code></li>
+                <li>Use commands in-game to adjust gathering rates</li>
+            </ol>
+        </div>
+
+        <div class="section-protocol-title" style="margin-top: 50px;">CONFIGURATION</div>
+        <div class="protocol-card" style="padding: 30px; display:block;">
+            <div class="data-block">
+                <h4 style="color: var(--rust-orange); font-family: 'Rajdhani', sans-serif;">CONFIG OPTIONS</h4>
+                <p class="card-description small-text" style="color: var(--gray-text);">
+                    <strong>CategoryMultipliers:</strong> Default rates for each category<br>
+                    <strong>BroadcastRateChanges:</strong> Announce changes to all players (true/false)<br>
+                    <strong>MinMultiplier:</strong> Minimum allowed multiplier (default: 0.1)<br>
+                    <strong>MaxMultiplier:</strong> Maximum allowed multiplier (default: 100.0)<br>
+                    <strong>EventMultiplier:</strong> Current active event multiplier<br>
+                    <strong>EventExpiryTime:</strong> When event multiplier expires (auto-managed)
+                </p>
+            </div>
+        </div>
+
+        <div class="section-protocol-title" style="margin-top: 50px;">FAQ</div>
+        <details>
+            <summary>HOW DOES THE EVENT MULTIPLIER WORK?</summary>
+            <p>Event multipliers stack on top of category rates. If ore is set to 2x and you activate a 5x event, ore becomes 10x. When the event expires, it returns to 2x automatically.</p>
+        </details>
+        <details>
+            <summary>CAN I SET DIFFERENT RATES FOR EACH RESOURCE?</summary>
+            <p>Yes! Each category can have its own multiplier. Use /ore, /wood, /stone, etc. to set them individually, or use /all to set everything at once.</p>
+        </details>
+        <details>
+            <summary>DOES THIS WORK WITH MODDED SERVERS?</summary>
+            <p>Yes, as long as the server uses Oxide/uMod. It hooks into standard Rust gathering events.</p>
+        </details>
+        <details>
+            <summary>WILL RATES PERSIST AFTER SERVER RESTART?</summary>
+            <p>Yes, all multipliers are saved to the config file and automatically reload on server restart.</p>
+        </details>
+        <details>
+            <summary>CAN REGULAR PLAYERS SEE THE RATES?</summary>
+            <p>Only admins with the makeitrain.admin permission can change rates or view them with /rates command.</p>
+        </details>
+    </div>
+
+    <div class="section-footer-cta">
+        <p style="color:var(--gray-text);">© 2025 FlockersDesign. All rights reserved.</p>
+    </div>
+
+    <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+    <script>
+        kofiwidget2.init('Support me on Ko-fi', '#38ebff', 'S6S6QZ7AE');
+        kofiwidget2.draw();
+    </script>
+
+    <script>
+        // Mobile Menu Logic
+        const hamburger = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.navbar-left nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            navMenu.classList.toggle('active');
+        });
+
+        // Particle Animation
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        for(let i=0; i<30; i++){
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speedY: Math.random() * 0.5
+            });
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 255, 136, 0.2)";
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

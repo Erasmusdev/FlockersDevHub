@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Plugins - HUB</title>
+    <link rel="icon" href="./assets/favicon.png" type="image/x-icon">
+    <!-- Load Tailwind CSS via CDN -->
+    <link rel="stylesheet" href="./CSS/Info.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Load Icons (lucide) for the missing icon placeholders -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<header class="navbar">
+    <div class="navbar-left">
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="https://erasmusdev.github.io/FlockersDevHub" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+                <li><a href="software.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">SOFTWARE</a></li>
+                <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+                <li><a href="rust-plugins.html" class="text-accent-color font-semibold transition duration-200 uppercase tracking-widest border-b-2 border-accent-color pb-1">RUST PLUGINS</a></li>
+
+                <li class="mobile-socials">
+                    <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+                    <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+                    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="navbar-right">
+        <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>DISCORD</span></a>
+        <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>YOUTUBE</span></a>
+        <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch" style="filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.4));"><span>TWITCH</span></a>
+    </div>
+</header>
+
+<section class="hero-section relative h-[50vh] flex items-center justify-center pt-20">
+    <canvas id="particle-canvas"></canvas>
+    <video autoplay muted loop playsinline id="bg-video">
+        <!-- Placeholder for original video. Replace with your actual path. -->
+        <source src="./movies/HeaderVideo.mp4" type="video/mp4" onerror="this.onerror=null;this.parentElement.style.backgroundColor='#1a202c'">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content relative z-10 text-center">
+        <div class="main-logo-container">
+            <p class="large-brand-name text-5xl sm:text-7xl lg:text-8xl font-black uppercase text-accent-color tracking-widest drop-shadow-lg mb-2">RUST PLUGINS</p>
+            <p class="text-lg sm:text-xl font-light tracking-widest text-white/80">CUSTOM. OPTIMIZED. GAME-CHANGING.</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="content-feed-container py-16 px-6 lg:px-12">
+
+    <div class="full-width-banner bg-gray-800/50 py-4 mb-12 border-y-2 border-accent-color/50">
+        <div class="banner-content text-center">
+            <p class="text-xl sm:text-2xl font-bold tracking-[0.3em] uppercase text-accent-color/90">ENHANCE YOUR RUST SERVER WITH CUSTOM PLUGINS.</p>
+        </div>
+    </div>
+
+    <h2 class="section-protocol-title text-3xl font-extrabold uppercase mb-10 text-center text-white border-b-2 border-gray-700 pb-2 mx-auto max-w-5xl">AVAILABLE PLUGINS</h2>
+
+    <div class="core-provisions-grid">
+    
+        <!-- CARD 1: MakeItRain -->
+        <a href="./MakeItRain.html" class="protocol-card">
+            <div class="card-image-container">
+                <img src="./assets/MakeItRain.png" class="protocol-card-image active" alt="MakeItRain Plugin">
+                <div class="image-detail-overlay">OXIDE/UMOD</div>
+                <div class="animated-border-left"></div>
+            </div>
+            <div class="protocol-card-content">
+                <div class="card-header-icon-small">
+                    <h3>[FD] MAKEITRAIN</h3>
+                </div>
+                <div class="card-tagline">UNIVERSAL GATHERING MULTIPLIER</div>
+                
+                <div class="data-block">
+                    <p class="card-description">
+                        Change gathering rates by category instead of editing individual items. Control ore, stone, wood, scrap, components, and more with simple commands. Perfect for pre-wipe events.
+                    </p>
+                </div>
+                <span class="read-more-styled">more info &rarr;</span>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+<script>
+    // Hamburger menu
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.navbar-left nav');
+    hamburger.addEventListener('click', () => {
+        nav.classList.toggle('active');
+        hamburger.classList.toggle('open');
+    });
+
+    // === Particle Canvas ===
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 1;
+            this.speedX = Math.random() * 1 - 0.5;
+            this.speedY = Math.random() * 1 - 0.5;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+            if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+        }
+
+        draw() {
+            ctx.fillStyle = 'rgba(0, 174, 255, 0.5)';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function initParticles() {
+        particles = [];
+        const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 10000));
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        initParticles();
+    });
+
+    resizeCanvas();
+    initParticles();
+    animateParticles();
+</script>
+
+</body>
+</html>
