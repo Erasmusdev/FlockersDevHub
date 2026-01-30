@@ -1,0 +1,1342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OBS Analyzer — Flockers Dev Hub</title>
+  <link rel="icon" href="./assets/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="./CSS/Style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:var(--dark-bg);--card:#111827;--muted:#9ca3af;--text:#e5e7eb;--border:#1f2937;--green:#16a34a;--orange:#f59e0b;--red:#ef4444;--link:#60a5fa;}
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{margin:0;font-family:'Roboto',Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);}
+    a{color:var(--link);text-decoration:none;} a:hover{text-decoration:underline;}
+    main.logchecker-page{max-width:1100px;margin:0 auto;padding:96px 16px 24px;}
+    .container{max-width:1100px;margin:24px auto;padding:0 16px;}
+    .header{display:flex;gap:16px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px;}
+    .title h1{margin:0;font-size:22px;}
+    .title p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.35;}
+    .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .btn{background:#0a1220;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;cursor:pointer;font-size:13px;white-space:nowrap;}
+    .btn.primary{border-color:rgba(96,165,250,.65);box-shadow:0 0 0 2px rgba(96,165,250,.15) inset;}
+    .btn:disabled{opacity:.55;cursor:not-allowed;}
+    .switch{display:inline-flex;gap:8px;align-items:center;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#0a1220;color:var(--muted);font-size:13px;user-select:none;cursor:pointer;}
+    .switch input{margin:0;}
+
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;}
+    @media (max-width:920px){.grid{grid-template-columns:1fr;}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+    .card .card-h{padding:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .card .card-h h2{margin:0;font-size:14px;letter-spacing:.3px;}
+    .card .card-b{padding:12px;}
+
+    .drop{border:1px dashed rgba(156,163,175,.35);background:rgba(17,24,39,.6);border-radius:10px;padding:14px;display:grid;gap:10px;}
+    .drop.dragover{border-color:rgba(96,165,250,.65);box-shadow:0 0 0 2px rgba(96,165,250,.15) inset;}
+
+    .muted{color:var(--muted);}
+
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid transparent;}
+    .sev-high{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.35);color:#fecaca;}
+    .sev-med{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.35);color:#fde68a;}
+    .sev-low{background:rgba(22,163,74,.15);border-color:rgba(22,163,74,.35);color:#bbf7d0;}
+    .sev-unknown{background:rgba(156,163,175,.15);border-color:rgba(156,163,175,.35);color:#e5e7eb;}
+
+    .issues{display:grid;gap:10px;}
+    details.issue{border:1px solid var(--border);border-radius:10px;padding:10px;background:rgba(17,24,39,.6);}
+    details.issue summary{cursor:pointer;list-style:none;display:flex;gap:10px;align-items:center;justify-content:space-between;}
+    details.issue summary::-webkit-details-marker { display: none; }
+
+    .sum-left{display:flex;gap:10px;align-items:center;min-width:0;}
+    .sum-title{display:grid;gap:2px;min-width:0;}
+    .sum-title strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sum-title span{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sum-right{display:flex;gap:8px;align-items:center;}
+    .badge{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;padding:5px 8px;border-radius:8px;border:1px solid var(--border);background:#0a1220;color:var(--muted);}
+
+    .issue-b{margin-top:10px;display:grid;gap:10px;}
+
+    .kv { display: grid; gap: 6px; }
+    .kv label { color: var(--muted); font-size: 12px; }
+    .kv .v { font-size: 13px; line-height: 1.45; }
+
+    pre.evidence{margin:0;white-space:pre-wrap;word-break:break-word;background:#0a1220;border:1px solid var(--border);border-radius:8px;padding:8px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;color:var(--text);max-height:240px;overflow:auto;}
+
+    .filters{display:flex;flex-wrap:wrap;gap:10px;}
+    select, input[type="text"], input[type="file"]{background:#0a1220;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;}
+
+    .grade {
+      display: grid;
+      gap: 8px;
+    }
+    .grade .big{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .grade .left{display:grid;gap:6px;}
+    .grade .letter{font-size:30px;font-weight:900;letter-spacing:1px;}
+    .grade .score{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+
+    .stars{display:flex;gap:4px;align-items:center;}
+    .star{width:18px;height:18px;display:inline-block;}
+    .star svg{width:18px;height:18px;display:block;}
+    .star.on path{fill:#ffffff;opacity:.95;}
+    .star.off path{fill:#ffffff;opacity:.18;}
+
+    .rating{
+      display:grid;
+      gap:8px;
+      margin-top:10px;
+    }
+    .rating .legend{color:var(--muted);font-size:12px;}
+    .bands{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#0a1220;}
+    .band{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;font-size:12px;border-top:1px solid rgba(31,41,55,.7);}
+    .band:first-child{border-top:none;}
+    .band .lab{display:flex;align-items:center;gap:8px;min-width:0;}
+    .band .lab .s{font-weight:800;letter-spacing:.2px;white-space:nowrap;}
+    .band .lab .t{color:rgba(229,231,235,.90);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .band .rng{color:rgba(229,231,235,.85);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;white-space:nowrap;}
+    .band.good{background:rgba(22,163,74,.18);}
+    .band.ok{background:rgba(34,197,94,.12);}
+    .band.mid{background:rgba(245,158,11,.16);}
+    .band.warn{background:rgba(245,158,11,.22);}
+    .band.bad{background:rgba(239,68,68,.16);}
+    .band.worst{background:rgba(239,68,68,.26);}
+    .band.active{outline:2px solid rgba(96,165,250,.55);outline-offset:-2px;}
+
+    .hr{height:1px;background:var(--border);margin:10px 0;}
+
+    .footer{margin-top:16px;color:var(--muted);font-size:12px;}
+    .footer code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+  </style>
+</head>
+<body>
+<header class="navbar">
+  <div class="navbar-left">
+    <button class="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav>
+      <ul>
+        <li><a href="https://erasmusdev.github.io/FlockersDevHub" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">HOME</a></li>
+        <li><a href="software.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">SOFTWARE</a></li>
+        <li><a href="ReshadeProfiles.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RESHADES</a></li>
+        <li><a href="rust-plugins.html" class="text-white hover:text-accent-color font-semibold transition duration-200 uppercase tracking-widest">RUST PLUGINS</a></li>
+
+        <li class="mobile-socials">
+          <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+          <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+          <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="navbar-right">
+    <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+    <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+    <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+    <a href="https://ko-fi.com/flockersdesign" class="icon-link" style="background-color: #1df892; padding: 8px 16px; border-radius: 5px; color: #0d0f11; font-weight: 700;"><span>☕ SUPPORT</span></a>
+  </div>
+</header>
+
+  <main class="logchecker-page">
+  <div class="container">
+    <div class="header">
+      <div class="title">
+        <h1>FLX LogChecker — Standalone Web</h1>
+        <p>Drag and drop OBS logs (or crash report .txt files). Everything runs locally in your browser — nothing is uploaded.</p>
+      </div>
+      <div class="toolbar">
+        <label class="switch" title="Strips common timestamp/prefix noise in evidence lines">
+          <input id="cleanToggle" type="checkbox" checked />
+          Clean View
+        </label>
+        <button class="btn" id="clearBtn">Clear</button>
+        <button class="btn primary" id="downloadBtn" disabled>Download as HTML</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-h">
+          <h2>Input</h2>
+          <span class="pill">No FIX buttons in web mode</span>
+        </div>
+        <div class="card-b">
+          <div id="drop" class="drop">
+            <div>
+              <strong>Drop files here</strong>
+              <div class="muted">Supports <code>.txt</code> OBS logs and exported crash logs. Multiple files supported.</div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <input id="fileInput" type="file" accept=".txt,.log" multiple />
+              <button class="btn primary" id="analyzeBtn" disabled title="Analyze the files you selected or dropped">Analyze</button>
+            </div>
+            <div id="status" class="muted"></div>
+            <div id="loadedFiles" class="muted"></div>
+            <div class="muted">
+              Tips: If OBS crashed, drop the last log from <code>obs-studio\logs</code> plus the crash report text.
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="filters">
+            <select id="fileFilter" title="Filter results by file">
+              <option value="">All files</option>
+            </select>
+            <select id="sevFilter" title="Filter by severity">
+              <option value="">All severities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+              <option value="Info">Info</option>
+            </select>
+            <input id="textFilter" type="text" placeholder="Search issues…" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <h2>Session Health</h2>
+          <span id="fileCount" class="pill">0 file(s)</span>
+        </div>
+        <div class="card-b">
+          <div class="grade">
+            <div class="big">
+              <div class="left">
+                <div style="display:flex; gap:10px; align-items:baseline; flex-wrap:wrap;">
+                  <div id="gradeLetter" class="letter">—</div>
+                  <div class="score">Score: <span id="gradeScore">—</span>/100</div>
+                </div>
+                <div class="score">High: <span id="countHigh">0</span> · Medium: <span id="countMed">0</span> · Low: <span id="countLow">0</span> · Info: <span id="countInfo">0</span></div>
+              </div>
+              <div style="display:grid; gap:6px; justify-items:end;">
+                <div class="score">Rating</div>
+                <div id="stars" class="stars" aria-label="Session rating stars"></div>
+              </div>
+            </div>
+            <div class="muted" id="gradeNote">Drop a log to calculate health grade.</div>
+
+            <div class="rating">
+              <div class="legend">Score buckets (higher is better)</div>
+              <div class="bands" role="list" aria-label="Score buckets">
+                <div class="band good" id="b5" role="listitem"><div class="lab"><span class="s">★★★★★</span><span class="t">Excellent</span></div><div class="rng">90–100</div></div>
+                <div class="band ok" id="b4" role="listitem"><div class="lab"><span class="s">★★★★☆</span><span class="t">Good</span></div><div class="rng">80–89</div></div>
+                <div class="band mid" id="b3" role="listitem"><div class="lab"><span class="s">★★★☆☆</span><span class="t">Okay</span></div><div class="rng">70–79</div></div>
+                <div class="band warn" id="b2" role="listitem"><div class="lab"><span class="s">★★☆☆☆</span><span class="t">Warning</span></div><div class="rng">60–69</div></div>
+                <div class="band bad" id="b1" role="listitem"><div class="lab"><span class="s">★☆☆☆☆</span><span class="t">Bad</span></div><div class="rng">50–59</div></div>
+                <div class="band worst" id="b0" role="listitem"><div class="lab"><span class="s">☆☆☆☆☆</span><span class="t">Severe</span></div><div class="rng">0–49</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+
+    <div class="card">
+      <div class="card-h">
+        <h2>Results</h2>
+        <span id="generatedAt" class="pill">Not generated</span>
+      </div>
+      <div class="card-b">
+        <div id="issues" class="issues"></div>
+        <div id="empty" class="muted">No results yet.</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Web analyzer is heuristic-based. For automated fixes and deeper Windows integration, use the PowerShell version.
+    </div>
+  </div>
+  </main>
+
+  <!-- Placeholder for downloaded report state -->
+  <script id="reportState" type="application/json">{}</script>
+
+  <script>
+    // Hamburger
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.navbar-left nav');
+    if (hamburger && nav) {
+      hamburger.addEventListener('click', () => {
+        nav.classList.toggle('active');
+        hamburger.classList.toggle('open');
+      });
+    }
+
+    (function () {
+      /** @typedef {{fileName:string, fileType:string, issues: Issue[], facts: Record<string,string>}} FileReport */
+      /** @typedef {{id:string, severity:'High'|'Medium'|'Low'|'Info', category:string, title:string, element?:string|null, lineNumber:number, description:string, solution:string, occurrences:number, evidence:string[], fileName:string}} Issue */
+
+      const MAX_EVIDENCE = 8;
+
+      const el = (id) => document.getElementById(id);
+      const drop = el('drop');
+      const issuesEl = el('issues');
+      const emptyEl = el('empty');
+      const statusEl = el('status');
+      const loadedFilesEl = el('loadedFiles');
+      const fileInput = el('fileInput');
+      const cleanToggle = el('cleanToggle');
+      const clearBtn = el('clearBtn');
+      const downloadBtn = el('downloadBtn');
+      const analyzeBtn = el('analyzeBtn');
+
+      const fileFilter = el('fileFilter');
+      const sevFilter = el('sevFilter');
+      const textFilter = el('textFilter');
+
+      const fileCountEl = el('fileCount');
+      const generatedAtEl = el('generatedAt');
+      const gradeLetterEl = el('gradeLetter');
+      const gradeScoreEl = el('gradeScore');
+      const gradeNoteEl = el('gradeNote');
+      const starsEl = el('stars');
+      const countHighEl = el('countHigh');
+      const countMedEl = el('countMed');
+      const countLowEl = el('countLow');
+      const countInfoEl = el('countInfo');
+
+      /** @type {{files: FileReport[], issues: Issue[], createdAt: string, version: string}} */
+      let state = {
+        files: [],
+        issues: [],
+        createdAt: '',
+        version: 'web-standalone-1'
+      };
+
+      /** @type {FileList|null} */
+      let pendingFiles = null;
+
+      function setStatus(text) {
+        if (!statusEl) return;
+        statusEl.textContent = text || '';
+      }
+
+      function setLoadedFiles(names) {
+        if (!loadedFilesEl) return;
+        if (!names || !names.length) {
+          loadedFilesEl.textContent = '';
+          return;
+        }
+        loadedFilesEl.textContent = `Loaded: ${names.join(', ')}`;
+      }
+
+      function nowStamp() {
+        const d = new Date();
+        return d.toISOString().replace('T',' ').replace('Z',' UTC');
+      }
+
+      function detectFileType(fileName, text) {
+        const n = (fileName || '').toLowerCase();
+        if (n.startsWith('crash ') || n.includes('crash')) return 'Crash';
+        if (/Faulting application name/i.test(text) || /Faulting module name/i.test(text)) return 'Crash';
+        if (/OBS\s+Studio/i.test(text) && /log file uploaded/i.test(text)) return 'OBS';
+        return 'OBS';
+      }
+
+      function getEvidenceWithContext(lines, index, contextLines) {
+        const start = Math.max(0, index - contextLines);
+        const end = Math.min(lines.length - 1, index + contextLines);
+        const out = [];
+        for (let i = start; i <= end; i++) {
+          const prefix = (i === index) ? '>' : ' ';
+          out.push(`${prefix} ${(i + 1).toString().padStart(5,' ')} | ${lines[i]}`);
+        }
+        return out.join('\n');
+      }
+
+      function cleanLine(line) {
+        let s = line;
+        // Strip leading timestamps like "00:00:01.234:" or "00:00:01:" or "[00:00:01.234]"
+        s = s.replace(/^\s*\[?\d{1,2}:\d{2}:\d{2}(?:\.\d{1,3})?\]?\s*[:\-]?\s*/,'');
+        // Strip typical OBS prefixes
+        s = s.replace(/^\s*(info|warning|warn|error|debug)\s*[:\]]\s*/i,'');
+        s = s.replace(/^\s*\[[a-z]+\]\s*/i,'');
+        // Collapse whitespace
+        s = s.replace(/\s+/g,' ').trim();
+        return s;
+      }
+
+      function severityDotClass(sev) {
+        if (sev === 'High') return 'high';
+        if (sev === 'Medium') return 'med';
+        return 'low';
+      }
+
+      function sevPillClass(sev) {
+        if (sev === 'High') return 'sev-high';
+        if (sev === 'Medium') return 'sev-med';
+        if (sev === 'Low') return 'sev-low';
+        return 'sev-unknown';
+      }
+
+      function scoreFromIssues(issues) {
+        let score = 100;
+        for (const i of issues) {
+          if (i.severity === 'High') score -= 30;
+          else if (i.severity === 'Medium') score -= 10;
+          else if (i.severity === 'Low') score -= 2;
+        }
+        if (score < 0) score = 0;
+        return score;
+      }
+
+      function gradeFromScore(score) {
+        if (score >= 90) return 'A';
+        if (score >= 80) return 'B';
+        if (score >= 70) return 'C';
+        if (score >= 60) return 'D';
+        if (score >= 50) return 'E';
+        return 'F';
+      }
+
+      function starsFromScore(score, hasFiles) {
+        if (!hasFiles) return 0;
+        if (score >= 90) return 5;
+        if (score >= 80) return 4;
+        if (score >= 70) return 3;
+        if (score >= 60) return 2;
+        if (score >= 50) return 1;
+        return 0;
+      }
+
+      function renderStars(count, hasFiles) {
+        if (!starsEl) return;
+        starsEl.innerHTML = '';
+        const starSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+        for (let i = 1; i <= 5; i++) {
+          const s = document.createElement('span');
+          s.className = 'star ' + ((hasFiles && i <= count) ? 'on' : 'off');
+          s.innerHTML = starSvg;
+          starsEl.appendChild(s);
+        }
+      }
+
+      function setActiveBucket(score, hasFiles) {
+        const ids = ['b5','b4','b3','b2','b1','b0'];
+        for (const id of ids) {
+          const node = el(id);
+          if (node) node.classList.remove('active');
+        }
+        if (!hasFiles) return;
+        const target = (score >= 90) ? 'b5'
+          : (score >= 80) ? 'b4'
+          : (score >= 70) ? 'b3'
+          : (score >= 60) ? 'b2'
+          : (score >= 50) ? 'b1'
+          : 'b0';
+        const node = el(target);
+        if (node) node.classList.add('active');
+      }
+
+      function noteFromGrade(letter, score) {
+        const base = `Grade ${letter} (score ${score}/100).`;
+        if (letter === 'A') return base + ' Looks healthy.';
+        if (letter === 'B') return base + ' Mostly healthy; a few warnings.';
+        if (letter === 'C') return base + ' Some instability indicators; review Medium items.';
+        if (letter === 'D') return base + ' Likely performance/compat issues present.';
+        if (letter === 'E') return base + ' High chance of stutters/freezes/crashes.';
+        return base + ' Severe issues; expect instability.';
+      }
+
+      function parseObsTimeSeconds(line) {
+        if (!line) return null;
+        // 00:00:01.234: ... OR 00:00:01: ... OR [00:00:01.234]: ...
+        const m = line.match(/^\s*\[?(\d{1,2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?\]?\s*[:\-]/);
+        if (!m) return null;
+        const h = Number(m[1]);
+        const mm = Number(m[2]);
+        const ss = Number(m[3]);
+        let ms = 0;
+        if (m[4] != null) {
+          let raw = String(m[4]);
+          if (raw.length === 1) raw = raw + '00';
+          else if (raw.length === 2) raw = raw + '0';
+          ms = Number(raw);
+        }
+        return (h * 3600) + (mm * 60) + ss + (ms / 1000);
+      }
+
+      function analyzeText(fileName, text) {
+        // Ported logic from the local PowerShell analyzer (stateful scan + dedupe)
+        const fileType = detectFileType(fileName, text);
+        const lines = (text || '').replace(/\r\n/g,'\n').split('\n');
+        const logType = (fileType === 'Crash') ? 'CRASH' : 'OBS';
+
+        /** @type {Record<string,string>} */
+        const facts = { LogType: logType };
+
+        /** @type {Map<string, Issue>} */
+        const seen = new Map();
+
+        let currentSourceContext = null;
+        let pendingMissingSource = null;
+
+        // Log Parsing Algorithms
+        const loopMap = new Map(); // sig -> {times:number[], fired:boolean}
+        const captureHits = [];
+        const audioHits = [];
+
+        const contextLines = 2;
+
+        function addIssue(fields) {
+          /** @type {Issue} */
+          const issue = {
+            id: fields.id,
+            severity: fields.severity,
+            category: fields.category,
+            title: fields.title,
+            element: fields.element || null,
+            lineNumber: fields.lineNumber,
+            description: fields.description,
+            solution: fields.solution,
+            occurrences: 1,
+            evidence: [],
+            fileName
+          };
+
+          const elementKey = (issue.element || '').trim();
+          const key = `${issue.fileName}|${issue.category}|${issue.title}|${elementKey}`;
+
+          const evidenceText = fields.evidence || '';
+          if (!seen.has(key)) {
+            if (evidenceText && issue.evidence.length < MAX_EVIDENCE) issue.evidence.push(evidenceText);
+            seen.set(key, issue);
+            return;
+          }
+
+          const existing = seen.get(key);
+          existing.occurrences++;
+          if (evidenceText && existing.evidence.length < MAX_EVIDENCE) {
+            existing.evidence.push(evidenceText);
+          }
+        }
+
+        function evidenceAt(idx, rawLine) {
+          return getEvidenceWithContext(lines, idx, contextLines) || rawLine;
+        }
+
+        for (let idx = 0; idx < lines.length; idx++) {
+          const lineNo = idx + 1;
+          const line = lines[idx];
+          const tSec = (logType !== 'CRASH') ? parseObsTimeSeconds(line) : null;
+
+          // Looping error detection: 50+ repeats of the same error-ish message within 60 seconds
+          if (logType !== 'CRASH' && tSec != null) {
+            const sig = cleanLine(line);
+            if (sig && /\b(error|warning|warn|failed|fatal|exception|crash)\b/i.test(sig)) {
+              const key = sig.toLowerCase();
+              if (!loopMap.has(key)) loopMap.set(key, { times: [], fired: false });
+              const obj = loopMap.get(key);
+              obj.times.push(tSec);
+              while (obj.times.length && (tSec - obj.times[0]) > 60) obj.times.shift();
+              if (!obj.fired && obj.times.length >= 50) {
+                obj.fired = true;
+                const rec = "OBS is logging the same error repeatedly (50+ times within ~1 minute). This often indicates a stuck source/plugin/driver loop that can cause stutters, audio/video desync, or crashes.\n\nFixes to try:\n- Identify the source/plugin referenced by the message and disable it temporarily to confirm.\n- Update/reinstall the related plugin/driver.\n- If it's a capture device: move to a different USB port/controller, avoid hubs, and lower resolution/FPS/format.";
+                addIssue({
+                  id: 'looping_error_50_per_min',
+                  severity: 'High',
+                  category: 'Looping',
+                  title: 'Looping error detected (50+ repeats within 1 minute)',
+                  description: 'The same error-like message repeats rapidly in a short time window.',
+                  solution: rec,
+                  evidence: evidenceAt(idx, line) + `\n\nNormalized: ${sig}`,
+                  lineNumber: lineNo,
+                  element: `Message: ${sig}`
+                });
+              }
+            }
+          }
+
+          // Capture most recent source name mentioned in settings blocks
+          {
+            const m = line.match(/\[.*? '([^']+)'\]:\s+settings:/);
+            if (m) currentSourceContext = (m[1] || '').trim();
+          }
+
+          // Track missing source type IDs to pair with actual source name
+          {
+            const m = line.match(/Source ID '([^']+)' not found/);
+            if (m) {
+              pendingMissingSource = { id: (m[1] || '').trim(), lineNo, evidence: line };
+            }
+          }
+
+          // Facts
+          if (!facts.OBSVersion) {
+            const m = line.match(/^OBS\s+([0-9.]+)/);
+            if (m) facts.OBSVersion = m[1];
+          }
+          if (!facts.OS) {
+            const m = line.match(/^Windows\s+Version:\s+(.+)$/);
+            if (m) facts.OS = (m[1] || '').trim();
+          }
+          if (!facts.CPU) {
+            const m = line.match(/^CPU\s+Name:\s+(.+)$/);
+            if (m) facts.CPU = (m[1] || '').trim();
+          }
+          if (!facts.GPU) {
+            const m = line.match(/^Loading\s+up\s+D3D11\s+on\s+adapter\s+(.+)$/);
+            if (m) facts.GPU = (m[1] || '').trim();
+          }
+          if (!facts.HAGS) {
+            const m = line.match(/^\s*HAGS\s+Status:\s+(.+)$/);
+            if (m) facts.HAGS = (m[1] || '').trim();
+          }
+          if (!facts.GameDVR) {
+            const m = line.match(/^\s*Game\s+DVR:\s+(.+)$/);
+            if (m) facts.GameDVR = (m[1] || '').trim();
+          }
+
+          if (logType === 'CRASH') {
+            if (!facts.ExceptionCode) {
+              const m = line.match(/Exception\s+code\s*:\s*(0x[0-9a-fA-F]+)/i);
+              if (m) facts.ExceptionCode = m[1];
+            }
+            if (!facts.FaultingModule) {
+              const m = line.match(/Faulting\s+module\s+name\s*:\s*(.+)$/i);
+              if (m) facts.FaultingModule = (m[1] || '').trim();
+            }
+            if (!facts.FaultingApplication) {
+              const m = line.match(/Faulting\s+application\s+name\s*:\s*(.+)$/i);
+              if (m) facts.FaultingApplication = (m[1] || '').trim();
+            }
+          }
+
+          // --- High-confidence performance / stability signals ---
+
+          // Video capture decode errors (dedupe by emitting on "Error decoding video" line)
+          if (logType !== 'CRASH' && /(fatal:\s*No\s+JPEG\s+data\s+found\s+in\s+image|Error\s+decoding\s+video|Found\s+EOI\s+before\s+any\s+SOF)/i.test(line)) {
+            const isDecodeLine = /Error\s+decoding\s+video/i.test(line);
+            const isFatalOrEoi = /(fatal:\s*No\s+JPEG\s+data\s+found\s+in\s+image|Found\s+EOI\s+before\s+any\s+SOF)/i.test(line);
+            const nextHasDecode = (idx + 1 < lines.length) && /Error\s+decoding\s+video/i.test(lines[idx + 1]);
+            const shouldEmit = isDecodeLine || (isFatalOrEoi && !nextHasDecode);
+
+            if (shouldEmit) {
+              let captureName = null;
+              const namePattern = /^\d{2}:\d{2}:\d{2}\.\d+\:\s*([^:]+)\:\s*Error\s+decoding\s+video/i;
+              let m = line.match(namePattern);
+              if (!m && idx + 1 < lines.length) m = lines[idx + 1].match(namePattern);
+              if (!m && idx - 1 >= 0) m = lines[idx - 1].match(namePattern);
+              if (m) captureName = (m[1] || '').trim();
+
+              const element = captureName ? `Source: ${captureName}` : 'Source: Video Capture Device';
+              const rec = "OBS is receiving invalid/corrupt frames from a Video Capture Device (often when the device is set to MJPEG). This can cause major lag/freezes and can destabilize OBS.\n\nFixes to try:\n- In the Video Capture Device properties: change Video Format from MJPEG to NV12/YUY2 (or another raw format), lower resolution/FPS, disable buffering.\n- Update/reinstall the capture device driver/firmware.\n- Move the device to a different USB controller/port (avoid hubs), and test another cable.\n- If it only happens after 30+ minutes: check USB power saving and overheating.";
+
+              addIssue({
+                id: 'capture_decode',
+                severity: 'High',
+                category: 'Capture',
+                title: 'Video Capture Device decode errors (likely MJPEG/JPEG corruption)',
+                description: 'Repeated decode failures are a strong indicator of capture instability and often correlate with stutters/freezes.',
+                solution: rec,
+                evidence: evidenceAt(idx, line),
+                lineNumber: lineNo,
+                element
+              });
+
+              captureHits.push({ tSec, lineNo, evidence: evidenceAt(idx, line), element });
+            }
+          }
+
+          // Audio buffering/lag
+          if (/Max\s+audio\s+buffering\s+reached!/i.test(line)) {
+            const rec = "OBS hit maximum audio buffering. This typically correlates with heavy stutter/lag and A/V desync (a source is falling behind badly).\n\nFixes to try:\n- Identify the named source(s) around this line; disable/remove them temporarily to test.\n- For browser/media/network sources: reduce load, update them, or prefer local files.\n- Ensure audio devices are set to 48 kHz and disable Exclusive Mode in Windows audio settings.";
+            addIssue({
+              id: 'audio_max_buffer',
+              severity: 'High',
+              category: 'Audio',
+              title: 'Max audio buffering reached',
+              description: 'OBS reached maximum audio buffering; this often correlates with stalls and desync.',
+              solution: rec,
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+
+            audioHits.push({ tSec, lineNo, evidence: evidenceAt(idx, line) });
+          }
+          {
+            const m = line.match(/Source\s+(.+?)\s+audio\s+is\s+lagging\s+\(over\s+by\s+([0-9.]+)\s*ms\)\s+at\s+max\s+audio\s+buffering/i);
+            if (m) {
+              let sourceName = (m[1] || '').trim();
+              if (!sourceName) sourceName = 'Unknown audio source';
+              const rec = "An audio source is falling behind badly and OBS is restarting/realigning it. This typically correlates with visible stutter/lag.\n\nFixes to try:\n- Disable the affected source to confirm it is the trigger.\n- Prefer local media over remote streams for browser/media sources.\n- Check device stability and sample-rate consistency (48 kHz).";
+              addIssue({
+                id: 'audio_lagging_max',
+                severity: 'High',
+                category: 'Audio',
+                title: 'Audio source lagging at max buffering',
+                description: 'An audio source is lagging at max buffering.',
+                solution: rec,
+                evidence: evidenceAt(idx, line),
+                lineNumber: lineNo,
+                element: `Source: ${sourceName}`
+              });
+            }
+          }
+          if (/Restarting\s+source\s+audio\s+due\s+to\s+source\s+audio\s+lag/i.test(line)) {
+            addIssue({
+              id: 'audio_restart_due_lag',
+              severity: 'Medium',
+              category: 'Audio',
+              title: 'Restarting source audio due to lag',
+              description: 'OBS restarted a source audio feed because it fell behind.',
+              solution: 'OBS is restarting a source audio feed because it fell behind. This is usually a symptom of stutter/stalls or a problematic source. Identify the source near this message and test with it disabled.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+
+          // Crash signatures
+          if (logType !== 'CRASH' && /(Unhandled\s+exception|access\s+violation|OBS\s+has\s+crashed|crash\s+dump|terminate\s+called)/i.test(line)) {
+            addIssue({
+              id: 'crash_sig_obs',
+              severity: 'High',
+              category: 'Crash',
+              title: 'Crash signature in log',
+              description: 'This OBS log contains explicit crash indicators.',
+              solution: 'This log contains an explicit crash signature. Collect any OBS crash report and test with third-party plugins disabled, updated GPU drivers, and default settings to isolate the cause.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+          if (logType === 'CRASH' && /(Unhandled\s+exception|access\s+violation|faulting\s+module|terminate\s+called)/i.test(line)) {
+            addIssue({
+              id: 'crash_sig_crashlog',
+              severity: 'High',
+              category: 'Crash',
+              title: 'Crash signature in crash log',
+              description: 'Crash log indicates an application failure.',
+              solution: 'This crash log contains a crash signature. Correlate exception code + faulting module with recent plugin/driver changes.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+          if (logType === 'CRASH' && /Exception\s+code\s*:/i.test(line)) {
+            addIssue({
+              id: 'crash_exception_code',
+              severity: 'High',
+              category: 'Crash',
+              title: 'Exception code reported',
+              description: 'Crash log provides an exception code.',
+              solution: 'The exception code can help identify the crash type (access violation, illegal instruction, etc.). Correlate this with the faulting module and recent plugin/driver changes.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+          if (logType === 'CRASH' && /Faulting\s+module\s+name\s*:/i.test(line)) {
+            addIssue({
+              id: 'crash_faulting_module',
+              severity: 'High',
+              category: 'Crash',
+              title: 'Faulting module reported',
+              description: 'Crash log provides a faulting module name.',
+              solution: 'The faulting module often points to a driver, plugin, or runtime component. Update GPU drivers, remove overclocks, and temporarily disable third-party OBS plugins to isolate.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+
+          // Encoding and Windows toggles
+          if (/Encoder overloaded/.test(line)) {
+            addIssue({
+              id: 'encoder_overloaded',
+              severity: 'High',
+              category: 'Encoding',
+              title: 'Encoder overloaded',
+              description: 'OBS cannot encode frames in time.',
+              solution: 'Use a hardware encoder (NVENC/AMF/QSV) if possible, lower output resolution/FPS, and/or use a faster preset. Also close GPU/CPU-heavy apps.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+          if (/^\s*Hardware-Accelerated GPU Scheduling enabled on adapter!/.test(line)) {
+            addIssue({
+              id: 'windows_hags_enabled',
+              severity: 'Medium',
+              category: 'Windows',
+              title: 'HAGS enabled',
+              description: 'Hardware-Accelerated GPU Scheduling is enabled.',
+              solution: 'HAGS can cause capture/lag issues on some systems. If you see instability or stutters, try disabling HAGS (Windows Settings -> System -> Display -> Graphics -> Default graphics settings), reboot, and re-test.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+          if (/^\s*Game\s+DVR:\s+On$/.test(line)) {
+            addIssue({
+              id: 'windows_gamedvr_on',
+              severity: 'Medium',
+              category: 'Windows',
+              title: 'Game DVR enabled',
+              description: 'Game DVR is enabled.',
+              solution: 'Game DVR can conflict with capture/encoding and cause performance issues. Consider disabling Xbox Game Bar/Game DVR and re-test.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+
+          // Lag percentages
+          {
+            const m = line.match(/Number of lagged frames due to rendering lag:\s+(\d+)\s+\(([-0-9.]+)%\)/);
+            if (m) {
+              const pct = Number(m[2]);
+              const sev = (pct >= 5) ? 'High' : (pct >= 1) ? 'Medium' : 'Low';
+              addIssue({
+                id: 'rendering_lag',
+                severity: sev,
+                category: 'Rendering',
+                title: 'Rendering lag detected',
+                description: 'Rendering lag often indicates GPU overload.',
+                solution: 'Rendering lag usually means the GPU is overloaded. Reduce canvas/output resolution, lower FPS, disable heavy sources/filters, or cap in-game FPS. Check GPU usage.',
+                evidence: evidenceAt(idx, line),
+                lineNumber: lineNo
+              });
+            }
+          }
+          {
+            const m = line.match(/Number of skipped frames due to encoding lag:\s+(\d+)\s+\(([-0-9.]+)%\)/);
+            if (m) {
+              const pct = Number(m[2]);
+              const sev = (pct >= 5) ? 'High' : (pct >= 1) ? 'Medium' : 'Low';
+              addIssue({
+                id: 'encoding_lag',
+                severity: sev,
+                category: 'Encoding',
+                title: 'Encoding lag detected',
+                description: 'Encoding lag indicates the encoder cannot keep up.',
+                solution: "Encoding lag means the encoder can't keep up. Prefer hardware encoders, lower resolution/FPS, use a faster preset, and verify you're not using an overly expensive profile/setting.",
+                evidence: evidenceAt(idx, line),
+                lineNumber: lineNo
+              });
+            }
+          }
+          {
+            const m = line.match(/Number of dropped frames due to insufficient bandwidth\/connection stalls:\s+(\d+)\s+\(([-0-9.]+)%\)/);
+            if (m) {
+              const pct = Number(m[2]);
+              const sev = (pct >= 2) ? 'High' : (pct >= 0.5) ? 'Medium' : 'Low';
+              addIssue({
+                id: 'network_drops',
+                severity: sev,
+                category: 'Network',
+                title: 'Network dropped frames',
+                description: 'Network stalls or insufficient upload caused dropped frames.',
+                solution: 'Network drops typically mean upload instability or bitrate too high. Test wired ethernet, lower bitrate, enable dynamic bitrate (if available), and check ISP/router. Try a different ingest server.',
+                evidence: evidenceAt(idx, line),
+                lineNumber: lineNo
+              });
+            }
+          }
+
+          // Graphics / encoder init failures
+          if (/D3D11.*(device removed|device hung|reset|DXGI_ERROR_DEVICE_REMOVED|DXGI_ERROR_DEVICE_HUNG)/i.test(line)) {
+            addIssue({
+              id: 'd3d11_device_reset',
+              severity: 'High',
+              category: 'Graphics',
+              title: 'D3D11 device reset/hung',
+              description: 'GPU device reset/hang indicates driver instability or overload.',
+              solution: 'This often points to GPU driver instability/overclock issues. Update GPU drivers, remove GPU OC/undervolt, and check for conflicting overlays/capture hooks.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+          if (/(failed to (initialize|load).*(nvenc|amf|qsv)|NVENC.*(failed|error)|AMF.*(failed|error)|QSV.*(failed|error))/i.test(line)) {
+            addIssue({
+              id: 'hw_encoder_init_fail',
+              severity: 'High',
+              category: 'Encoder',
+              title: 'Hardware encoder failed to initialize',
+              description: 'Hardware encoder initialization failed.',
+              solution: "Try updating GPU/iGPU drivers, ensure the encoder isn't in use by another app, and verify your hardware supports the chosen codec (H.264/HEVC/AV1).",
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+
+          // Missing plugin/source pairing
+          {
+            const m = line.match(/Failed to create source '([^']+)'!/);
+            if (m) {
+              const failedSourceName = (m[1] || '').trim();
+              const elementParts = [];
+              elementParts.push(`Source: ${failedSourceName}`);
+              if (currentSourceContext && currentSourceContext !== failedSourceName) {
+                elementParts.push(`Nearby context: ${currentSourceContext}`);
+              }
+
+              let evidence = line;
+              let issueLineNumber = lineNo;
+              if (pendingMissingSource && (lineNo - pendingMissingSource.lineNo) <= 6) {
+                elementParts.push(`Source ID: ${pendingMissingSource.id}`);
+                evidence = `${pendingMissingSource.evidence}\n${line}`;
+                issueLineNumber = pendingMissingSource.lineNo;
+                pendingMissingSource = null;
+              }
+
+              addIssue({
+                id: 'missing_source_failed',
+                severity: 'Medium',
+                category: 'Sources/Plugins',
+                title: 'Missing source/plugin (scene item failed)',
+                description: 'A source failed to create; typically indicates a missing/disabled plugin source type.',
+                solution: 'This usually means a plugin that provides this source type is missing/disabled or OBS cannot load it. Install/update the plugin, or remove/replace the affected source in the scene collection.',
+                evidence: evidenceAt(idx, evidence),
+                lineNumber: issueLineNumber,
+                element: elementParts.join(' | ')
+              });
+            }
+          }
+
+          // If pending missing source ages out, emit it
+          if (pendingMissingSource && (lineNo - pendingMissingSource.lineNo) > 6) {
+            let element = `Source ID: ${pendingMissingSource.id}`;
+            if (currentSourceContext) element = `${element} | Nearby context: ${currentSourceContext}`;
+            addIssue({
+              id: 'missing_source_id_only',
+              severity: 'Medium',
+              category: 'Sources/Plugins',
+              title: 'Missing source/plugin (source type not found)',
+              description: 'OBS referenced a source type ID that is not available.',
+              solution: 'This usually means a plugin that provides this source type is missing/disabled or OBS cannot load it. Install/update the plugin, or remove/replace the affected source in the scene collection.',
+              evidence: evidenceAt(idx, pendingMissingSource.evidence),
+              lineNumber: pendingMissingSource.lineNo,
+              element
+            });
+            pendingMissingSource = null;
+          }
+
+          // Module load problems
+          if (/(Module.*failed to load|Failed to load.*\.dll|Failed to initialize module)/i.test(line)) {
+            const sev = /(aja|decklink)/i.test(line) ? 'Low' : 'Medium';
+            addIssue({
+              id: 'module_load_fail',
+              severity: sev,
+              category: 'Plugins/Modules',
+              title: 'Module failed to initialize/load',
+              description: 'A module failed to load or initialize.',
+              solution: 'If you rely on this module/hardware, install/update the required drivers or plugin. Otherwise, you can ignore this or uninstall unused integrations to reduce log noise.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+
+          // Audio device issues
+          if (/(Audio).*?(device|client|WASAPI).*?(failed|error)|Failed to open.*audio|Audio monitoring.*failed/i.test(line)) {
+            addIssue({
+              id: 'audio_device_error',
+              severity: 'Medium',
+              category: 'Audio',
+              title: 'Audio device error',
+              description: 'Audio device initialization or monitoring error.',
+              solution: 'Audio device errors can cause stutters or missing audio. Re-select devices in OBS, match sample rate (typically 48 kHz), and check for exclusive-mode conflicts in Windows sound settings.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+
+          // General contextual error line (aggregated)
+          if (/\berror\b/i.test(line) && /(obs|ffmpeg|d3d|nvenc|amf|qsv|wasapi|rtmp|webrtc|browser)/i.test(line)) {
+            addIssue({
+              id: 'error_contextual',
+              severity: 'Low',
+              category: 'General',
+              title: 'Error line (contextual)',
+              description: 'An error line may matter depending on symptoms.',
+              solution: 'This line might matter depending on symptoms. If issues persist, share the report plus the log for deeper review.',
+              evidence: evidenceAt(idx, line),
+              lineNumber: lineNo
+            });
+          }
+        }
+
+        // Flush any remaining pending missing source at EOF
+        if (pendingMissingSource) {
+          let element = `Source ID: ${pendingMissingSource.id}`;
+          if (currentSourceContext) element = `${element} | Nearby context: ${currentSourceContext}`;
+          addIssue({
+            id: 'missing_source_id_only_eof',
+            severity: 'Medium',
+            category: 'Sources/Plugins',
+            title: 'Missing source/plugin (source type not found)',
+            description: 'OBS referenced a source type ID that is not available.',
+            solution: 'This usually means a plugin that provides this source type is missing/disabled or OBS cannot load it. Install/update the plugin, or remove/replace the affected source in the scene collection.',
+            evidence: pendingMissingSource.evidence,
+            lineNumber: pendingMissingSource.lineNo,
+            element
+          });
+          pendingMissingSource = null;
+        }
+
+        // Resource correlation: Max audio buffering + Video Capture errors (often USB/controller bottleneck)
+        if (logType !== 'CRASH' && captureHits.length && audioHits.length) {
+          let best = null;
+          let bestDiff = Number.POSITIVE_INFINITY;
+          for (const c of captureHits) {
+            for (const a of audioHits) {
+              if (c.tSec != null && a.tSec != null) {
+                const d = Math.abs(c.tSec - a.tSec);
+                if (d < bestDiff) { bestDiff = d; best = { c, a, d }; }
+              }
+            }
+          }
+
+          let cPick = captureHits[0];
+          let aPick = audioHits[0];
+          if (best && best.d <= 300) { cPick = best.c; aPick = best.a; }
+
+          const rec = "When Max audio buffering happens around Video Capture Device decode errors, it often points to a shared resource bottleneck (USB bandwidth/power/controller contention) or an unstable capture device format.\n\nFixes to try:\n- Move the capture device to a different USB port (prefer rear motherboard ports) or a different USB controller; avoid hubs.\n- Try a powered hub if the device draws a lot of power.\n- In the Video Capture Device properties: switch away from MJPEG, lower resolution/FPS, and test another cable.\n- Update capture device drivers/firmware.";
+
+          addIssue({
+            id: 'corr_audio_capture',
+            severity: 'Medium',
+            category: 'Correlation',
+            title: 'Audio buffering correlates with Video Capture errors',
+            description: 'This combination can indicate USB/controller bottlenecks or capture device instability.',
+            solution: rec,
+            evidence: `${cPick.evidence}\n\n---\n\n${aPick.evidence}`,
+            lineNumber: Math.min(cPick.lineNo || 0, aPick.lineNo || 0) || 0,
+            element: cPick.element || 'Video Capture Device'
+          });
+        }
+
+        const issues = Array.from(seen.values()).sort((a, b) => {
+          const rank = (s) => (s === 'High' ? 3 : s === 'Medium' ? 2 : s === 'Low' ? 1 : 0);
+          return rank(b.severity) - rank(a.severity) || b.occurrences - a.occurrences || a.title.localeCompare(b.title);
+        });
+
+        return /** @type {FileReport} */ ({ fileName, fileType, issues, facts });
+      }
+
+      async function analyzeFiles(fileList) {
+        const files = Array.from(fileList || []);
+        if (!files.length) return;
+
+        setStatus(`Analyzing ${files.length} file(s)…`);
+        setLoadedFiles(files.map(f => f.name));
+
+        try {
+          const reports = [];
+          for (const f of files) {
+            const text = await f.text();
+            reports.push(analyzeText(f.name, text || ''));
+          }
+
+          const allIssues = reports.flatMap(r => r.issues);
+          state = {
+            files: reports.map(r => ({ fileName: r.fileName, fileType: r.fileType, issues: r.issues, facts: r.facts })),
+            issues: allIssues,
+            createdAt: nowStamp(),
+            version: state.version
+          };
+
+          renderAll();
+          setStatus(state.issues.length ? 'Done.' : 'Done. (No matching issues found with current rules.)');
+        } catch (err) {
+          console.error(err);
+          setStatus('Error analyzing files. See browser console for details.');
+        }
+      }
+
+      function updateFilters() {
+        const prev = fileFilter.value;
+        const files = state.files.map(f => f.fileName);
+
+        fileFilter.innerHTML = '<option value="">All files</option>';
+        for (const name of files) {
+          const opt = document.createElement('option');
+          opt.value = name;
+          opt.textContent = name;
+          fileFilter.appendChild(opt);
+        }
+        if (files.includes(prev)) fileFilter.value = prev;
+      }
+
+      function renderHealth() {
+        const issues = filteredIssues(/*forHealth*/true);
+        const score = scoreFromIssues(issues);
+        const letter = (state.files.length ? gradeFromScore(score) : '—');
+
+        gradeLetterEl.textContent = letter;
+        gradeScoreEl.textContent = state.files.length ? String(score) : '—';
+        gradeNoteEl.textContent = state.files.length ? noteFromGrade(letter, score) : 'Drop a log to calculate health grade.';
+
+        const starCount = starsFromScore(score, state.files.length);
+        renderStars(starCount, state.files.length);
+        setActiveBucket(score, state.files.length);
+
+        const counts = { High: 0, Medium: 0, Low: 0, Info: 0 };
+        for (const i of issues) counts[i.severity] = (counts[i.severity] || 0) + 1;
+        countHighEl.textContent = String(counts.High || 0);
+        countMedEl.textContent = String(counts.Medium || 0);
+        countLowEl.textContent = String(counts.Low || 0);
+        countInfoEl.textContent = String(counts.Info || 0);
+
+        fileCountEl.textContent = `${state.files.length} file(s)`;
+      }
+
+      function filteredIssues(forHealth = false) {
+        let issues = state.issues.slice();
+
+        const fileVal = fileFilter.value;
+        const sevVal = sevFilter.value;
+        const q = (textFilter.value || '').trim().toLowerCase();
+
+        if (fileVal) issues = issues.filter(i => i.fileName === fileVal);
+        if (sevVal) issues = issues.filter(i => i.severity === sevVal);
+        if (q) {
+          issues = issues.filter(i =>
+            i.title.toLowerCase().includes(q) ||
+            i.description.toLowerCase().includes(q) ||
+            i.solution.toLowerCase().includes(q)
+          );
+        }
+
+        // For health grade: consider all severities, but ignore Info by default
+        if (forHealth) issues = issues.filter(i => i.severity !== 'Info');
+
+        return issues;
+      }
+
+      function renderIssues() {
+        const issues = filteredIssues(false);
+
+        issuesEl.innerHTML = '';
+        emptyEl.style.display = issues.length ? 'none' : 'block';
+        if (!issues.length) {
+          if (state.files.length) {
+            const fileVal = fileFilter.value;
+            const sevVal = sevFilter.value;
+            const q = (textFilter.value || '').trim();
+            const extras = [];
+            if (fileVal) extras.push(`file=${fileVal}`);
+            if (sevVal) extras.push(`severity=${sevVal}`);
+            if (q) extras.push(`search="${q}"`);
+            const extraText = extras.length ? ` (filters: ${extras.join(', ')})` : '';
+            emptyEl.textContent = `No issues matched. Loaded ${state.files.length} file(s)${extraText}.`;
+          } else {
+            emptyEl.textContent = 'No results yet.';
+          }
+        }
+
+        const clean = !!cleanToggle.checked;
+
+        for (const issue of issues) {
+          const d = document.createElement('details');
+          d.className = 'issue';
+
+          const summary = document.createElement('summary');
+
+          const left = document.createElement('div');
+          left.className = 'sum-left';
+
+          const sev = document.createElement('span');
+          sev.className = 'pill ' + sevPillClass(issue.severity);
+          sev.textContent = issue.severity.toUpperCase();
+
+          const title = document.createElement('div');
+          title.className = 'sum-title';
+
+          const strong = document.createElement('strong');
+          strong.textContent = `${issue.category} - ${issue.title}`;
+
+          const sub = document.createElement('span');
+          sub.textContent = `Location: ${issue.fileName}:${issue.lineNumber}`;
+
+          title.appendChild(strong);
+          title.appendChild(sub);
+
+          left.appendChild(sev);
+          left.appendChild(title);
+
+          const right = document.createElement('div');
+          right.className = 'sum-right';
+
+          const occ = document.createElement('span');
+          occ.className = 'badge';
+          occ.textContent = `${issue.occurrences}×`;
+
+          right.appendChild(occ);
+
+          summary.appendChild(left);
+          summary.appendChild(right);
+
+          const body = document.createElement('div');
+          body.className = 'issue-b';
+
+          const meta = document.createElement('div');
+          meta.className = 'kv';
+          meta.innerHTML = `<label>Details</label><div class="v"></div>`;
+          const loc = `File: ${issue.fileName}  |  Line: ${issue.lineNumber}`;
+          const metaParts = [`Category: ${issue.category}`, loc];
+          if (issue.element) metaParts.unshift(`Element: ${issue.element}`);
+          meta.querySelector('.v').textContent = metaParts.join('  •  ');
+
+          const desc = document.createElement('div');
+          desc.className = 'kv';
+          desc.innerHTML = `<label>What this means</label><div class="v"></div>`;
+          desc.querySelector('.v').textContent = issue.description;
+
+          const sol = document.createElement('div');
+          sol.className = 'kv';
+          sol.innerHTML = `<label>Suggested solution</label><div class="v"></div>`;
+          sol.querySelector('.v').textContent = issue.solution;
+
+          const ev = document.createElement('div');
+          ev.className = 'kv';
+          ev.innerHTML = `<label>Evidence (first ${MAX_EVIDENCE})</label><pre class="evidence"></pre>`;
+
+          const evLines = issue.evidence.map(l => clean ? cleanLine(l) : l).join('\n');
+          ev.querySelector('pre').textContent = evLines || '(no sample lines captured)';
+
+          body.appendChild(desc);
+          body.appendChild(sol);
+          body.appendChild(meta);
+          body.appendChild(ev);
+
+          d.appendChild(summary);
+          d.appendChild(body);
+
+          issuesEl.appendChild(d);
+        }
+      }
+
+      function renderAll() {
+        generatedAtEl.textContent = state.createdAt ? `Generated ${state.createdAt}` : 'Not generated';
+        updateFilters();
+        renderIssues();
+        renderHealth();
+
+        downloadBtn.disabled = !state.issues.length;
+
+        // Keep report state in-page for export
+        const stateEl = el('reportState');
+        if (stateEl) stateEl.textContent = JSON.stringify(state);
+      }
+
+      function clearAll() {
+        state = { files: [], issues: [], createdAt: '', version: state.version };
+        issuesEl.innerHTML = '';
+        emptyEl.style.display = 'block';
+        fileFilter.innerHTML = '<option value="">All files</option>';
+        textFilter.value = '';
+        sevFilter.value = '';
+        generatedAtEl.textContent = 'Not generated';
+        fileCountEl.textContent = '0 file(s)';
+        gradeLetterEl.textContent = '—';
+        gradeScoreEl.textContent = '—';
+        gradeNoteEl.textContent = 'Drop a log to calculate health grade.';
+        renderStars(0, false);
+        setActiveBucket(0, false);
+        countHighEl.textContent = '0';
+        countMedEl.textContent = '0';
+        countLowEl.textContent = '0';
+        countInfoEl.textContent = '0';
+        downloadBtn.disabled = true;
+
+        setStatus('');
+        setLoadedFiles([]);
+
+        pendingFiles = null;
+        if (analyzeBtn) analyzeBtn.disabled = true;
+
+        const stateEl = el('reportState');
+        if (stateEl) stateEl.textContent = '{}';
+      }
+
+      function downloadHtml() {
+        // Build a fresh HTML from the current document but inject the current state JSON.
+        const doc = document.documentElement.cloneNode(true);
+        const stateTag = doc.querySelector('#reportState');
+        if (stateTag) stateTag.textContent = JSON.stringify(state);
+
+        const html = '<!doctype html>\n' + doc.outerHTML;
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        const safeDate = (new Date()).toISOString().replace(/[:]/g,'-').slice(0,19);
+        a.download = `FLX-LogChecker-Report-${safeDate}.html`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 2500);
+      }
+
+      function loadReportStateIfPresent() {
+        try {
+          const stateEl = el('reportState');
+          if (!stateEl) return;
+          const raw = (stateEl.textContent || '').trim();
+          if (!raw || raw === '{}' ) return;
+          const parsed = JSON.parse(raw);
+          if (!parsed || !Array.isArray(parsed.issues)) return;
+          state = parsed;
+          renderAll();
+        } catch {
+          // ignore
+        }
+      }
+
+      function installEvents() {
+        drop.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          drop.classList.add('dragover');
+        });
+        drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+        drop.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          drop.classList.remove('dragover');
+          const dt = e.dataTransfer;
+          if (dt && dt.files && dt.files.length) {
+            pendingFiles = dt.files;
+            setLoadedFiles(Array.from(pendingFiles).map(f => f.name));
+            setStatus('Ready. Click Analyze.');
+            if (analyzeBtn) analyzeBtn.disabled = false;
+          }
+        });
+
+        fileInput.addEventListener('change', async () => {
+          if (fileInput.files && fileInput.files.length) {
+            pendingFiles = fileInput.files;
+            setLoadedFiles(Array.from(pendingFiles).map(f => f.name));
+            setStatus('Ready. Click Analyze.');
+            if (analyzeBtn) analyzeBtn.disabled = false;
+          }
+        });
+
+        cleanToggle.addEventListener('change', () => renderIssues());
+
+        clearBtn.addEventListener('click', () => {
+          fileInput.value = '';
+          clearAll();
+        });
+
+        downloadBtn.addEventListener('click', downloadHtml);
+
+        analyzeBtn.addEventListener('click', async () => {
+          if (!pendingFiles || !pendingFiles.length) {
+            setStatus('Choose files first.');
+            return;
+          }
+          await analyzeFiles(pendingFiles);
+        });
+
+        fileFilter.addEventListener('change', () => { renderIssues(); renderHealth(); });
+        sevFilter.addEventListener('change', () => { renderIssues(); renderHealth(); });
+        textFilter.addEventListener('input', () => { renderIssues(); renderHealth(); });
+
+      }
+
+      installEvents();
+      loadReportStateIfPresent();
+    })();
+  </script>
+</body>
+</html>
