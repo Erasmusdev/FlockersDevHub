@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RMH | Rust Map Hide Overlay</title>
+    <link rel="stylesheet" href="./CSS/Info.css">
+    <link rel="icon" href="./assets/favicon.png" type="image/png">
+    <style>
+        :root {
+            --panel-bg: #121212;
+            --rust-red: rgba(206, 66, 43, 0.9);
+            --accent-green: #00ff88;
+            --rust-yellow: #ce9b2b;
+        }
+
+        body {
+            background-color: #050505;
+            color: #eee;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 3px solid #222;
+        }
+
+        .hero-map-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('./Images/Map.jpg') no-repeat center center;
+            background-size: cover;
+            filter: blur(5px) brightness(0.4);
+            z-index: 1;
+        }
+
+        .hero-scanlines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        @keyframes moveStripes {
+            from { transform: translateX(-120px); }
+            to { transform: translateX(0); }
+        }
+
+        .header-widget-overlay {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: var(--rust-red);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top: 5px solid #fff;
+            border-bottom: 5px solid #fff;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .header-widget-overlay::before {
+            content: "";
+            position: absolute;
+            width: 200%; height: 100%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0, 0, 0, 0.1) 40px, rgba(0, 0, 0, 0.2) 80px);
+            animation: moveStripes 3s linear infinite;
+        }
+
+        .header-widget-text {
+            color: white;
+            font-size: 7vw;
+            font-family: 'Arial Black', sans-serif;
+            letter-spacing: 15px;
+            margin: 0;
+            z-index: 6;
+            text-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        /* Deployment Dashboard */
+        .deployment-container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .deployment-card {
+            background: var(--panel-bg);
+            border: 2px solid #2d2d2d;
+            border-radius: 4px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .deployment-sidebar {
+            background: #1a1a1a;
+            padding: 30px;
+            border-right: 1px solid #333;
+        }
+
+        .deployment-main {
+            padding: 40px;
+            position: relative;
+        }
+
+        .status-tag {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            font-weight: bold;
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        h2 { font-family: 'Arial Black'; text-transform: uppercase; letter-spacing: 2px; margin-top: 0; }
+        h3 { color: var(--accent-green); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .requirement-list { list-style: none; padding: 0; margin-bottom: 30px; }
+        .requirement-list li { padding: 8px 0; border-bottom: 1px solid #222; font-size: 0.9rem; color: #ccc; }
+        .requirement-list b { color: #fff; }
+
+        .instruction-step { margin-bottom: 25px; border-left: 2px solid #333; padding-left: 20px; }
+        .step-num { color: var(--accent-green); font-family: monospace; font-weight: bold; margin-right: 10px; }
+
+        /* Remote URL Tool */
+        .url-box {
+            background: #080808;
+            border: 1px solid #333;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        .url-text {
+            font-family: monospace;
+            color: var(--accent-green);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #222;
+            color: white;
+            border: 1px solid #444;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover { background: var(--accent-green); color: black; border-color: var(--accent-green); }
+
+        .download-btn {
+            display: block;
+            background: var(--rust-yellow);
+            color: #000;
+            text-align: center;
+            padding: 20px;
+            font-family: 'Arial Black';
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            margin-top: 30px;
+        }
+
+        .download-btn:hover { background: #fff; transform: translateY(-3px); }
+
+        @media (max-width: 850px) {
+            .deployment-card { grid-template-columns: 1fr; }
+            .deployment-sidebar { border-right: none; border-bottom: 1px solid #333; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none;"></canvas>
+
+    <header class="navbar">
+        <div class="navbar-left">
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="https://erasmusdev.github.io/FlockersDevHub" class="nav-link">HOME</a></li>
+                    <li><a href="software.html" class="nav-link active">SOFTWARE</a></li>
+                    <li><a href="ReshadeProfiles.html" class="nav-link">RESHADES</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="navbar-right">
+            <a href="https://discord.gg/vXhUaJNYum" class="icon-link"><img src="./assets/Discord.png" alt="Discord"><span>DISCORD</span></a>
+            <a href="https://www.youtube.com/@FlockersDesign" class="icon-link"><img src="./assets/Youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
+            <a href="https://www.twitch.tv/flockersdesign" class="icon-link"><img src="./assets/Twitch.png" alt="Twitch"><span>TWITCH</span></a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-map-bg"></div>
+        <div class="hero-scanlines"></div>
+        <div class="header-widget-overlay">
+            <h1 class="header-widget-text">MAP HIDE FOR OBS</h1>
+            <div style="color: rgba(255,255,255,0.8); font-family: monospace; letter-spacing: 10px; z-index: 6; font-weight: bold;">
+                ANTI-SNIPE SYSTEM v2.0 // ENCRYPTED
+            </div>
+        </div>
+    </section>
+
+    <div class="deployment-container">
+        <div class="deployment-card">
+            
+            <div class="deployment-sidebar">
+                <div class="status-tag">System Operational</div>
+                <h3>System Requirements</h3>
+                <ul class="requirement-list">
+                    <li><b>OBS Studio:</b> v27.0 or higher</li>
+                    <li><b>Python:</b> 3.10+ Linked in OBS</li>
+                    <li><b>Scripting:</b> LUA JIT Support</li>
+                    <li><b>Connection:</b> Active Internet (for Overlay)</li>
+                </ul>
+
+                <h3>Script Data</h3>
+                <div style="background: #080808; padding: 15px; border-left: 3px solid var(--accent-green); font-family: monospace; font-size: 0.8rem; color: var(--accent-green);">
+                    HK_ID: map_cover_g<br>
+                    AUTO_UPDATE: Enabled<br>
+                    REMOTE_SOURCE: Active
+                </div>
+            </div>
+
+            <div class="deployment-main">
+                <h2>Installation Protocol</h2>
+                
+                <div class="instruction-step">
+                    <span class="step-num">[01]</span>
+                    <strong>Download Lua Script:</strong> Get the core script file that handles the OBS logic and hotkey triggers.
+                    <a href="/assets/FLX_OBS_MapHide.lua" class="download-btn" style="padding: 12px; margin-top: 15px; font-size: 0.9rem;">
+                        Download Script (.lua)
+                    </a>
+                </div>
+
+                <div class="instruction-step">
+                    <span class="step-num">[02]</span>
+                    <strong>Configure OBS:</strong> Add the script in <code>Tools -> Scripts</code>. Link your Python path if prompted.
+                </div>
+
+                <div class="instruction-step">
+                    <span class="step-num">[03]</span>
+                    <strong>Deploy Remote Overlay:</strong> Create a <b>Browser Source</b> (2560x1440). Instead of a local file, paste the Remote URL below:
+                    <div class="url-box">
+                        <span class="url-text" id="remoteUrl">https://erasmusdev.github.io/MapHide_Live</span>
+                        <button class="copy-btn" onclick="copyUrl()">COPY URL</button>
+                    </div>
+                </div>
+
+                <div class="instruction-step">
+                    <span class="step-num">[04]</span>
+                    <strong>Sync Name:</strong> Ensure your Browser Source name in OBS matches the name set inside the script settings.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Copy functionality
+        function copyUrl() {
+            const url = document.getElementById('remoteUrl').innerText;
+            navigator.clipboard.writeText(url);
+            const btn = document.querySelector('.copy-btn');
+            btn.innerText = "COPIED!";
+            btn.style.background = "#00ff88";
+            btn.style.color = "black";
+            setTimeout(() => {
+                btn.innerText = "COPY URL";
+                btn.style.background = "#222";
+                btn.style.color = "white";
+            }, 2000);
+        }
+
+        // Particles
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let particles = [];
+        for(let i=0; i<50; i++){
+            particles.push({
+                x: Math.random()*canvas.width, 
+                y: Math.random()*canvas.height, 
+                size: Math.random()*1.5, 
+                speedY: Math.random()*0.5 + 0.1
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = "rgba(0, 255, 136, 0.2)";
+            particles.forEach(p => { 
+                p.y -= p.speedY; 
+                if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); 
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

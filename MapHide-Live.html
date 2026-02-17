@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            width: 2560px; height: 1440px;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Arial Black', Gadget, sans-serif;
+        }
+
+        /* This container holds your map image */
+        .map-background {
+            position: absolute;
+            width: 100%; height: 100%;
+            /* Path to your image folder */
+            background: url('./Image/Map.jpg') no-repeat center center;
+            background-size: cover;
+            filter: blur(5px) brightness(0.4); /* Blurs and darkens your map slightly */
+            z-index: 1;
+        }
+
+        .overlay-content {
+            width: 100%; height: 100%;
+            position: relative;
+            display: flex; flex-direction: column; justify-content: center;
+            z-index: 2;
+        }
+
+        /* The Animated Banner */
+        .banner {
+            width: 100%;
+            height: 300px;
+            background: rgba(206, 66, 43, 0.9);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-top: 5px solid #fff;
+            border-bottom: 5px solid #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 100px rgba(0,0,0,0.9);
+        }
+
+        /* Moving stripes animation */
+        .banner::before {
+            content: "";
+            position: absolute;
+            width: 200%; height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 40px,
+                rgba(0, 0, 0, 0.1) 40px,
+                rgba(0, 0, 0, 0.2) 80px
+            );
+            animation: moveStripes 3s linear infinite;
+        }
+
+        @keyframes moveStripes {
+            from { transform: translateX(-120px); }
+            to { transform: translateX(0); }
+        }
+
+        .banner-text {
+            color: white;
+            font-size: 140px;
+            letter-spacing: 20px;
+            margin: 0;
+            z-index: 3;
+            text-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .scanlines {
+            position: absolute;
+            width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            z-index: 4;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="map-background"></div>
+    <div class="scanlines"></div>
+
+    <div class="overlay-content">
+        <div class="banner">
+            <h1 class="banner-text">MAP HIDDEN</h1>
+            <div style="color: rgba(255,255,255,0.8); font-family: monospace; letter-spacing: 10px; z-index: 3;">
+                ANTI-SNIPE SYSTEM v2.0 // ENCRYPTED
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
