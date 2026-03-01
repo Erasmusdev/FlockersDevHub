@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluster Command | Project Perilous</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap');
+
+        :root {
+            --bg-deep: #05070a;
+            --ui-panel: rgba(13, 17, 23, 0.98);
+            --border: #1f2937;
+            --accent-blue: #0084ff;
+            --accent-gold: #ffb800;
+            --text-main: #e2e8f0;
+            --text-dim: #64748b;
+            --color-done: #00d17d;
+            --color-active: #0084ff;
+            --color-unstable: #ff4757; 
+        }
+
+        /* DYNAMIC COLOR STATES */
+        .state-low { background-color: #ff4757 !important; }
+        .state-mid { background-color: #ffb800 !important; }
+        .state-high { background-color: #0084ff !important; }
+        .state-complete { background-color: #00d17d !important; color: #000 !important; }
+        .state-concept { 
+            background-color: #2d3748 !important; 
+            color: #a0aec0 !important; 
+            opacity: 0.8; 
+            width: 100% !important; /* Concepts now span full width in stack */
+        } 
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100vh; width: 100vw;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 132, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        .app-container { flex: 1; display: grid; grid-template-columns: 400px 1fr; overflow: hidden; }
+
+        .top-nav {
+            height: 80px; background: #080a0f; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; padding: 0 40px; justify-content: space-between;
+        }
+        .logo-area h1 { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .logo-area span { color: var(--accent-gold); font-family: 'JetBrains Mono'; font-size: 0.75rem; }
+
+        .info-sidebar {
+            background: var(--ui-panel); border-right: 1px solid var(--border);
+            padding: 40px; overflow-y: auto; scrollbar-width: thin;
+        }
+        .concept-card { 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 20px; margin-bottom: 25px; position: relative;
+        }
+        .concept-card::after {
+            content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--accent-blue);
+        }
+        .concept-card h4 { color: var(--accent-gold); font-family: 'JetBrains Mono'; font-size: 0.65rem; text-transform: uppercase; margin-bottom: 8px; }
+        .concept-card h3 { font-size: 1.1rem; margin-bottom: 10px; text-transform: uppercase; }
+        .concept-card p { font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; }
+
+        .tracker-main { overflow-y: auto; padding: 50px; position: relative; }
+        
+        .phase-header {
+            margin: 40px 0 20px 0; display: flex; align-items: center; gap: 15px;
+        }
+        .phase-header h2 { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; }
+        .phase-header .line { flex: 1; height: 1px; background: var(--border); }
+
+        .row { display: grid; grid-template-columns: 280px 1fr; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .row-label { padding: 25px 0; display: flex; flex-direction: column; justify-content: flex-start; }
+        .row-label h5 { font-size: 0.85rem; text-transform: uppercase; color: var(--text-main); }
+        .row-label span { font-size: 0.65rem; font-family: 'JetBrains Mono'; color: var(--text-dim); }
+
+        .bar-container { 
+            padding: 20px 0; 
+            display: flex; 
+            flex-direction: column; /* Changed to column for vertical stacking */
+            gap: 10px; 
+            width: 100%;
+        }
+        
+        .bar {
+            height: 38px; border-radius: 2px; padding: 0 15px;
+            display: flex; align-items: center; 
+            justify-content: space-between;
+            font-size: 0.7rem; font-weight: 800;
+            text-transform: uppercase; position: relative; cursor: pointer; 
+            transition: width 0.8s ease-out, background-color 0.4s;
+            white-space: nowrap; 
+            width: 0%; /* Initial width for animation */
+        }
+        .bar:hover { filter: brightness(1.2); box-shadow: 0 0 20px rgba(0, 132, 255, 0.1); }
+
+        .is-active { 
+            background-image: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent);
+            background-size: 30px 30px; animation: slide 2s linear infinite;
+        }
+        .ghost { border: 1px dashed rgba(255,255,255,0.4); }
+
+        @keyframes slide { from { background-position: 0 0; } to { background-position: 60px 0; } }
+
+        .percent { font-size: 0.6rem; opacity: 0.8; font-family: 'JetBrains Mono'; }
+
+        footer {
+            height: 40px; background: #000; border-top: 1px solid var(--border);
+            display: flex; align-items: center; padding: 0 30px;
+            font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--text-dim); justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="logo-area">
+            <h1>Cluster roadmap <span>// COROSSION</span></h1>
+        </div>
+        <div style="display: flex; gap: 30px; font-family: 'JetBrains Mono'; font-size: 0.7rem;">
+            <div>SYNC_NODES: <span style="color: var(--color-done)">4/4</span></div>
+            <div>UPTIME: <span style="color: var(--accent-gold)">99.9%</span></div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <aside class="info-sidebar">
+            <div class="concept-card">
+                <h4>System Logic</h4>
+                <h3>One World, Four Sectors</h3>
+                <p>Interconnected Rust cluster. Permanent bases on Main (Tier 1). Temporary 7-day raid structures on Sectors 2-4.</p>
+            </div>
+
+            <div class="concept-card">
+                <h4>Resource Gating</h4>
+                <h3>Tiered Loot Tables</h3>
+                <p>High-density Sulfur, HQM, and T3 Crates are disabled on Main. Players must find Keycards to portal into high-risk resource zones.</p>
+            </div>
+
+            <div class="concept-card">
+                <h4>Experimental</h4>
+                <h3>Ghost Items</h3>
+                <p>High-power "Proto-Weapons" found in Raid Sectors. They provide massive damage but decay and vanish 2 hours after portal transit.</p>
+            </div>
+
+            <div class="concept-card">
+                <h4>World Events</h4>
+                <h3>Monument Sync</h3>
+                <p>Main server resource donations to the "Satellite Dish" trigger Elite Boss events on the Hard Raid server.</p>
+            </div>
+        </aside>
+
+        <main class="tracker-main">
+            <div class="phase-header">
+                <h2>Phase 1: Connectivity & Foundation</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="row">
+                <div class="row-label"><h5>Portal Infrastructure</h5><span>Cross-Server Sync</span></div>
+                <div class="bar-container">
+                    <div class="bar"><span>External Database</span><span class="percent">100%</span></div>
+                    <div class="bar"><span>Server Travel</span><span class="percent">75%</span></div>
+                    <div class="bar"><span>Player Inventory Sync</span><span class="percent">75%</span></div>
+                    <div class="bar"><span>Custom Cross server Backpack</span><span class="percent">75%</span></div>
+                </div>
+            </div>
+
+            <div class="phase-header">
+                <h2>Phase 2: Sector Logistics</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="row">
+                <div class="row-label"><h5>Decay Mechanics</h5><span>7-Day Auto-Wipe</span></div>
+                <div class="bar-container">
+                    <div class="bar"><span>Sector 2-4 Build Purge</span><span class="percent">Concept</span></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="row-label"><h5>Resource Partition</h5><span>Loot Table Separation</span></div>
+                <div class="bar-container">
+                    <div class="bar"><span>Tier Based Loot Migration</span><span class="percent">2%</span></div>
+                </div>
+            </div>
+
+            <div class="phase-header">
+                <h2>Phase 3: Specialist Systems</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="row">
+                <div class="row-label"><h5>Traveler Skills</h5><span>Nomad Skill Tree</span></div>
+                <div class="bar-container">
+                    <div class="bar"><span>Nomad's Luck (10% Loot)</span><span class="percent">Concept</span></div>
+                    <div class="bar"><span>Extraction Expert</span><span class="percent">Concept</span></div>
+                    <div class="bar"><span>Portal Siphon</span><span class="percent">Concept</span></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="row-label"><h5>Unstable Tech</h5><span>Ghost Item Protocol</span></div>
+                <div class="bar-container">
+                    <div class="bar ghost"><span>Limited items</span><span class="percent">Concept</span></div>
+                </div>
+            </div>
+
+            <div class="phase-header">
+                <h2>Phase 4: World Sync</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="row">
+                <div class="row-label"><h5>Monument Link</h5><span>Satellite Donations</span></div>
+                <div class="bar-container">
+                    <div class="bar"><span>Cross-Server Boss Events</span><span class="percent">0%</span></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div>Copyright // FlockerssDesign 2026</div>
+        <div> SERVER BUILD VERSION: 0.000.5 PRE ALPHA // © 2026</div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.bar').forEach(bar => {
+            const percentSpan = bar.querySelector('.percent');
+            if (!percentSpan) return;
+            
+            const rawText = percentSpan.innerText.trim();
+            const val = parseInt(rawText);
+
+            if (isNaN(val)) {
+                bar.classList.add('state-concept');
+                // Concepts stay 100% width of the container in this layout
+                setTimeout(() => bar.style.width = '100%', 100);
+                return;
+            }
+
+            // Set width relative to container width
+            setTimeout(() => {
+                bar.style.width = val + '%';
+            }, 100);
+
+            if (val >= 100) {
+                bar.classList.add('state-complete');
+            } else if (val >= 71) {
+                bar.classList.add('state-high', 'is-active');
+            } else if (val >= 31) {
+                bar.classList.add('state-mid', 'is-active');
+            } else {
+                bar.classList.add('state-low', 'is-active');
+            }
+        });
+    </script>
+
+</body>
+</html>
