@@ -150,6 +150,10 @@
           <input id="cleanToggle" type="checkbox" checked />
           Clean View
         </label>
+        <label class="switch" title="Enables deeper analysis to find hidden issues in logs">
+          <input id="deepSeekToggle" type="checkbox" />
+          Deep Seek
+        </label>
         <button class="btn" id="clearBtn">Clear</button>
         <button class="btn primary" id="downloadBtn" disabled>Download as HTML</button>
       </div>
@@ -281,6 +285,7 @@
       const loadedFilesEl = el('loadedFiles');
       const fileInput = el('fileInput');
       const cleanToggle = el('cleanToggle');
+      const deepSeekToggle = el('deepSeekToggle');
       const clearBtn = el('clearBtn');
       const downloadBtn = el('downloadBtn');
       const analyzeBtn = el('analyzeBtn');
@@ -461,7 +466,7 @@
         return (h * 3600) + (mm * 60) + ss + (ms / 1000);
       }
 
-      function analyzeText(fileName, text) {
+      function analyzeText(fileName, text, options = {}) {
         // Ported logic from the local PowerShell analyzer (stateful scan + dedupe)
         const fileType = detectFileType(fileName, text);
         const lines = (text || '').replace(/\r\n/g,'\n').split('\n');
@@ -481,7 +486,7 @@
         const captureHits = [];
         const audioHits = [];
 
-        const contextLines = 2;
+        const contextLines = options.deepSeek ? 5 : 2;
 
         function addIssue(fields) {
           /** @type {Issue} */
@@ -1012,7 +1017,7 @@
         return /** @type {FileReport} */ ({ fileName, fileType, issues, facts });
       }
 
-      async function analyzeFiles(fileList) {
+      async function analyzeFiles(fileList, options = {}) {
         const files = Array.from(fileList || []);
         if (!files.length) return;
 
@@ -1023,7 +1028,7 @@
           const reports = [];
           for (const f of files) {
             const text = await f.text();
-            reports.push(analyzeText(f.name, text || ''));
+            reports.push(analyzeText(f.name, text || '', options));
           }
 
           const allIssues = reports.flatMap(r => r.issues);
@@ -1178,20 +1183,40 @@
 
           const desc = document.createElement('div');
           desc.className = 'kv';
-          desc.innerHTML = `<label>What this means</label><div class="v"></div>`;
+          desc.innerHTML = `<label>What happened</label><div class="v"></div>`;
           desc.querySelector('.v').textContent = issue.description;
+
+          body.appendChild(meta);
+          body.appendChild(desc);
+
+          if (issue.severity === 'High' || issue.severity === 'Medium') {
+            const beginnerNote = document.createElement('div');
+            beginnerNote.className = 'kv';
+            beginnerNote.innerHTML = `<label>Important for beginners</label><div class="v">This issue can cause OBS to crash or freeze. Follow the steps below carefully. If you're unsure, search online for the specific error or ask in OBS community forums.</div>`;
+            body.appendChild(beginnerNote);
+          }
 
           const sol = document.createElement('div');
           sol.className = 'kv';
-          sol.innerHTML = `<label>Suggested solution</label><div class="v"></div>`;
+          sol.innerHTML = `<label>What you can do</label><div class="v"></div>`;
           sol.querySelector('.v').textContent = issue.solution;
 
           const ev = document.createElement('div');
           ev.className = 'kv';
-          ev.innerHTML = `<label>Evidence (first ${MAX_EVIDENCE})</label><pre class="evidence"></pre>`;
+          ev.innerHTML = `<label>Relevant log lines</label><pre class="evidence"></pre>`;
 
           const evLines = issue.evidence.map(l => clean ? cleanLine(l) : l).join('\n');
           ev.querySelector('pre').textContent = evLines || '(no sample lines captured)';
+
+          body.appendChild(sol);
+          body.appendChild(ev);
+
+          if (issue.evidence.length > 0) {
+            const logNote = document.createElement('div');
+            logNote.className = 'kv';
+            logNote.innerHTML = `<label>Where to look</label><div class="v">These lines are from your OBS log file. Open the log in a text editor and search for similar patterns around line ${issue.lineNumber} to see the full context.</div>`;
+            body.appendChild(logNote);
+          }
 
           body.appendChild(desc);
           body.appendChild(sol);
@@ -1325,7 +1350,10 @@
             setStatus('Choose files first.');
             return;
           }
-          await analyzeFiles(pendingFiles);
+          const options = {
+            deepSeek: deepSeekToggle && deepSeekToggle.checked
+          };
+          await analyzeFiles(pendingFiles, options);
         });
 
         fileFilter.addEventListener('change', () => { renderIssues(); renderHealth(); });
